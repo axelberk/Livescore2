@@ -1,13 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
+import axios from 'axios'
+import LiveScores from './LiveScores'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      Tjena
-    </>
+   <LiveScores/>
   )
 }
 
