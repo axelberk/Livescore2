@@ -1,0 +1,55 @@
+.Calendar {
+    background-color: rgb(218, 213, 213);
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: black;
+}
+
+.calendar-arrow:hover {
+    cursor: pointer;
+}
+
+
+.clickable-calendar {
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+    height: 100%;
+    text-decoration: none;
+}
+
+.clickable-calendar:hover {
+    background-color: rgb(197, 197, 197);
+    transition: 0.5s ease;
+}
+
+.calendar-modal {
+    position: fixed;
+    top: 10%;
+    background-color: rgb(156, 156, 156);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-content input {
+    padding: 5px;
+}
+
+.modal-content button {
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
