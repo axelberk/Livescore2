@@ -6,8 +6,11 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
 const Calendar = ({ selectedDate, setSelectedDate }) => {
   
-  const formatDate = (date) => date.toISOString().split("T")[0];
-
+  const formatDate = (date) => {
+    if (!date) return '';
+    return date.toISOString().split('T')[0];
+  };
+  
   const handleDateChange = (e) => {
     setSelectedDate(new Date(e.target.value));
   };
