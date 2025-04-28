@@ -23,9 +23,9 @@ const LiveScores = () => {
 
     return (
       <div>
-        <h2>Live Matches</h2>
+        <h2>Matches</h2>
         {matches.length === 0 ? (
-          <p>No live matches right now.</p>
+          <p>No matches today.</p>
         ) : (
           matches.map(match => (
             <div key={match.fixture.id}>

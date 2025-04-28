@@ -7,6 +7,10 @@
     color: black;
 }
 
+.date-clicker {
+    background-color: black;
+}
+
 .calendar-arrow {
     background: none;
     border: none;
@@ -17,25 +21,20 @@
 }
 
 .calendar-date {
-    font-size: 1.2rem;
-    font-weight: bold;
-}
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    
+  }
+  
+  .calendar-date:hover {
+    background-color: #e0e0e0;
+  }
 
-
-.clickable-calendar {
-    flex-direction: row;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 5px;
-    height: 100%;
-    text-decoration: none;
-}
-
-.clickable-calendar:hover {
-    background-color: rgb(197, 197, 197);
-    transition: 0.5s ease;
-}
 
 .calendar-modal {
     position: fixed;
