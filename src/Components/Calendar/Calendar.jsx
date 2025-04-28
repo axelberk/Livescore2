@@ -22,7 +22,7 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
       <button className="calendar-arrow" onClick={goToPreviousDay}>
         <ArrowLeftIcon />
       </button>
-
+    <CalendarMonthIcon/>
       <DatePicker
         selected={selectedDate}
         onChange={(date) => setSelectedDate(date)}
