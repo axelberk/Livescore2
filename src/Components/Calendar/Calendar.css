@@ -7,8 +7,18 @@
     color: black;
 }
 
+.calendar-arrow {
+    background: none;
+    border: none;
+}
+
 .calendar-arrow:hover {
     cursor: pointer;
+}
+
+.calendar-date {
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 

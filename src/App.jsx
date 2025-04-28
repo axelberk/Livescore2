@@ -9,7 +9,7 @@ function App() {
   
   return (
     <div className='App'>
-      <Calendar/>
+      <Calendar selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
       <div className='content-container'>
          <LiveScores/>
       </div>

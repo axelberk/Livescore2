@@ -16,11 +16,11 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
   };
 
   const goToPreviousDay = () => {
-    setSelectedDate((prevDate) => new Date(prevDate.setDate(prevDate.getDate() - 1)));
+    setSelectedDate((prevDate) => new Date(prevDate.getTime() - 24 * 60 * 60 * 1000));
   };
 
   const goToNextDay = () => {
-    setSelectedDate((prevDate) => new Date(prevDate.setDate(prevDate.getDate() + 1)));
+    setSelectedDate((prevDate) => new Date(prevDate.getTime() + 24 * 60 * 60 * 1000));
   };
 
   return (
@@ -28,10 +28,9 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
       <button className="calendar-arrow" onClick={goToPreviousDay}>
         <ArrowLeftIcon />
       </button>
-      <a href="#" className="clickable-calendar" onClick={(e) => e.preventDefault()}>
-        <CalendarMonthIcon />
-        <span>{formatDate(selectedDate)}</span>
-      </a>
+      <div className="calendar-date">
+        {formatDate(selectedDate)}
+      </div>
       <button className="calendar-arrow" onClick={goToNextDay}>
         <ArrowRightIcon />
       </button>
