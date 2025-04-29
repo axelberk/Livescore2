@@ -1,13 +1,13 @@
 import { useState, useRef, forwardRef } from "react"; 
-import "./Calendar.css";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import "./Calendar.css";
 
 const Calendar = ({ selectedDate, setSelectedDate }) => {
-  const inputRef = useRef(null); // Define the inputRef properly
+  const inputRef = useRef(null); 
 
   const goToPreviousDay = () => {
     setSelectedDate((prev) => new Date(prev.getTime() - 24 * 60 * 60 * 1000));
@@ -22,7 +22,7 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
       <button className="calendar-arrow" onClick={goToPreviousDay}>
         <ArrowLeftIcon />
       </button>
-    <CalendarMonthIcon/>
+    
       <DatePicker
         selected={selectedDate}
         onChange={(date) => setSelectedDate(date)}
@@ -48,6 +48,7 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
 
 const CustomInput = forwardRef(({ value, onClick }, ref) => (
   <div className="calendar-date" onClick={onClick} ref={ref}>
+    <CalendarMonthIcon/>
     {value}
   </div>
 ));

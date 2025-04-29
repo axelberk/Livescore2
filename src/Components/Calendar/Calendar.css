@@ -28,7 +28,7 @@
     cursor: pointer;
     user-select: none;
     transition: background-color 0.2s ease, border-color 0.2s ease;
-    
+    display: flex;
   }
   
   .calendar-date:hover {
@@ -62,3 +62,11 @@
     cursor: pointer;
     border-radius: 5px;
 }
+
+.react-datepicker {
+    font-family: inherit;
+    background-color: rgb(218, 213, 213);
+}
+
+
+
