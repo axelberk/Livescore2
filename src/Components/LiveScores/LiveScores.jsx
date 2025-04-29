@@ -10,19 +10,25 @@ const LiveScores = () => {
         try {
           const response = await axios.get("https://v3.football.api-sports.io/fixtures?live=all", {
             headers: {
-            "x-apisports-key": process.env.REACT_APP_API_FOOTBALL_KEY
+            "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY
             }
+            
           })
+
+          setMatches(response.data.response)
+
         } catch (error) {
           console.error("Error fetching live scores", error)
         }
       }
+
+      
   
       fetchLiveMatches()
     }, [])
 
     return (
-      <div>
+      <div className="Livescores">
         <h2>Matches</h2>
         {matches.length === 0 ? (
           <p>No matches today.</p>

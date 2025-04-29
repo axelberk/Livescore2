@@ -8,9 +8,8 @@
 
 .content-container {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between; 
-    align-items: flex-start; 
+    flex-direction: column;
+    justify-content: center; 
     width: 100%;
 }
 
