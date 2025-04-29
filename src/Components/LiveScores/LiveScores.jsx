@@ -8,9 +8,12 @@ const LiveScores = () => {
     useEffect (() => {
       const fetchLiveMatches = async () => {
         try {
-          const response = await axios.get("https://v3.football.api-sports.io/fixtures?live=all", {
+          const response = await axios.get("https://v3.football.api-sports.io/fixtures", {
             headers: {
             "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY
+            },
+            params: {
+              date:"2025-04-29",
             }
             
           })
