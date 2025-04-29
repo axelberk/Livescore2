@@ -14,7 +14,7 @@ const LiveScores = () => {
             }
             
           })
-
+          console.log("API response:", response.data);
           setMatches(response.data.response)
 
         } catch (error) {
