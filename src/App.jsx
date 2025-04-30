@@ -7,13 +7,14 @@ import Match from "./Components/Match/Match"
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(new Date())
+  const [selectedMatch, setSelectedMatch] = useState(null)
   
   return (
     <div className='App'>
       <Calendar selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
       <div className='content-container'>
          <LiveScores selectedDate={selectedDate}/>
-         <Match />
+         <Match selectedMatch={setSelectedMatch}/>
       </div>
      
     </div>

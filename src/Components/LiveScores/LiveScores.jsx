@@ -45,7 +45,10 @@ const LiveScores = ({selectedDate}) => {
           <p>No fixtures today.</p>
         ) : (
           matches.map(match => (
-            <div key={match.fixture.id}>
+            <div key={match.fixture.id}
+            className="match-card"
+            onClick={() => setSelectedmatch(match)}
+            >
             <strong>{match.league.name}</strong><br />
             {match.teams.home.name} vs {match.teams.away.name} —{" "}
             {match.goals.home}:{match.goals.away}
