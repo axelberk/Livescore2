@@ -3,6 +3,7 @@ import './App.css'
 import axios from 'axios'
 import LiveScores from './Components/LiveScores/LiveScores'
 import Calendar from "./Components/Calendar/Calendar";
+import Match from "./Components/Match/Match"
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(new Date())
@@ -12,6 +13,7 @@ function App() {
       <Calendar selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
       <div className='content-container'>
          <LiveScores selectedDate={selectedDate}/>
+         <Match />
       </div>
      
     </div>

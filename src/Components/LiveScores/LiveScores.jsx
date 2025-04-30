@@ -42,12 +42,14 @@ const LiveScores = ({selectedDate}) => {
       <div className="Livescores">
         <h2>Fixtures</h2>
         {matches.length === 0 ? (
-          <p>No matches today.</p>
+          <p>No fixtures today.</p>
         ) : (
           matches.map(match => (
             <div key={match.fixture.id}>
-              {match.teams.home.name} vs {match.teams.away.name} — {match.goals.home}:{match.goals.away}
-            </div>
+            <strong>{match.league.name}</strong><br />
+            {match.teams.home.name} vs {match.teams.away.name} —{" "}
+            {match.goals.home}:{match.goals.away}
+          </div>
           ))
         )}
       </div>
