@@ -2,23 +2,31 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import "./LiveScores.css"
 
-const LiveScores = () => {
+const allowedLeagues = [39, 113, 140, 2]
+
+const LiveScores = ({selectedDate}) => {
     const [matches, setMatches] = useState([])
   
     useEffect (() => {
       const fetchLiveMatches = async () => {
+        const formattedDate = selectedDate.toISOString().split("T")[0]
+
         try {
           const response = await axios.get("https://v3.football.api-sports.io/fixtures", {
             headers: {
             "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY
             },
             params: {
-              date:"2025-04-29",
+              date:formattedDate,
             }
             
           })
-          console.log("API response:", response.data);
-          setMatches(response.data.response)
+
+          const filtered = response.data.response.filter(match => 
+            allowedLeagues.includes(match.league.id)
+          )
+
+          setMatches(filtered)
 
         } catch (error) {
           console.error("Error fetching live scores", error)
@@ -28,11 +36,11 @@ const LiveScores = () => {
       
   
       fetchLiveMatches()
-    }, [])
+    }, [selectedDate])
 
     return (
       <div className="Livescores">
-        <h2>Matches</h2>
+        <h2>Fixtures</h2>
         {matches.length === 0 ? (
           <p>No matches today.</p>
         ) : (

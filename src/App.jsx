@@ -11,7 +11,7 @@ function App() {
     <div className='App'>
       <Calendar selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
       <div className='content-container'>
-         <LiveScores/>
+         <LiveScores selectedDate={selectedDate}/>
       </div>
      
     </div>
