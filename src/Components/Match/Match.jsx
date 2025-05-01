@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Match.css";
+import Lineup from "../Lineup/Lineup";
 
 const Match = ({ selectedMatch }) => {
   const [lineups, setLineups] = useState(null);
@@ -35,18 +36,11 @@ const Match = ({ selectedMatch }) => {
   return (
     <div className="Match">
       <h3>{selectedMatch.teams.home.name} vs {selectedMatch.teams.away.name}</h3>
-      {lineups.map(team => (
-        <div key={team.team.id}>
-          <h4>{team.team.name} — {team.formation}</h4>
-          <ul>
-            {team.startXI.map(player => (
-              <li key={player.player.id}>
-                #{player.player.number} {player.player.name} ({player.player.pos})
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+      <div className="pitch-container">
+        {lineups.map(team => (
+          <Lineup key={team.team.id} team={team} color={team.team.id === selectedMatch.teams.home.id ? "#03A9F4" : "#F44336"} />
+        ))}
+      </div>
     </div>
   );
 };
