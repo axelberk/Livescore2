@@ -2,9 +2,9 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import "./LiveScores.css"
 
-const allowedLeagues = [39, 113, 140, 2]
+const allowedLeagues = [39, 113, 140, 2, 848]
 
-const LiveScores = ({selectedDate}) => {
+const LiveScores = ({selectedDate, setSelectedMatch}) => {
     const [matches, setMatches] = useState([])
   
     useEffect (() => {
@@ -47,7 +47,7 @@ const LiveScores = ({selectedDate}) => {
           matches.map(match => (
             <div key={match.fixture.id}
             className="match-card"
-            onClick={() => setSelectedmatch(match)}
+            onClick={() => setSelectedMatch(match)}
             >
             <strong>{match.league.name}</strong><br />
             {match.teams.home.name} vs {match.teams.away.name} —{" "}

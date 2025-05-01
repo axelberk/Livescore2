@@ -13,8 +13,8 @@ function App() {
     <div className='App'>
       <Calendar selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
       <div className='content-container'>
-         <LiveScores selectedDate={selectedDate}/>
-         <Match selectedMatch={setSelectedMatch}/>
+         <LiveScores selectedDate={selectedDate} setSelectedMatch={setSelectedMatch}/>
+         <Match selectedMatch={selectedMatch}/>
       </div>
      
     </div>
