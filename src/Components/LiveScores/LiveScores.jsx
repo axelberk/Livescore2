@@ -50,8 +50,8 @@ const LiveScores = ({selectedDate, setSelectedMatch}) => {
             onClick={() => setSelectedMatch(match)}
             >
             <strong>{match.league.name}</strong><br />
-            {match.teams.home.name} vs {match.teams.away.name} —{" "}
-            {match.goals.home}:{match.goals.away}
+            {match.teams.home.name} vs {match.teams.away.name} -{" "}
+            {match.goals.home}-{match.goals.away}
           </div>
           ))
         )}
