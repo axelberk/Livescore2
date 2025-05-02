@@ -33,16 +33,27 @@ const Match = ({ selectedMatch }) => {
   if (!selectedMatch) return <div className="Match">Select a match to view details</div>;
   if (!lineups) return <div className="Match">Loading lineups...</div>;
 
-  return (
-    <div className="Match">
-      <h3>{selectedMatch.teams.home.name} vs {selectedMatch.teams.away.name}</h3>
-      <div className="pitch-container">
-        {lineups.map(team => (
-          <Lineup key={team.team.id} team={team} color={team.team.id === selectedMatch.teams.home.id ? "#03A9F4" : "#F44336"} />
-        ))}
+  const homeTeam = lineups.find(team => team.team.id === selectedMatch.teams.home.id);
+const awayTeam = lineups.find(team => team.team.id === selectedMatch.teams.away.id);
+
+return (
+  <div className="Match">
+    <h3>{selectedMatch.teams.home.name} vs {selectedMatch.teams.away.name}</h3>
+    <div className="pitch-wrapper">
+      <div className="pitch-side">
+        <Lineup team={homeTeam} color="#03A9F4" />
+      </div>
+
+      <div className="pitch-divider">
+        <div className="center-circle"></div>
+      </div>
+
+      <div className="pitch-side">
+        <Lineup team={awayTeam} color="#F44336" />
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default Match;

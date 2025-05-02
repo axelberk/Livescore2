@@ -1,6 +1,6 @@
 import "./Lineup.css"
 
-const Lineup = ({team, color = "#fff"}) => {
+const Lineup = ({team, color}) => {
     const formationRows = team.formation.split("-").map(Number)
     const players = team.startXI.map(p => p.player)
 
