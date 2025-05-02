@@ -39,13 +39,13 @@ const awayTeam = lineups.find(team => team.team.id === selectedMatch.teams.away.
 return (
   <div className="Match">
     <h3>{selectedMatch.teams.home.name} vs {selectedMatch.teams.away.name}</h3>
-    <div className="pitch-wrapper">
+    <div className="pitch-wrapper vertical">
       <div className="pitch-side">
         <Lineup team={homeTeam} color="#03A9F4" />
       </div>
 
-      <div className="pitch-divider">
-        <div className="center-circle"></div>
+      <div className="pitch-divider horizontal">
+        <div className="center-circle horizontal-circle"></div>
       </div>
 
       <div className="pitch-side">
@@ -54,6 +54,7 @@ return (
     </div>
   </div>
 );
+
 };
 
 export default Match;
