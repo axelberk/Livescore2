@@ -16,6 +16,7 @@ h2 {
     background: #f1f1f1;
     margin-bottom: 10px;
     border-radius: 8px;
+    width: 100%px;
   }
 
   .match-card {
@@ -26,5 +27,5 @@ h2 {
   .match-card:hover {
     background-color: rgb(218, 213, 213);
     border-radius: 5px;
-   
+
   }
