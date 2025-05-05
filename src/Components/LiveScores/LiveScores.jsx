@@ -44,24 +44,36 @@ const LiveScores = ({selectedDate, setSelectedMatch}) => {
         {matches.length === 0 ? (
           <p>No fixtures today.</p>
         ) : (
-          matches.map(match => (
-            <div key={match.fixture.id}
-            className="match-card"
-            onClick={() => setSelectedMatch(match)}
-            >
-            <strong>{match.league.name}</strong><br />
-            {new Date(match.fixture.date).toLocaleTimeString([], {
-              hour:"2-digit",
-              minute:"2-digit"
-            }
-            )}
-             - {match.teams.home.name} vs {match.teams.away.name} -{" "}
-            {match.goals.home}-{match.goals.away}
-          </div>
+          Object.entries(
+            matches.reduce((acc, match) => {
+              const leagueName = match.league.name;
+              if (!acc[leagueName]) acc[leagueName] = [];
+              acc[leagueName].push(match);
+              return acc;
+            }, {})
+          ).map(([leagueName, leagueMatches]) => (
+            <div key={leagueName}>
+              <strong>{leagueName}</strong>
+              {leagueMatches.map((match) => (
+                <div
+                  key={match.fixture.id}
+                  className="match-card"
+                  onClick={() => setSelectedMatch(match)}
+                >
+                  {new Date(match.fixture.date).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}{" "}
+                  — {match.teams.home.name} vs {match.teams.away.name} -{" "}
+                  {match.goals.home}-{match.goals.away}
+                </div>
+              ))}
+            </div>
           ))
         )}
       </div>
     );
+    
   }
 
   export default LiveScores
