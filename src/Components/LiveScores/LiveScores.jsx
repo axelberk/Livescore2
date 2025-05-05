@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import "./LiveScores.css"
 
-const allowedLeagues = [39, 113, 140, 2, 848]
+const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135] // 39: PL, 
 
 const LiveScores = ({selectedDate, setSelectedMatch}) => {
     const [matches, setMatches] = useState([])
