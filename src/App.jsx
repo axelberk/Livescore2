@@ -1,26 +1,31 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './App.css'
-import axios from 'axios'
 import LiveScores from './Components/LiveScores/LiveScores'
-import Calendar from "./Components/Calendar/Calendar";
+import Calendar from "./Components/Calendar/Calendar"
 import Match from "./Components/Match/Match"
-import LeagueInfo from './Components/LeagueInfo/LeagueInfo';
-import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import LeagueInfo from './Components/LeagueInfo/LeagueInfo'
+import { Routes, Route } from 'react-router-dom'
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [selectedMatch, setSelectedMatch] = useState(null)
-  
+
   return (
     <div className='App'>
-      <Calendar selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
-      <div className='content-container'>
-         <LiveScores selectedDate={selectedDate} setSelectedMatch={setSelectedMatch}/>
-         <Match selectedMatch={selectedMatch}/>
-      </div>
-     
+      <Calendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div className='content-container'>
+              <LiveScores selectedDate={selectedDate} setSelectedMatch={setSelectedMatch} />
+              <Match selectedMatch={selectedMatch} />
+            </div>
+          }
+        />
+        <Route path="/league/:leagueId" element={<LeagueInfo />} />
+      </Routes>
     </div>
-   
   )
 }
 
