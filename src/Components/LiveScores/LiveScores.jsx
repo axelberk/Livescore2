@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 import "./LiveScores.css"
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
 const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135] // 39: PL, 
 
@@ -52,8 +53,10 @@ const LiveScores = ({selectedDate, setSelectedMatch}) => {
               return acc;
             }, {})
           ).map(([leagueName, leagueMatches]) => (
-            <div key={leagueName}>
-              <strong>{leagueName}</strong>
+            <div key={leagueName} className="league-name">
+              <a href="">
+              <strong>{leagueName}<ArrowRightIcon/></strong>
+              </a>
               {leagueMatches.map((match) => (
                 <div
                   key={match.fixture.id}

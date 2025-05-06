@@ -10,6 +10,16 @@ h2 {
     font-size: 24px;
     margin-bottom: 16px;
   }
+
+  .league-name strong {
+   display: flex;
+   justify-content: center;
+  }
+
+  .league-name a {
+    text-decoration: none;
+    color: inherit;
+  }
   
   .match {
     padding: 12px;
@@ -26,6 +36,5 @@ h2 {
 
   .match-card:hover {
     background-color: rgb(218, 213, 213);
-    border-radius: 5px;
-
+    border-radius: 10px;
   }
