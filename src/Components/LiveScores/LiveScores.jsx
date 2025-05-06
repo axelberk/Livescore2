@@ -2,8 +2,10 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import "./LiveScores.css"
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { Link } from "react-router-dom";
+import LeagueInfo from "../LeagueInfo/LeagueInfo";
 
-const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135] // 39: PL, 
+const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135] 
 
 const LiveScores = ({selectedDate, setSelectedMatch}) => {
     const [matches, setMatches] = useState([])
@@ -54,9 +56,10 @@ const LiveScores = ({selectedDate, setSelectedMatch}) => {
             }, {})
           ).map(([leagueName, leagueMatches]) => (
             <div key={leagueName} className="league-name">
-              <a href="">
-              <strong>{leagueName}<ArrowRightIcon/></strong>
-              </a>
+              <Link to={`/league/${leagueMatches[0].league.id}`}>
+                <strong>{leagueMatches[0].league.name}<ArrowRightIcon/></strong>
+                
+              </Link>
               {leagueMatches.map((match) => (
                 <div
                   key={match.fixture.id}
@@ -73,6 +76,7 @@ const LiveScores = ({selectedDate, setSelectedMatch}) => {
               ))}
             </div>
           ))
+          
         )}
       </div>
     );

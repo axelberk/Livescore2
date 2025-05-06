@@ -5,7 +5,7 @@ import LiveScores from './Components/LiveScores/LiveScores'
 import Calendar from "./Components/Calendar/Calendar";
 import Match from "./Components/Match/Match"
 import LeagueInfo from './Components/LeagueInfo/LeagueInfo';
-import { Routes } from 'react-router';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(new Date())
