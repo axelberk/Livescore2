@@ -1,4 +1,6 @@
 import "./Lineup.css";
+import { useState } from "react";
+import CloseIcon from '@mui/icons-material/Close';
 
 const Lineup = ({ team, color, isAway }) => {
   if (!team || !team.formation || !team.startXI) return null;
@@ -6,6 +8,7 @@ const Lineup = ({ team, color, isAway }) => {
   const formationRows = team.formation.split("-").map(Number);
   const goalkeeper = team.startXI[0].player;
   const outfieldPlayers = team.startXI.slice(1).map(p => p.player);
+  const [selectedPlayer, setSelectedPlayer] = useState(null)
 
   const players = isAway ? [...outfieldPlayers].reverse() : outfieldPlayers;
   let playerIndex = 0;
@@ -16,7 +19,7 @@ const Lineup = ({ team, color, isAway }) => {
     return (
       <div key={i} className="formation-row">
         {row.map((p, j) => (
-          <div key={j} className="player">{p.name}</div>
+          <div key={j} className="player" onClick={() => setSelectedPlayer(p)}>{p.name}</div>
         ))}
       </div>
     );
@@ -29,7 +32,7 @@ const Lineup = ({ team, color, isAway }) => {
       
       {!isAway && (
         <div className="goalkeeper">
-          <div className="player">{goalkeeper.name}</div>
+          <div className="player" onClick={() => setSelectedPlayer(goalkeeper)}>{goalkeeper.name}</div>
         </div>
       )}
 
@@ -37,7 +40,19 @@ const Lineup = ({ team, color, isAway }) => {
 
       {isAway && (
         <div className="goalkeeper">
-          <div className="player">{goalkeeper.name}</div>
+          <div className="player" onClick={() => setSelectedPlayer(goalkeeper)}>{goalkeeper.name}</div>
+        </div>
+      )}
+
+      {selectedPlayer && (
+        <div className="player-modal">
+          <div className="modal-content">
+            <button onClick={() => setSelectedPlayer(null)}><CloseIcon fontSize="small"/></button>
+            <h3>{selectedPlayer.name}</h3>
+            <p>{selectedPlayer.statistics?.[0]?.games?.position}</p>
+            <p>Goals: {selectedPlayer.statistics?.[0]?.goals?.total}</p>
+            <p>Assists: {selectedPlayer.statistics?.[0]?.goals?.assists ?? 0}</p>
+          </div>
         </div>
       )}
     </div>

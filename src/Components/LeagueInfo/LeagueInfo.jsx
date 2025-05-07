@@ -6,6 +6,8 @@ import axios, { Axios } from "axios"
 const LeagueInfo = () => {
     const { leagueId } = useParams();
     const [league, setLeague] = useState(null);
+
+    const latestSeason = league.seasons.find(season => season.current);
   
     useEffect(() => {
       const fetchLeague = async () => {
@@ -32,10 +34,10 @@ const LeagueInfo = () => {
     return (
         <div>
           <h2>{league.league.name}</h2>
-          <p>Country: {league.country.name}</p>
+         
           <img src={league.league.logo} alt="League logo" style={{ height: 40 }} />
-          <p>Type: {league.league.type}</p>
-          <p>Season: {league.seasons[0].year}</p>
+          
+          <p>Season: {latestSeason.year}</p>
         </div>
       );
 }

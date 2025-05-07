@@ -20,4 +20,25 @@
     margin: 0 0.3rem;
     text-align: center;
   }
+
+  .player-modal {
+    position: fixed;
+    background: #1b4b1e;
+    width: 25%;
+    height: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    border-radius: 8px;
+  }
   
+  .modal-content {
+    padding: 1rem 2rem;
+    
+  }
+
+  .modal-content button {
+    background-color: inherit;
+    color: white;
+  }
