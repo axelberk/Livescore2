@@ -5,32 +5,38 @@ import Lineup from "../Lineup/Lineup";
 
 const Match = ({ selectedMatch }) => {
   const [lineups, setLineups] = useState(null);
-  
+  const [goalScorerIds, setGoalScorerIds] = useState(new Set());
 
+  
   useEffect(() => {
-    const fetchLineups = async () => {
-      if (!selectedMatch) return;
+    if (!selectedMatch) return;
+  
+    const fetchLineupsAndEvents = async () => {
       try {
-        const response = await axios.get(
-          `https://v3.football.api-sports.io/fixtures/lineups`,
-          {
-            headers: {
-              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-            },
-            params: {
-              fixture: selectedMatch.fixture.id,
-            },
-          }
-        );
-        setLineups(response.data.response);
-      } catch (error) {
-        console.error("Error fetching lineups:", error);
-        setLineups([]); 
+        const [lineupsRes, eventsRes] = await Promise.all([
+          axios.get(`https://v3.football.api-sports.io/fixtures/lineups?fixture=${selectedMatch.fixture.id}`, {
+            headers: { "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY }
+          }),
+          axios.get(`https://v3.football.api-sports.io/fixtures/events?fixture=${selectedMatch.fixture.id}`, {
+            headers: { "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY }
+          })
+        ]);
+  
+        setLineups(lineupsRes.data.response);
+  
+        const goals = eventsRes.data.response
+          .filter(event => event.type === "Goal" && event.player)
+          .map(event => event.player.id);
+  
+        setGoalScorerIds(new Set(goals));
+      } catch (err) {
+        console.error("Error fetching match data:", err);
       }
     };
-
-    fetchLineups();
+  
+    fetchLineupsAndEvents();
   }, [selectedMatch]);
+
 
   if (!selectedMatch) return <div className="Match">Select a match to view details</div>;
   if (!lineups) return <div className="Match">Loading lineups...</div>;
@@ -48,7 +54,7 @@ const Match = ({ selectedMatch }) => {
       <div className="pitch-wrapper vertical">
         {homeTeam && (
           <div className="pitch-side">
-            <Lineup team={homeTeam} color="#03A9F4" />
+            <Lineup team={homeTeam} color="#03A9F4" goalScorerIds={goalScorerIds}/>
           </div>
         )}
 
@@ -58,7 +64,7 @@ const Match = ({ selectedMatch }) => {
 
         {awayTeam && (
           <div className="pitch-side">
-            <Lineup team={awayTeam} color="#F44336" isAway />
+            <Lineup team={awayTeam} color="#F44336" isAway goalScorerIds={goalScorerIds}/>
           </div>
         )}
       </div>

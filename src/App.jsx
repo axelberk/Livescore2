@@ -19,7 +19,7 @@ function App() {
           element={
             <div className='content-container'>
               <LiveScores selectedDate={selectedDate} setSelectedMatch={setSelectedMatch} />
-              <Match selectedMatch={selectedMatch} />
+              <Match selectedMatch={selectedMatch}/>
             </div>
           }
         />
