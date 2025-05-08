@@ -21,22 +21,48 @@
     text-align: center;
   }
 
+  @keyframes popup {
+    from {
+      transform: scale(0.7);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes popup-close {
+    from {
+      transform: scale(1);
+      opacity: 1;
+    }
+    
+    to {
+      transform: scale(0.7);
+      opacity:0;
+    }
+  }
+
+  .player-modal.closing {
+    animation: popup-close 0.2s ease-in forwards;
+  }
+
   .player-modal {
     position: fixed;
     top: 20%;
-    left: none;
+   
     background: #1b4b1e;
     width: 10%;
     height: 25%;
-    
     padding: 2px 10px;
     z-index: 1000;
     border-radius: 8px;
+    animation: popup 0.2s ease-out;
   }
 
   .button-header {
     display: flex;
-    flex-direction: row;
     justify-content:flex-end;
   }
   

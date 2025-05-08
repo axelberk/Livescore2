@@ -9,6 +9,15 @@ const Lineup = ({ team, color, isAway }) => {
   const goalkeeper = team.startXI[0].player;
   const outfieldPlayers = team.startXI.slice(1).map(p => p.player);
   const [selectedPlayer, setSelectedPlayer] = useState(null)
+  const [closing, setClosing] = useState(false)
+
+  const closeModal = () => {
+    setClosing(true)
+    setTimeout(() => {
+      setSelectedPlayer(null)
+      setClosing(false)
+    }, 200)
+  }
 
   const players = isAway ? [...outfieldPlayers].reverse() : outfieldPlayers;
   let playerIndex = 0;
@@ -44,21 +53,23 @@ const Lineup = ({ team, color, isAway }) => {
         </div>
       )}
 
-      {selectedPlayer && (
-        <div className="player-modal">
-          <div className="modal-content">
-            <div className="button-header">
-              <button onClick={() => setSelectedPlayer(null)}><CloseIcon fontSize="small"/></button>
-            </div>
-            <h3>{selectedPlayer.name}</h3>
-            <p>years</p>
-            <p>{selectedPlayer.statistics?.[0]?.games?.position}</p>
-            <p>cm</p>
-            <p>goals</p>
-            <p>assists</p>
-          </div>
-        </div>
-      )}
+{selectedPlayer && (
+<div className={`player-modal${closing ? " closing" : ""}`}>
+ <div className="modal-content">
+   <div className="button-header">
+     <button onClick={closeModal}>
+       <CloseIcon fontSize="small" />
+     </button>
+   </div>
+   <h3>{selectedPlayer.name}</h3>
+   <p>years</p>
+   <p>{selectedPlayer.statistics?.[0]?.games?.position}</p>
+   <p>cm</p>
+   <p>goals</p>
+   <p>assists</p>
+ </div>
+</div>
+)}
     </div>
   );
 };
