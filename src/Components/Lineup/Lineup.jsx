@@ -47,11 +47,15 @@ const Lineup = ({ team, color, isAway }) => {
       {selectedPlayer && (
         <div className="player-modal">
           <div className="modal-content">
-            <button onClick={() => setSelectedPlayer(null)}><CloseIcon fontSize="small"/></button>
+            <div className="button-header">
+              <button onClick={() => setSelectedPlayer(null)}><CloseIcon fontSize="small"/></button>
+            </div>
             <h3>{selectedPlayer.name}</h3>
-            <p>Age: </p>
-            <p>Position: {selectedPlayer.statistics?.[0]?.games?.position}</p>
-            <p>Height: </p>
+            <p>years</p>
+            <p>{selectedPlayer.statistics?.[0]?.games?.position}</p>
+            <p>cm</p>
+            <p>goals</p>
+            <p>assists</p>
           </div>
         </div>
       )}
