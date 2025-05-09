@@ -2,11 +2,9 @@ import "./Lineup.css";
 import { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFutbol } from "@fortawesome/free-solid-svg-icons";
 import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 
-const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes = [] }) => {
+const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes}) => {
   if (!team || !team.formation || !team.startXI) return null;
 
   const formationRows = team.formation.split("-").map(Number);
@@ -47,15 +45,13 @@ const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes = 
   const orderedRows = isAway ? [...formationRows].reverse() : formationRows;
 
   return (
+  <div className="lineup-wrapper">
     <div className="pitch" style={{ borderColor: color }}>
       {!isAway && (
         <div className="goalkeeper">
           <div className="player" onClick={() => setSelectedPlayer(goalkeeper)}>
             {goalkeeper.name}
-            {goalScorerIds.has(goalkeeper.id) && (
-             <SportsSoccerIcon fontSize="small" style={{height:"14px", alignSelf:"center"}}
-             />
-            )}
+            {goalScorerIds.has(goalkeeper.id) && <SportsSoccerIcon fontSize="small" style={{ height: "14px" }} />}
           </div>
         </div>
       )}
@@ -66,52 +62,42 @@ const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes = 
         <div className="goalkeeper">
           <div className="player" onClick={() => setSelectedPlayer(goalkeeper)}>
             {goalkeeper.name}
-            {goalScorerIds.has(goalkeeper.id) && (
-              <SportsSoccerIcon fontSize="small" style={{height:"14px", alignSelf:"center"}}
-              />
-            )}
-          </div>
-        </div>
-      )}
-
-      {substitutes.length > 0 && (
-        <div className="substitutes">
-          <h4>Substitutes</h4>
-          <div className="subs-list">
-            {substitutes.map((sub, i) => (
-              <div key={i}
-              className="player-substitute"
-              onClick={() => setSelectedPlayer(sub.player)}
-              >
-                {sub.player.name}
-                {goalScorerIds.has(sub.player.id) && (
-                  <SportsSoccerIcon fontSize="small" style={{height:"14px", alignSelf:"center"}}/>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {selectedPlayer && (
-        <div className={`player-modal${closing ? " closing" : ""}`}>
-          <div className="modal-content">
-            <div className="button-header">
-              <button onClick={closeModal}>
-                <CloseIcon fontSize="small" />
-              </button>
-            </div>
-            <h3>{selectedPlayer.name}</h3>
-            <p>years</p>
-            <p>{selectedPlayer.statistics?.[0]?.games?.position}</p>
-            <p>cm</p>
-            <p>goals</p>
-            <p>assists</p>
+            {goalScorerIds.has(goalkeeper.id) && <SportsSoccerIcon fontSize="small" style={{ height: "14px" }} />}
           </div>
         </div>
       )}
     </div>
-  );
+
+    {substitutes.length > 0 && (
+      <div className="substitutes-box">
+        <h4>Substitutes</h4>
+        {substitutes.map((sub, i) => (
+          <div key={i} className="player-substitute" onClick={() => setSelectedPlayer(sub.player)}>
+            {sub.player.name}
+            {goalScorerIds.has(sub.player.id) && <SportsSoccerIcon fontSize="small" style={{ height: "14px" }} />}
+          </div>
+        ))}
+      </div>
+    )}
+
+    {selectedPlayer && (
+      <div className={`player-modal${closing ? " closing" : ""}`}>
+        <div className="modal-content">
+          <div className="button-header">
+            <button onClick={closeModal}><CloseIcon fontSize="small" /></button>
+          </div>
+          <h3>{selectedPlayer.name}</h3>
+          <p>years</p>
+          <p>{selectedPlayer.statistics?.[0]?.games?.position}</p>
+          <p>cm</p>
+          <p>goals</p>
+          <p>assists</p>
+        </div>
+      </div>
+    )}
+  </div>
+);
+
 };
 
 export default Lineup;
