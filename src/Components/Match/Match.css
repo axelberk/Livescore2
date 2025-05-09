@@ -5,10 +5,12 @@
     position: relative;
     
   }
-  
+
+
   .pitch-side {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+  
     width: 100%;
     
   }
@@ -19,7 +21,7 @@
     background-color: white;
     position: relative;
   }
-  
+/*   
   .center-circle.horizontal-circle {
     position: absolute;
     top: 50%;
@@ -30,5 +32,5 @@
     border: 2px solid white;
     border-radius: 50%;
     background-color: transparent;
-  }
+  } */
   
