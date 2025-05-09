@@ -54,7 +54,7 @@ const Match = ({ selectedMatch }) => {
       <div className="pitch-wrapper vertical">
         {homeTeam && (
           <div className="pitch-side">
-            <Lineup team={homeTeam} color="#03A9F4" goalScorerIds={goalScorerIds}/>
+            <Lineup team={homeTeam} color="#03A9F4" goalScorerIds={goalScorerIds} substitutes={homeTeam.substitutes}/>
           </div>
         )}
 
@@ -64,7 +64,7 @@ const Match = ({ selectedMatch }) => {
 
         {awayTeam && (
           <div className="pitch-side">
-            <Lineup team={awayTeam} color="#F44336" isAway goalScorerIds={goalScorerIds}/>
+            <Lineup team={awayTeam} color="#F44336" isAway goalScorerIds={goalScorerIds} substitutes={awayTeam.substitutes}/>
           </div>
         )}
       </div>

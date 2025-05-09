@@ -4,8 +4,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFutbol } from "@fortawesome/free-solid-svg-icons";
+import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 
-const Lineup = ({ team, color, isAway, goalScorerIds = new Set() }) => {
+const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes = [] }) => {
   if (!team || !team.formation || !team.startXI) return null;
 
   const formationRows = team.formation.split("-").map(Number);
@@ -34,9 +35,7 @@ const Lineup = ({ team, color, isAway, goalScorerIds = new Set() }) => {
           <div key={j} className="player" onClick={() => setSelectedPlayer(p)}>
             {p.name}
             {goalScorerIds.has(p.id) && (
-              <FontAwesomeIcon
-                icon={faFutbol}
-                style={{ marginLeft: "5px", color: "black" }}
+              <SportsSoccerIcon fontSize="small" style={{height:"14px", alignSelf:"center"}}
               />
             )}
           </div>
@@ -54,10 +53,8 @@ const Lineup = ({ team, color, isAway, goalScorerIds = new Set() }) => {
           <div className="player" onClick={() => setSelectedPlayer(goalkeeper)}>
             {goalkeeper.name}
             {goalScorerIds.has(goalkeeper.id) && (
-              <FontAwesomeIcon
-                icon={faFutbol}
-                style={{ marginLeft: "5px", color: "blue" }}
-              />
+             <SportsSoccerIcon fontSize="small" style={{height:"14px", alignSelf:"center"}}
+             />
             )}
           </div>
         </div>
@@ -70,11 +67,28 @@ const Lineup = ({ team, color, isAway, goalScorerIds = new Set() }) => {
           <div className="player" onClick={() => setSelectedPlayer(goalkeeper)}>
             {goalkeeper.name}
             {goalScorerIds.has(goalkeeper.id) && (
-              <FontAwesomeIcon
-                icon={faFutbol}
-                style={{ marginLeft: "5px", color: "black" }}
+              <SportsSoccerIcon fontSize="small" style={{height:"14px", alignSelf:"center"}}
               />
             )}
+          </div>
+        </div>
+      )}
+
+      {substitutes.length > 0 && (
+        <div className="substitutes">
+          <h4>Substitutes</h4>
+          <div className="subs-list">
+            {substitutes.map((sub, i) => (
+              <div key={i}
+              className="player-substitute"
+              onClick={() => setSelectedPlayer(sub.player)}
+              >
+                {sub.player.name}
+                {goalScorerIds.has(sub.player.id) && (
+                  <SportsSoccerIcon fontSize="small" style={{height:"14px", alignSelf:"center"}}/>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       )}
