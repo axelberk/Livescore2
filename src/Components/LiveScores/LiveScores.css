@@ -5,6 +5,7 @@
   flex-direction: column;
   width: 50%;
   gap: 10px;
+  
 }
 
 h2 {
@@ -15,14 +16,17 @@ h2 {
 
   .league-name {
    
-    border-radius: 8px;
+    border-radius: 10px;
   }
 
   .league-name strong {
+   margin-bottom: 4px;
    display: flex;
    justify-content: center;
    text-decoration: underline;
   }
+
+   
 
   .league-name a {
     text-decoration: none;
@@ -43,7 +47,9 @@ h2 {
     padding: 5px;
     display: flex;
     justify-content: space-between;
-   
+   border: 1px solid black;
+   border-radius: inherit;
+   transition: 0.2s ease;
   }
 
   .match-card:hover {
@@ -54,4 +60,8 @@ h2 {
 .match-teams {
   display: flex;
   text-align: left;
+}
+
+.match-score {
+  background-color: blue;
 }

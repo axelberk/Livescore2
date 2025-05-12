@@ -6,10 +6,11 @@ import { Skeleton, Box } from "@mui/material";
 
 const MatchSkeleton = () => (
   <Box padding={2}>
-    <Skeleton variant="text" width="40%" height={30} />
-    <Skeleton variant="rectangular" height={200} sx={{ my: 2 }} />
-    <Skeleton variant="text" width="60%" height={20} />
-    <Skeleton variant="rectangular" height={100} sx={{ mt: 1 }} />
+    <div style={{display:"flex", justifyContent:"center"}}>
+    <Skeleton variant="text" width="50%" height={30}/>
+    </div>
+    <Skeleton variant="rectangular" height={220} sx={{ my: 2 }} />
+    <Skeleton variant="rectangular" height={220} sx={{ mt: 1 }} />
   </Box>
 );
 
@@ -53,7 +54,7 @@ const Match = ({ selectedMatch }) => {
       } catch (err) {
         console.error("Error fetching match data:", err);
       } finally {
-        setLoading(false);
+        setLoading(true);
       }
     };
 
