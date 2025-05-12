@@ -1,3 +1,7 @@
+.Match {
+  width: 50%;
+}
+
 .pitch-wrapper.vertical {
     display: flex;
     flex-direction: column;

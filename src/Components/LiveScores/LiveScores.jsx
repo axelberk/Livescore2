@@ -9,9 +9,11 @@ const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135]
 
 const LiveScores = ({selectedDate, setSelectedMatch}) => {
     const [matches, setMatches] = useState([])
+    const [loading, setLoading] = useState(true)
   
     useEffect (() => {
       const fetchLiveMatches = async () => {
+        setLoading(true)
         const formattedDate = selectedDate.toISOString().split("T")[0]
 
         try {
@@ -33,6 +35,8 @@ const LiveScores = ({selectedDate, setSelectedMatch}) => {
 
         } catch (error) {
           console.error("Error fetching live scores", error)
+        } finally {
+          setLoading(false)
         }
       }
 
