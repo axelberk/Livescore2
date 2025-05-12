@@ -1,14 +1,21 @@
 .Livescores {
   display: flex;
-  align-items: center;
- 
+  
+ text-align: left;
   flex-direction: column;
   width: 50%;
+  gap: 10px;
 }
 
 h2 {
     font-size: 24px;
     margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .league-name {
+   
+    border-radius: 8px;
   }
 
   .league-name strong {
@@ -27,14 +34,23 @@ h2 {
     margin-bottom: 10px;
     border-radius: 8px;
     width: 100%px;
+    text-align: cen;
   }
 
   .match-card {
     cursor: pointer;
-    padding: 10px;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+   
   }
 
   .match-card:hover {
     background-color: rgb(218, 213, 213);
     border-radius: 10px;
   }
+
+.match-teams {
+  display: flex;
+  text-align: left;
+}

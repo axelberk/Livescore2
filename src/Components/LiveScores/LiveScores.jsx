@@ -50,7 +50,7 @@ const LiveScores = ({selectedDate, setSelectedMatch}) => {
           Object.entries(
             matches.reduce((acc, match) => {
               const leagueName = match.league.name;
-              if (!acc[leagueName]) acc[leagueName] = [];
+              if (!acc[leagueName]) acc[leagueName] = []; 
               acc[leagueName].push(match);
               return acc;
             }, {})
@@ -66,12 +66,18 @@ const LiveScores = ({selectedDate, setSelectedMatch}) => {
                   className="match-card"
                   onClick={() => setSelectedMatch(match)}
                 >
+                <div className="match-time">
                   {new Date(match.fixture.date).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
                   })}{" "}
-                  — {match.teams.home.name} vs {match.teams.away.name} -{" "}
+                  </div>
+                  <div className="match-teams">
+                  {match.teams.home.name} - {match.teams.away.name} 
+                  </div>{" "}
+                  <div className="match-result">
                   {match.goals.home}-{match.goals.away}
+                  </div>
                 </div>
               ))}
             </div>

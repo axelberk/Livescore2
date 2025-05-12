@@ -7,7 +7,7 @@
 .pitch {
   flex: 1;
     background: #1b5e20;
-    width: 100%;
+    max-width: 100%;
     height: 220px;
     padding: 1rem;
     color: white;
@@ -23,9 +23,9 @@
   
   .player {
     background: rgba(255, 255, 255, 0.1);
-    padding: 0.4rem 0.6rem;
+    padding: 0.4rem 0.3rem;
     border-radius: 20px;
-    margin: 0 0.3rem;
+    margin: 0.2rem 0.75rem;
     text-align: center;
    display: flex;
   }
