@@ -39,17 +39,18 @@ h2 {
     margin-bottom: 10px;
     border-radius: 8px;
     width: 100%px;
-    text-align: cen;
+    text-align: center;
   }
 
   .match-card {
     cursor: pointer;
-    padding: 5px;
+    padding: 5px 12px;
     display: flex;
     justify-content: space-between;
    border: 1px solid black;
    border-radius: inherit;
-   transition: 0.2s ease;
+   transition: 0.3s ease;
+   margin-bottom: 4px;
   }
 
   .match-card:hover {
