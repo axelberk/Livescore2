@@ -1,62 +1,76 @@
 .Livescores {
   display: flex;
-  
- text-align: left;
+  padding: 0px 10px;
+  text-align: left;
   flex-direction: column;
   width: 50%;
   gap: 10px;
-  
 }
 
 h2 {
-    font-size: 24px;
-    margin-bottom: 16px;
-    text-align: center;
-  }
+  margin-bottom: 1px;
+  text-align: center;
+}
 
-  .league-name {
-   
-    border-radius: 10px;
-  }
+.league-display {
+  border-radius: 10px;
+}
 
-  .league-name strong {
-   margin-bottom: 4px;
-   display: flex;
-   justify-content: center;
-   text-decoration: underline;
-  }
-
-   
-
-  .league-name a {
-    text-decoration: none;
-    color: inherit;
-  }
+.league-display p {
+  font-weight: 700;
+  color: black;
+  justify-content: center;
   
-  .match {
-    padding: 12px;
-    background: #f1f1f1;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    width: 100%px;
-    text-align: center;
-  }
+}
 
-  .match-card {
-    cursor: pointer;
-    padding: 5px 12px;
-    display: flex;
-    justify-content: space-between;
-   border: 1px solid black;
-   border-radius: inherit;
-   transition: 0.3s ease;
-   margin-bottom: 4px;
-  }
+.league-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-decoration: none;
+  align-items: center;
+  transition: 1s ease;
+  border-radius: 10px;
+}
 
-  .match-card:hover {
-    background-color: rgb(218, 213, 213);
-    border-radius: 10px;
-  }
+.league-header:hover {
+ background: #f1f1f1;
+ 
+}
+
+.league-logo {
+  height: 50px;
+}
+
+.league-name a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.match {
+  padding: 12px;
+  background: #f1f1f1;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  width: 100%px;
+  text-align: center;
+}
+
+.match-card {
+  cursor: pointer;
+  padding: 5px 12px;
+  display: flex;
+  justify-content: space-between;
+  border: 0.5px solid rgb(168, 157, 157);
+  border-radius: inherit;
+  transition: 0.5s ease;
+  margin-bottom: 4px;
+}
+
+.match-card:hover {
+  background-color: rgb(218, 213, 213);
+  border-radius: 10px;
+}
 
 .match-teams {
   display: flex;

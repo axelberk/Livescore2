@@ -18,7 +18,8 @@
 .formation-row {
   display: flex;
   justify-content: center;
-  margin: 0.2rem 0rem;
+  margin: 0.4rem 0rem;
+  gap: 0px;
 }
 
 .player {

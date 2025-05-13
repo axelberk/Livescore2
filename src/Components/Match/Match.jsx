@@ -54,7 +54,7 @@ const Match = ({ selectedMatch }) => {
       } catch (err) {
         console.error("Error fetching match data:", err);
       } finally {
-        setLoading(true);
+        setLoading(false);
       }
     };
 
@@ -78,9 +78,9 @@ const Match = ({ selectedMatch }) => {
         <MatchSkeleton />
       ) : (
         <>
-          <h3>
+          <h2>
             {selectedMatch.teams.home.name} vs {selectedMatch.teams.away.name}
-          </h3>
+          </h2>
           <div className="pitch-wrapper vertical">
             {homeTeam && (
               <div className="pitch-side">

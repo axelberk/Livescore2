@@ -60,11 +60,14 @@ const LiveScores = ({selectedDate, setSelectedMatch}) => {
               return acc;
             }, {})
           ).map(([leagueName, leagueMatches]) => (
-            <div key={leagueName} className="league-name">
-              <Link to={`/league/${leagueMatches[0].league.id}`}>
-                <strong>{leagueMatches[0].league.name}<ArrowRightIcon/></strong>
-                
+            <div key={leagueName} className="league-display">
+              
+              <Link to={`/league/${leagueMatches[0].league.id}`} className="league-header">
+              <img src={leagueMatches[0].league.logo} alt={`${leagueMatches[0].league.name} logo`} className="league-logo" />
+                <p>{leagueMatches[0].league.name}</p>
+                <ArrowRightIcon/>
               </Link>
+              
               {leagueMatches.map((match) => (
                 <div
                   key={match.fixture.id}

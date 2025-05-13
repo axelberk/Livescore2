@@ -2,6 +2,10 @@
   width: 50%;
 }
 
+.Match h2 {
+  margin-bottom: 20px;
+}
+
 .pitch-wrapper.vertical {
     display: flex;
     flex-direction: column;
