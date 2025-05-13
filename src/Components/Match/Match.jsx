@@ -79,7 +79,7 @@ const Match = ({ selectedMatch }) => {
       ) : (
         <>
           <h3>
-            {selectedMatch.teams.home.name} vs {selectedMatch.teams.away.name}
+            {selectedMatch.teams.home.name} - {selectedMatch.teams.away.name}
           </h3>
           <div className="pitch-wrapper vertical">
             {homeTeam && (

@@ -47,6 +47,9 @@ const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes}) 
   return (
   <div className="lineup-wrapper">
     <div className="pitch" style={{ borderColor: color }}>
+      <div className={`formation-display ${isAway ? "away-formation" : "home-formation"}`}>
+  {team.formation}
+</div>
       {!isAway && (
         <div className="goalkeeper">
           <div className="player" onClick={() => setSelectedPlayer(goalkeeper)}>

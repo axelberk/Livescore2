@@ -4,6 +4,19 @@
   align-items: stretch;
 }
 
+.formation-display {
+  position: absolute;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+
+.away-formation {
+   bottom: 4px;
+  right: 180px;
+  margin-bottom: 10px;
+}
+
 .pitch {
   flex: 1;
   background: #1b5e20;
