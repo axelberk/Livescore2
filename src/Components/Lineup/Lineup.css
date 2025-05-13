@@ -1,17 +1,18 @@
 .lineup-wrapper {
   display: flex;
-  
-  align-items: flex-start;
+  height: 100%;
+  align-items: stretch;
 }
 
 .pitch {
   flex: 1;
   background: #1b5e20;
   max-width: 100%;
-  height: 220px;
+  max-height: 100%;
   padding: 1rem;
   color: white;
   font-size: 0.75rem;
+  
 }
 
 .goalkeeper,
@@ -34,18 +35,21 @@
 .substitutes-box {
   margin-left: 0.8px;
   width: 130px;
-  height: 220px;
+  max-height: 100%;
   padding: 1rem;
   background-color: #1b5e20;
   color: white;
   font-size: inherit;
   text-align: left;
+  overflow-y: auto;
 }
 
 .player-substitute {
   cursor: pointer;
   font-size: 0.72rem;
   font-family: inherit;
+  display: flex;
+  align-items: center;
 }
 
 .substitutes-box h4 {

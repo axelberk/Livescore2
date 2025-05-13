@@ -78,9 +78,9 @@ const Match = ({ selectedMatch }) => {
         <MatchSkeleton />
       ) : (
         <>
-          <h2>
+          <h3>
             {selectedMatch.teams.home.name} vs {selectedMatch.teams.away.name}
-          </h2>
+          </h3>
           <div className="pitch-wrapper vertical">
             {homeTeam && (
               <div className="pitch-side">

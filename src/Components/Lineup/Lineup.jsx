@@ -74,7 +74,7 @@ const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes}) 
         {substitutes.map((sub, i) => (
           <div key={i} className="player-substitute" onClick={() => setSelectedPlayer(sub.player)}>
             {sub.player.name}
-            {goalScorerIds.has(sub.player.id) && <SportsSoccerIcon fontSize="small" style={{ height: "14px" }} />}
+            {goalScorerIds.has(sub.player.id) && <SportsSoccerIcon fontSize="small" style={{ height: "12px" }} />}
           </div>
         ))}
       </div>

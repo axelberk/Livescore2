@@ -48,7 +48,7 @@ const LiveScores = ({selectedDate, setSelectedMatch}) => {
 
     return (
       <div className="Livescores">
-        <h2>Fixtures</h2>
+        {/* <h2>Fixtures</h2> */}
         {matches.length === 0 ? (
           <p>No fixtures today.</p>
         ) : (

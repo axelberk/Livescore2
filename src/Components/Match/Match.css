@@ -2,8 +2,9 @@
   width: 50%;
 }
 
-.Match h2 {
-  margin-bottom: 20px;
+.Match h3 {
+  margin-bottom: 16px;
+  margin-top: 10px;
 }
 
 .pitch-wrapper.vertical {

@@ -40,6 +40,7 @@ h2 {
 
 .league-logo {
   height: 50px;
+  object-fit: contain;
 }
 
 .league-name a {
@@ -61,7 +62,7 @@ h2 {
   padding: 5px 12px;
   display: flex;
   justify-content: space-between;
-  border: 0.5px solid rgb(168, 157, 157);
+  border: 1px solid rgb(168, 157, 157);
   border-radius: inherit;
   transition: 0.5s ease;
   margin-bottom: 4px;
