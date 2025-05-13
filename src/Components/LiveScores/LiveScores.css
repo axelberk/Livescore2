@@ -85,6 +85,8 @@ h2 {
   text-align: left;
 }
 
-.match-score {
-  background-color: blue;
-}
+/* .match-result:hover {
+  background-color: gray;
+  border-radius: 8px;
+  transition: 0.5s ease;
+} */
