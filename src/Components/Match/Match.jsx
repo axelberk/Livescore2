@@ -17,6 +17,7 @@ const MatchSkeleton = () => (
 const Match = ({ selectedMatch }) => {
   const [lineups, setLineups] = useState(null);
   const [goalScorerIds, setGoalScorerIds] = useState(new Set());
+  const [substitutions, setSubstitutions] = useState([])
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -46,6 +47,19 @@ const Match = ({ selectedMatch }) => {
 
         setLineups(lineupsRes.data.response);
 
+        const allEvents = eventsRes.data.response
+
+       const subs = allEvents
+          .filter((event) => event.type === "subst")
+          .map((event) => ({
+            player_in: event.player,
+            player_out: event.assist,
+            team: event.team,
+            time: event.time.elapsed,
+          }));
+
+          setSubstitutions(subs)
+
         const goals = eventsRes.data.response
           .filter((event) => event.type === "Goal" && event.player)
           .map((event) => event.player.id);
@@ -72,6 +86,14 @@ const Match = ({ selectedMatch }) => {
     (team) => team.team.id === selectedMatch.teams.away.id
   );
 
+  const homeSubstitutions = substitutions.filter(
+    (sub) => sub.team.id === selectedMatch.teams.home.id
+  )
+
+  const awaySubstitutions = substitutions.filter(
+    (sub) => sub.team.id === selectedMatch.teams.away.id
+  )
+
   return (
     <div className="Match">
       {loading ? (
@@ -89,6 +111,7 @@ const Match = ({ selectedMatch }) => {
                   color="#03A9F4"
                   goalScorerIds={goalScorerIds}
                   substitutes={homeTeam.substitutes}
+                  substitutions={homeSubstitutions}
                 />
               </div>
             )}
@@ -105,6 +128,7 @@ const Match = ({ selectedMatch }) => {
                   isAway
                   goalScorerIds={goalScorerIds}
                   substitutes={awayTeam.substitutes}
+                  substitutions={awaySubstitutions}
                 />
               </div>
             )}

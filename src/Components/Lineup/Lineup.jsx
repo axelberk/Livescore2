@@ -4,13 +4,15 @@ import CloseIcon from "@mui/icons-material/Close";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import LoopIcon from '@mui/icons-material/Loop';
 
-const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes = [] }) => {
+const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes = [], substitutions = [] }) => {
   if (!team || !team.formation || !team.startXI) return null;
 
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [closing, setClosing] = useState(false);
 
-  // Split startXI into goalkeeper and formation rows
+  const subbedOffIds = new Set(substitutions.map(sub => sub.player_out?.id))
+  const subbedOnIds = new Set(substitutions.map(sub => sub.player_in?.id))
+
   const getFormationGroups = (players, formation) => {
     const formationArray = formation.split("-").map(Number);
     const goalkeeper = players[0].player;
@@ -43,10 +45,17 @@ const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes = 
           {goalScorerIds.has(player.id) && (
             <SportsSoccerIcon fontSize="small" style={{ height: "14px", alignSelf: "center" }} />
           )}
+          {subbedOffIds.has(player.id) && (
+            <LoopIcon fontSize="small" />
+            // <div>🔁</div>
+          )}
         </div>
       ))}
     </div>
+    
   );
+
+  
 
   const renderGoalkeeper = (keeper) => (
     <div className="goalkeeper">
@@ -84,6 +93,9 @@ const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes = 
               {goalScorerIds.has(sub.player.id) && (
                 <SportsSoccerIcon fontSize="small" style={{ height: "12px" }} />
               )}
+              {subbedOnIds.has(sub.player.id) && (
+            <LoopIcon fontSize="small" />
+          )}
             </div>
           ))}
         </div>
