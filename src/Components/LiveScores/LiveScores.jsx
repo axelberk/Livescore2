@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import LeagueInfo from "../LeagueInfo/LeagueInfo";
 import { Skeleton, Box } from "@mui/material";
 
-const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135];
+const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135, 88, 40, 114];
 
 const LiveScores = ({ selectedDate, setSelectedMatch }) => {
   const [matches, setMatches] = useState([]);

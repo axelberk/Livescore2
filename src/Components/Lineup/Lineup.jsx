@@ -1,17 +1,31 @@
 import "./Lineup.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import axios from "axios";
-import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
+import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
+import LoopIcon from '@mui/icons-material/Loop';
 
-const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes}) => {
+const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes = [] }) => {
   if (!team || !team.formation || !team.startXI) return null;
 
-  const formationRows = team.formation.split("-").map(Number);
-  const goalkeeper = team.startXI[0].player;
-  const outfieldPlayers = team.startXI.slice(1).map((p) => p.player);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [closing, setClosing] = useState(false);
+
+  // Split startXI into goalkeeper and formation rows
+  const getFormationGroups = (players, formation) => {
+    const formationArray = formation.split("-").map(Number);
+    const goalkeeper = players[0].player;
+    let index = 1;
+    const rows = formationArray.map(count => {
+      const group = players.slice(index, index + count).map(p => p.player);
+      index += count;
+      return group;
+    });
+    return { goalkeeper, rows };
+  };
+
+  const { goalkeeper, rows } = getFormationGroups(team.startXI, team.formation);
+  const orderedRows = isAway ? [...rows].reverse() : rows;
+  const orderedGoalkeeper = goalkeeper;
 
   const closeModal = () => {
     setClosing(true);
@@ -21,86 +35,79 @@ const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes}) 
     }, 200);
   };
 
-  const players = isAway ? [...outfieldPlayers].reverse() : outfieldPlayers;
-  let playerIndex = 0;
+  const renderRow = (row, rowIndex) => (
+    <div key={rowIndex} className="formation-row">
+      {(isAway ? [...row].reverse() : row).map((player, i) => (
+        <div key={i} className="player" onClick={() => setSelectedPlayer(player)}>
+          {player.name}
+          {goalScorerIds.has(player.id) && (
+            <SportsSoccerIcon fontSize="small" style={{ height: "14px", alignSelf: "center" }} />
+          )}
+        </div>
+      ))}
+    </div>
+  );
 
-  const renderRow = (numPlayers, i) => {
-    const row = players.slice(playerIndex, playerIndex + numPlayers);
-    playerIndex += numPlayers;
-    return (
-      <div key={i} className="formation-row">
-        {row.map((p, j) => (
-          <div key={j} className="player" onClick={() => setSelectedPlayer(p)}>
-            {p.name}
-            {goalScorerIds.has(p.id) && (
-              <SportsSoccerIcon fontSize="small" style={{height:"14px", alignSelf:"center"}}
-              />
-            )}
-          </div>
-        ))}
+  const renderGoalkeeper = (keeper) => (
+    <div className="goalkeeper">
+      <div className="player" onClick={() => setSelectedPlayer(keeper)}>
+        {keeper.name}
+        {goalScorerIds.has(keeper.id) && (
+          <SportsSoccerIcon fontSize="small" style={{ height: "14px" }} />
+        )}
       </div>
-    );
-  };
-
-  const orderedRows = isAway ? [...formationRows].reverse() : formationRows;
+    </div>
+  );
 
   return (
-  <div className="lineup-wrapper">
-    <div className="pitch" style={{ borderColor: color }}>
-      <div className={`formation-display ${isAway ? "away-formation" : "home-formation"}`}>
-  {team.formation}
-</div>
-      {!isAway && (
-        <div className="goalkeeper">
-          <div className="player" onClick={() => setSelectedPlayer(goalkeeper)}>
-            {goalkeeper.name}
-            {goalScorerIds.has(goalkeeper.id) && <SportsSoccerIcon fontSize="small" style={{ height: "14px" }} />}
-          </div>
+    <div className="lineup-wrapper">
+      <div className="pitch" style={{ borderColor: color }}>
+        <div className={`formation-display ${isAway ? "away-formation" : "home-formation"}`}>
+          {team.formation}
+        </div>
+
+        {!isAway && renderGoalkeeper(orderedGoalkeeper)}
+        {orderedRows.map(renderRow)}
+        {isAway && renderGoalkeeper(orderedGoalkeeper)}
+      </div>
+
+      {substitutes.length > 0 && (
+        <div className="substitutes-box">
+          <h4>Substitutes</h4>
+          {substitutes.map((sub, i) => (
+            <div
+              key={i}
+              className="player-substitute"
+              onClick={() => setSelectedPlayer(sub.player)}
+            >
+              {sub.player.name}
+              {goalScorerIds.has(sub.player.id) && (
+                <SportsSoccerIcon fontSize="small" style={{ height: "12px" }} />
+              )}
+            </div>
+          ))}
         </div>
       )}
 
-      {orderedRows.map((num, i) => renderRow(num, i))}
-
-      {isAway && (
-        <div className="goalkeeper">
-          <div className="player" onClick={() => setSelectedPlayer(goalkeeper)}>
-            {goalkeeper.name}
-            {goalScorerIds.has(goalkeeper.id) && <SportsSoccerIcon fontSize="small" style={{ height: "14px" }} />}
+      {selectedPlayer && (
+        <div className={`player-modal${closing ? " closing" : ""}`}>
+          <div className="modal-content">
+            <div className="button-header">
+              <button onClick={closeModal}>
+                <CloseIcon fontSize="small" />
+              </button>
+            </div>
+            <h3>{selectedPlayer.name}</h3>
+            <p>{selectedPlayer.statistics?.[0]?.games?.position || "Position unknown"}</p>
+            <p>Goals: {selectedPlayer.statistics?.[0]?.goals?.total ?? 0}</p>
+            <p>Assists: {selectedPlayer.statistics?.[0]?.goals?.assists ?? 0}</p>
+            <p>Age: {selectedPlayer.age || "?"}</p>
+            <p>Height: {selectedPlayer.height || "?"}</p>
           </div>
         </div>
       )}
     </div>
-
-    {substitutes.length > 0 && (
-      <div className="substitutes-box">
-        <h4>Substitutes</h4>
-        {substitutes.map((sub, i) => (
-          <div key={i} className="player-substitute" onClick={() => setSelectedPlayer(sub.player)}>
-            {sub.player.name}
-            {goalScorerIds.has(sub.player.id) && <SportsSoccerIcon fontSize="small" style={{ height: "12px" }} />}
-          </div>
-        ))}
-      </div>
-    )}
-
-    {selectedPlayer && (
-      <div className={`player-modal${closing ? " closing" : ""}`}>
-        <div className="modal-content">
-          <div className="button-header">
-            <button onClick={closeModal}><CloseIcon fontSize="small" /></button>
-          </div>
-          <h3>{selectedPlayer.name}</h3>
-          <p>years</p>
-          <p>{selectedPlayer.statistics?.[0]?.games?.position}</p>
-          <p>cm</p>
-          <p>goals</p>
-          <p>assists</p>
-        </div>
-      </div>
-    )}
-  </div>
-);
-
+  );
 };
 
 export default Lineup;
