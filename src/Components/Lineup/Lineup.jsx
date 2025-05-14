@@ -10,15 +10,15 @@ const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes = 
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [closing, setClosing] = useState(false);
 
-  const subbedOffIds = new Set(substitutions.map(sub => sub.player_out?.id))
-  const subbedOnIds = new Set(substitutions.map(sub => sub.player_in?.id))
+  const subbedOffIds = new Set(substitutions.map((sub) => sub.player_out.id));
+  const subbedOnIds = new Set(substitutions.map((sub) => sub.player_in.id));
 
   const getFormationGroups = (players, formation) => {
     const formationArray = formation.split("-").map(Number);
     const goalkeeper = players[0].player;
     let index = 1;
-    const rows = formationArray.map(count => {
-      const group = players.slice(index, index + count).map(p => p.player);
+    const rows = formationArray.map((count) => {
+      const group = players.slice(index, index + count).map((p) => p.player);
       index += count;
       return group;
     });
@@ -37,32 +37,29 @@ const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes = 
     }, 200);
   };
 
-  const renderRow = (row, rowIndex) => (
+   const renderRow = (row, rowIndex) => (
     <div key={rowIndex} className="formation-row">
       {(isAway ? [...row].reverse() : row).map((player, i) => (
         <div key={i} className="player" onClick={() => setSelectedPlayer(player)}>
           {player.name}
           {goalScorerIds.has(player.id) && (
-            <SportsSoccerIcon fontSize="small" style={{ height: "14px", alignSelf: "center" }} />
+            <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 4 }} />
           )}
           {subbedOffIds.has(player.id) && (
-            <LoopIcon fontSize="small" />
-            // <div>🔁</div>
+            <LoopIcon fontSize="small" style={{ marginLeft: 4 }} />
           )}
         </div>
       ))}
     </div>
-    
   );
 
-  
 
-  const renderGoalkeeper = (keeper) => (
+   const renderGoalkeeper = (keeper) => (
     <div className="goalkeeper">
       <div className="player" onClick={() => setSelectedPlayer(keeper)}>
         {keeper.name}
         {goalScorerIds.has(keeper.id) && (
-          <SportsSoccerIcon fontSize="small" style={{ height: "14px" }} />
+          <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 4 }} />
         )}
       </div>
     </div>
@@ -91,11 +88,11 @@ const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes = 
             >
               {sub.player.name}
               {goalScorerIds.has(sub.player.id) && (
-                <SportsSoccerIcon fontSize="small" style={{ height: "12px" }} />
+                <SportsSoccerIcon fontSize="small" style={{ height: "12px", marginLeft: 4 }} />
               )}
               {subbedOnIds.has(sub.player.id) && (
-            <LoopIcon fontSize="small" />
-          )}
+                <LoopIcon fontSize="small" style={{ marginLeft: 4 }} />
+              )}
             </div>
           ))}
         </div>
