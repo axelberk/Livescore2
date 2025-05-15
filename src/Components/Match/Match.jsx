@@ -49,16 +49,16 @@ const Match = ({ selectedMatch }) => {
 
         const allEvents = eventsRes.data.response
 
-       const subs = allEvents
+       const substitutions = eventsRes.data.response
           .filter((event) => event.type === "subst")
           .map((event) => ({
-            player_in: event.player,
-            player_out: event.assist,
+            player_in: event.assist,
+            player_out: event.player,
             team: event.team,
             time: event.time.elapsed,
           }));
 
-          setSubstitutions(subs)
+          setSubstitutions(substitutions)
 
         const goals = eventsRes.data.response
           .filter((event) => event.type === "Goal" && event.player)
@@ -71,6 +71,8 @@ const Match = ({ selectedMatch }) => {
         setLoading(false);
       }
     };
+
+ 
 
     fetchLineupsAndEvents();
   }, [selectedMatch]);
@@ -87,12 +89,15 @@ const Match = ({ selectedMatch }) => {
   );
 
   const homeSubstitutions = substitutions.filter(
-    (sub) => sub.team.id === selectedMatch.teams.home.id
+    (s) => s.team.id === selectedMatch.teams.home.id
   )
 
   const awaySubstitutions = substitutions.filter(
-    (sub) => sub.team.id === selectedMatch.teams.away.id
+    (s) => s.team.id === selectedMatch.teams.away.id
   )
+
+   console.log("Substitutes Home:", homeTeam?.substitutes?.map((s) => s.player.id));
+console.log("Substitutions Home (IN):", homeSubstitutions.map((s) => s.player_in.id));
 
   return (
     <div className="Match">

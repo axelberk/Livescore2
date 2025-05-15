@@ -10,8 +10,8 @@ const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes = 
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [closing, setClosing] = useState(false);
 
-  const subbedOffIds = new Set(substitutions.map((sub) => sub.player_out.id));
-  const subbedOnIds = new Set(substitutions.map((sub) => sub.player_in.id));
+  const subbedOffIds = new Set(substitutions.map((subs) => subs.player_out?.id).filter(Boolean));
+  const subbedOnIds = new Set(substitutions.map((subs) => subs.player_in?.id).filter(Boolean));
 
   const getFormationGroups = (players, formation) => {
     const formationArray = formation.split("-").map(Number);
