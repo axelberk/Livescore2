@@ -51,6 +51,7 @@
   margin: 0.7rem 0.3rem;
   text-align: center;
   display: flex;
+  align-items: center;
 }
 
 .substitutes-box {

@@ -60,11 +60,23 @@ const Match = ({ selectedMatch }) => {
 
           setSubstitutions(substitutions)
 
-        const goals = eventsRes.data.response
-          .filter((event) => event.type === "Goal" && event.player)
-          .map((event) => event.player.id);
+        // const goals = eventsRes.data.response
+        //   .filter((event) => event.type === "Goal" && event.player)
+        //   .map((event) => event.player.id);
 
-        setGoalScorerIds(new Set(goals));
+        // setGoalScorerIds(new Set(goals));
+
+        const goalCounts = new Map()
+
+        eventsRes.data.response.forEach((event) => {
+          if (event.type === "Goal" && event.player?.id) {
+            const playerId = event.player.id
+            goalCounts.set(playerId, (goalCounts.get(playerId) || 0) + 1)
+          }
+        })
+
+        setGoalScorerIds(goalCounts)
+
       } catch (err) {
         console.error("Error fetching match data:", err);
       } finally {
@@ -96,8 +108,6 @@ const Match = ({ selectedMatch }) => {
     (s) => s.team.id === selectedMatch.teams.away.id
   )
 
-   console.log("Substitutes Home:", homeTeam?.substitutes?.map((s) => s.player.id));
-console.log("Substitutions Home (IN):", homeSubstitutions.map((s) => s.player_in.id));
 
   return (
     <div className="Match">

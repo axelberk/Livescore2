@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import LoopIcon from '@mui/icons-material/Loop';
 
-const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes = [], substitutions = [] }) => {
+const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [], substitutions = [] }) => {
   if (!team || !team.formation || !team.startXI) return null;
 
   const [selectedPlayer, setSelectedPlayer] = useState(null);
@@ -42,11 +42,12 @@ const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes = 
       {(isAway ? [...row].reverse() : row).map((player, i) => (
         <div key={i} className="player" onClick={() => setSelectedPlayer(player)}>
           {player.name}
-          {goalScorerIds.has(player.id) && (
+          {goalCounts.has(player.id) && (
             <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 4 }} />
+            
           )}
           {subbedOffIds.has(player.id) && (
-            <LoopIcon fontSize="small" style={{ marginLeft: 4 }} />
+            <LoopIcon fontSize="small" style={{ marginLeft: 4, height:"14px"}} />
           )}
         </div>
       ))}
@@ -58,7 +59,7 @@ const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes = 
     <div className="goalkeeper">
       <div className="player" onClick={() => setSelectedPlayer(keeper)}>
         {keeper.name}
-        {goalScorerIds.has(keeper.id) && (
+        {goalCounts.has(keeper.id) && (
           <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 4 }} />
         )}
       </div>
@@ -87,11 +88,11 @@ const Lineup = ({ team, color, isAway, goalScorerIds = new Set(), substitutes = 
               onClick={() => setSelectedPlayer(sub.player)}
             >
               {sub.player.name}
-              {goalScorerIds.has(sub.player.id) && (
+              {goalCounts.has(sub.player.id) && (
                 <SportsSoccerIcon fontSize="small" style={{ height: "12px", marginLeft: 4 }} />
               )}
               {subbedOnIds.has(sub.player.id) && (
-                <LoopIcon fontSize="small" style={{ marginLeft: 4 }} />
+                <LoopIcon fontSize="small" style={{ marginLeft: 4, height:"14px" }} />
               )}
             </div>
           ))}
