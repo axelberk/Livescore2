@@ -18,12 +18,12 @@ const ScoreSkeleton = () => (
     {[...Array(3)].map((_, i) => (
       <div key={i} className="match-card">
         <div className="match-time">
-          <Skeleton variant="text" width="40px" height={20} />
+          <Skeleton variant="text" width="24px" height={20} />
         </div>
         <div className="match-teams">
           <Skeleton variant="circular" width={24} height={20} />
-          <Skeleton variant="text" width="25%" height={20} sx={{ mx: 1 }} />
-          <Skeleton variant="text" width="25%" height={20} sx={{ mx: 1 }} />
+          <Skeleton variant="text" width="20%" height={20} sx={{ mx: 1 }} />
+          <Skeleton variant="text" width="20%" height={20} sx={{ mx: 1 }} />
           <Skeleton variant="circular" width={24} height={20} />
         </div>
         <div className="match-result">
@@ -64,7 +64,7 @@ const LiveScores = ({ selectedDate, setSelectedMatch }) => {
       } catch (error) {
         console.error("Error fetching live scores", error);
       } finally {
-        setLoading(false);
+        setLoading(true);
       }
     };
 
