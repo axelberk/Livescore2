@@ -115,10 +115,27 @@ const Match = ({ selectedMatch }) => {
         <MatchSkeleton />
       ) : (
         <>
-          <h3>
-           
-            {selectedMatch.teams.home.name} {selectedMatch.goals.home} - {selectedMatch.goals.away} {selectedMatch.teams.away.name}
-          </h3>
+          <div className="match-header">
+  <div className="team-info">
+    <img
+      src={selectedMatch.teams.home.logo}
+      alt={selectedMatch.teams.home.name}
+      className="match-team-logo"
+    />
+    <span>{selectedMatch.teams.home.name}</span>
+  </div>
+<div className="match-scores">
+  {selectedMatch.goals.home} - {selectedMatch.goals.away}
+</div>
+  <div className="team-info">
+    <span>{selectedMatch.teams.away.name}</span>
+    <img
+      src={selectedMatch.teams.away.logo}
+      alt={selectedMatch.teams.away.name}
+      className="match-team-logo"
+    />
+  </div>
+</div>
           <div className="pitch-wrapper vertical">
             {homeTeam && (
               <div className="pitch-side">
