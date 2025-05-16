@@ -43,11 +43,11 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
         <div key={i} className="player" onClick={() => setSelectedPlayer(player)}>
           {player.name}
           {goalCounts.has(player.id) && (
-            <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 4 }} />
+            <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 1 }} />
             
           )}
           {subbedOffIds.has(player.id) && (
-            <LoopIcon fontSize="small" style={{ marginLeft: 4, height:"14px"}} />
+            <LoopIcon fontSize="small" style={{  height:"14px"}} />
           )}
         </div>
       ))}
@@ -60,7 +60,7 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
       <div className="player" onClick={() => setSelectedPlayer(keeper)}>
         {keeper.name}
         {goalCounts.has(keeper.id) && (
-          <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 4 }} />
+          <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 1 }} />
         )}
       </div>
     </div>
@@ -88,12 +88,18 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
               onClick={() => setSelectedPlayer(sub.player)}
             >
               {sub.player.name}
-              {goalCounts.has(sub.player.id) && (
-                <SportsSoccerIcon fontSize="small" style={{ height: "12px", marginLeft: 4 }} />
-              )}
               {subbedOnIds.has(sub.player.id) && (
-                <LoopIcon fontSize="small" style={{ marginLeft: 4, height:"14px" }} />
+                <LoopIcon fontSize="small" style={{ height:"14px" }} />
               )}
+{goalCounts.has(sub.player.id) &&
+  Array.from({ length: goalCounts.get(sub.player.id) }).map((_, idx) => (
+    <SportsSoccerIcon
+      key={idx}
+      fontSize="small"
+      style={{ height: "12px", marginLeft:"-6px"}}
+    />
+  ))}
+              
             </div>
           ))}
         </div>

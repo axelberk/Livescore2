@@ -41,17 +41,18 @@
   display: flex;
   justify-content: center;
   
-  gap: 0px;
+  gap: 14px;
 }
 
 .player {
   background: rgba(255, 255, 255, 0.1);
-  padding: 0.2rem 0.3rem;
+  padding: 0.1rem 0.3rem;
   border-radius: 20px;
-  margin: 0.7rem 0.3rem;
+  margin: 0.7rem 0.4rem;
   text-align: center;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .substitutes-box {
@@ -72,6 +73,8 @@
   font-family: inherit;
   display: flex;
   align-items: center;
+ 
+  
 }
 
 .substitutes-box h4 {
