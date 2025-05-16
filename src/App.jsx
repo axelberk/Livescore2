@@ -24,6 +24,7 @@ function App() {
           }
         />
         <Route path="/league/:leagueId" element={<LeagueInfo />} />
+        {/* <Route path="/team/:teamId" element={<TeamInfo />} /> */}
       </Routes>
     </div>
   )

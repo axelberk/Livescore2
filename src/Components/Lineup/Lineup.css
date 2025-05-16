@@ -41,14 +41,14 @@
   display: flex;
   justify-content: center;
   
-  gap: 14px;
+  gap: 3px;
 }
 
 .player {
   background: rgba(255, 255, 255, 0.1);
-  padding: 0.1rem 0.3rem;
+  padding: 0.2rem 0.2rem;
   border-radius: 20px;
-  margin: 0.7rem 0.4rem;
+  /* margin: 0.7rem 0.5rem; */
   text-align: center;
   display: flex;
   align-items: center;

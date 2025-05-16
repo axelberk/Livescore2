@@ -6,8 +6,8 @@ import { Skeleton, Box } from "@mui/material";
 
 const MatchSkeleton = () => (
   <Box padding={2}>
-    <div style={{display:"flex", justifyContent:"center"}}>
-    <Skeleton variant="text" width="50%" height={30}/>
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <Skeleton variant="text" width="50%" height={30} />
     </div>
     <Skeleton variant="rectangular" height={220} sx={{ my: 2 }} />
     <Skeleton variant="rectangular" height={220} sx={{ mt: 1 }} />
@@ -17,7 +17,7 @@ const MatchSkeleton = () => (
 const Match = ({ selectedMatch }) => {
   const [lineups, setLineups] = useState(null);
   const [goalScorerIds, setGoalScorerIds] = useState(new Set());
-  const [substitutions, setSubstitutions] = useState([])
+  const [substitutions, setSubstitutions] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -47,9 +47,9 @@ const Match = ({ selectedMatch }) => {
 
         setLineups(lineupsRes.data.response);
 
-        const allEvents = eventsRes.data.response
+        const allEvents = eventsRes.data.response;
 
-       const substitutions = eventsRes.data.response
+        const substitutions = eventsRes.data.response
           .filter((event) => event.type === "subst")
           .map((event) => ({
             player_in: event.assist,
@@ -58,7 +58,7 @@ const Match = ({ selectedMatch }) => {
             time: event.time.elapsed,
           }));
 
-          setSubstitutions(substitutions)
+        setSubstitutions(substitutions);
 
         // const goals = eventsRes.data.response
         //   .filter((event) => event.type === "Goal" && event.player)
@@ -66,25 +66,22 @@ const Match = ({ selectedMatch }) => {
 
         // setGoalScorerIds(new Set(goals));
 
-        const goalCounts = new Map()
+        const goalCounts = new Map();
 
         eventsRes.data.response.forEach((event) => {
           if (event.type === "Goal" && event.player?.id) {
-            const playerId = event.player.id
-            goalCounts.set(playerId, (goalCounts.get(playerId) || 0) + 1)
+            const playerId = event.player.id;
+            goalCounts.set(playerId, (goalCounts.get(playerId) || 0) + 1);
           }
-        })
+        });
 
-        setGoalScorerIds(goalCounts)
-
+        setGoalScorerIds(goalCounts);
       } catch (err) {
         console.error("Error fetching match data:", err);
       } finally {
         setLoading(false);
       }
     };
-
- 
 
     fetchLineupsAndEvents();
   }, [selectedMatch]);
@@ -102,12 +99,11 @@ const Match = ({ selectedMatch }) => {
 
   const homeSubstitutions = substitutions.filter(
     (s) => s.team.id === selectedMatch.teams.home.id
-  )
+  );
 
   const awaySubstitutions = substitutions.filter(
     (s) => s.team.id === selectedMatch.teams.away.id
-  )
-
+  );
 
   return (
     <div className="Match">
@@ -116,26 +112,26 @@ const Match = ({ selectedMatch }) => {
       ) : (
         <>
           <div className="match-header">
-  <div className="team-info">
-    <img
-      src={selectedMatch.teams.home.logo}
-      alt={selectedMatch.teams.home.name}
-      className="match-team-logo"
-    />
-    <span>{selectedMatch.teams.home.name}</span>
-  </div>
-<div className="match-scores">
-  {selectedMatch.goals.home} - {selectedMatch.goals.away}
-</div>
-  <div className="team-info">
-    <span>{selectedMatch.teams.away.name}</span>
-    <img
-      src={selectedMatch.teams.away.logo}
-      alt={selectedMatch.teams.away.name}
-      className="match-team-logo"
-    />
-  </div>
-</div>
+            <div className="team-info">
+              <img
+                src={selectedMatch.teams.home.logo}
+                alt={selectedMatch.teams.home.name}
+                className="match-team-logo"
+              />
+              <span>{selectedMatch.teams.home.name}</span>
+            </div>
+            <div className="match-scores">
+              {selectedMatch.goals.home} - {selectedMatch.goals.away}
+            </div>
+            <div className="team-info">
+              <span>{selectedMatch.teams.away.name}</span>
+              <img
+                src={selectedMatch.teams.away.logo}
+                alt={selectedMatch.teams.away.name}
+                className="match-team-logo"
+              />
+            </div>
+          </div>
           <div className="pitch-wrapper vertical">
             {homeTeam && (
               <div className="pitch-side">
