@@ -4,6 +4,7 @@ import LiveScores from './Components/LiveScores/LiveScores'
 import Calendar from "./Components/Calendar/Calendar"
 import Match from "./Components/Match/Match"
 import LeagueInfo from './Components/LeagueInfo/LeagueInfo'
+import TeamInfo from './Components/TeamInfo/TeamInfo'
 import { Routes, Route } from 'react-router-dom'
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
           }
         />
         <Route path="/league/:leagueId" element={<LeagueInfo />} />
-        {/* <Route path="/team/:teamId" element={<TeamInfo />} /> */}
+        <Route path="/team/:teamId" element={<TeamInfo />} />
       </Routes>
     </div>
   )

@@ -3,6 +3,7 @@ import axios from "axios";
 import "./Match.css";
 import Lineup from "../Lineup/Lineup";
 import { Skeleton, Box } from "@mui/material";
+import Link from "@mui/material";
 
 const MatchSkeleton = () => (
   <Box padding={2}>
@@ -113,11 +114,13 @@ const Match = ({ selectedMatch }) => {
         <>
           <div className="match-header">
             <div className="team-info">
+              <Link to={`/team/${match.teams.home.id}`}>
               <img
                 src={selectedMatch.teams.home.logo}
                 alt={selectedMatch.teams.home.name}
                 className="match-team-logo"
               />
+              </Link>
               <span>{selectedMatch.teams.home.name}</span>
             </div>
             <div className="match-scores">

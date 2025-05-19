@@ -64,7 +64,7 @@ const LiveScores = ({ selectedDate, setSelectedMatch }) => {
       } catch (error) {
         console.error("Error fetching live scores", error);
       } finally {
-        setLoading(true);
+        setLoading(false);
       }
     };
 
@@ -75,6 +75,8 @@ const LiveScores = ({ selectedDate, setSelectedMatch }) => {
     <div className="Livescores">
      {loading ? (
   <>
+    <ScoreSkeleton />
+    <ScoreSkeleton />
     <ScoreSkeleton />
   </>
 ) : matches.length === 0 ? (
