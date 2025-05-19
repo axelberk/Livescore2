@@ -3,7 +3,7 @@ import axios from "axios";
 import "./Match.css";
 import Lineup from "../Lineup/Lineup";
 import { Skeleton, Box } from "@mui/material";
-import Link from "@mui/material";
+import { Link } from "react-router-dom";
 
 const MatchSkeleton = () => (
   <Box padding={2}>
@@ -114,7 +114,7 @@ const Match = ({ selectedMatch }) => {
         <>
           <div className="match-header">
             <div className="team-info">
-              <Link to={`/team/${match.teams.home.id}`}>
+              <Link to={`/team/${selectedMatch.teams.home.id}` }>
               <img
                 src={selectedMatch.teams.home.logo}
                 alt={selectedMatch.teams.home.name}
@@ -128,11 +128,13 @@ const Match = ({ selectedMatch }) => {
             </div>
             <div className="team-info">
               <span>{selectedMatch.teams.away.name}</span>
+              <Link to={`/team/${selectedMatch.teams.away.id}` }>
               <img
                 src={selectedMatch.teams.away.logo}
                 alt={selectedMatch.teams.away.name}
                 className="match-team-logo"
               />
+              </Link>
             </div>
           </div>
           <div className="pitch-wrapper vertical">
