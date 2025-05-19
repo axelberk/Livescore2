@@ -4,35 +4,35 @@ import "./TeamInfo.css";
 import axios from "axios";
 import { use } from "react";
 
-const currentSeason = "2024"
+const currentSeason = "2024";
 
 const TeamInfo = () => {
   const { teamId } = useParams();
   const [teamPage, setTeamPage] = useState(null);
-  const [squad, setSquad] = useState(null)
+  const [squad, setSquad] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTeamInfoAndSquad = async () => {
       try {
         const [teamRes, squadRes] = await Promise.all([
-            axios.get("https://v3.football.api-sports.io/teams", {
-                headers: {
-                    "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-                },
-                params: {id: teamId}
-            }),
-            axios.get("https://v3.football.api-sports.io/players", {
-                headers: {
+          axios.get("https://v3.football.api-sports.io/teams", {
+            headers: {
               "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-             },
+            },
+            params: { id: teamId },
+          }),
+          axios.get("https://v3.football.api-sports.io/players", {
+            headers: {
+              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+            },
             params: {
               team: teamId,
               season: currentSeason,
             },
           }),
         ]);
-         setTeamPage(teamRes.data.response[0]);
+        setTeamPage(teamRes.data.response[0]);
 
         const players = squadRes.data.response.map((entry) => entry.player);
         setSquad(players);
@@ -64,18 +64,30 @@ const TeamInfo = () => {
       </div>
       <div className="squad">
         <h3>Squad</h3>
-        {squad.length === 0 ? (
-            <p>No squad data available</p>
-        ) : (
+        {Object.entries(
+          squad.reduce((acc, player) => {
+            const position = player.position || "Unknown";
+            if (!acc[position]) acc[position] = [];
+            acc[position].push(player);
+            return acc;
+          }, {})
+        ).map(([position, players]) => (
+          <div key={position} className="squad-group">
+            <h4>{position}</h4>
             <ul className="squad-list">
-                {squad.map((player) => (
-                    <li key={player.id}>
-                        <img src={player.photo} alt={player.name} className="player-photo"  />
-                        {player.name} - {player.position} ({player.age} yrs)
-                    </li>
-                ))}
+              {players.map((player) => (
+                <li key={player.id}>
+                  <img
+                    src={player.photo}
+                    alt={player.name}
+                    className="player-photo"
+                  />
+                  {player.name} ({player.age} yrs)
+                </li>
+              ))}
             </ul>
-        )}
+          </div>
+        ))}
       </div>
     </div>
   );
