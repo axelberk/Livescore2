@@ -4,8 +4,24 @@
     justify-content: space-between;
 }
 
-.team-facts {
-    padding: 10px 0px;
+.facts-container {
+  display: flex;
+  flex-direction: row;
+justify-content: center;
+gap: 100px;
+padding: 20px 0;
+}
+
+
+
+.team-facts h2 {
+  text-align: left;
+  margin-top: 0;
+}
+
+.team-facts p {
+    margin: 6px 0;
+    text-align: left;
 }
 
 .squad-list {
