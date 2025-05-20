@@ -63,7 +63,7 @@ const TeamInfo = () => {
 
   const pastFixtures = fixtures
   .filter((fixture) => fixture.fixture.status.short === "FT")
-  .sort((b, a) => new Date(b.fixture.date) - new Date(a.fixture.date)); 
+  .sort((a, b) => new Date(b.fixture.date) - new Date(a.fixture.date)); 
 
 const upcomingFixtures = fixtures
   .filter((fixture) => ["NS", "TBD"].includes(fixture.fixture.status.short))
@@ -113,8 +113,9 @@ const upcomingFixtures = fixtures
           ))}
         </div>
         <div className="results">
-  <h3>Results this season</h3>
+  
   <div className="results-list">
+    <h3>Results</h3>
     {pastFixtures.map((fixture) => {
       const { id, date, teams, goals } = fixture;
       const matchDate = new Date(fixture.fixture.date).toLocaleDateString("en-GB", {
@@ -130,8 +131,9 @@ const upcomingFixtures = fixtures
     })}
   </div>
 
-  <h3>Upcoming Fixtures</h3>
+  
   <div className="results-list">
+    <h3>Upcoming Fixtures</h3>
     {upcomingFixtures.map((fixture) => {
       const { id, date, teams } = fixture;
       const matchDate = new Date(fixture.fixture.date).toLocaleDateString("en-GB", {
@@ -141,7 +143,7 @@ const upcomingFixtures = fixtures
 });
       return (
         <div key={id} className="result-item">
-          <strong>{matchDate}</strong>: {teams.home.name} vs {teams.away.name}
+          <strong>{matchDate}</strong>: {teams.home.name} - {teams.away.name}
         </div>
       );
     })}

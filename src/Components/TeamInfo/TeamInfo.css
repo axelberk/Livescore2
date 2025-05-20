@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
 }
 
 .facts-container {
@@ -42,6 +43,13 @@ padding: 20px 0;
   margin-right: 10px;
 }
 
+.results {
+  display: flex;
+  gap: 16px;
+  width: 50%;
+}
+
 .results-list {
   text-align: left;
+ 
 }
