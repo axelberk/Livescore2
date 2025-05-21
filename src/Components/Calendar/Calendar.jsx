@@ -19,6 +19,7 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
 
   return (
     <div className="Calendar">
+      
       <button className="calendar-arrow" onClick={goToPreviousDay}>
         <ArrowLeftIcon />
       </button>

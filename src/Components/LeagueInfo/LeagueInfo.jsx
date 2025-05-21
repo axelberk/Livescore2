@@ -33,6 +33,7 @@ const LeagueInfo = () => {
 
     return (
         <div>
+          <Header/>
           <h2>{league.league.name}</h2>
          
           <img src={league.league.logo} alt="League logo" style={{ height: 40 }} />

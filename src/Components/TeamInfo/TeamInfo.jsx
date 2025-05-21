@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import "./TeamInfo.css";
 import axios from "axios";
+import Header from "../Header/Header";
 
 const currentSeason = "2024";
 
@@ -70,7 +71,9 @@ const upcomingFixtures = fixtures
   .sort((a, b) => new Date(a.fixture.date) - new Date(b.fixture.date)); 
 
   return (
+    
     <div className="team-info-main">
+      <Header/>
       <div className="facts-container">
         <img src={team.logo} alt="logo" className="team-info-logo" />
         <div className="team-facts">

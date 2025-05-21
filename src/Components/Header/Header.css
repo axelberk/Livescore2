@@ -1,0 +1,22 @@
+.header {
+     background-color: rgb(218, 213, 213);
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: black;
+    justify-content: center;
+    height: 40px;
+    border-radius: 10px;
+    
+}
+
+.home-button {
+    text-decoration: none;
+    color: inherit;
+    font-size: 18px;
+}
+
+.home-button:hover {
+    text-decoration: underline;
+}
