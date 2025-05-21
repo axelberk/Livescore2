@@ -10,7 +10,7 @@ const TeamInfo = () => {
   const { teamId } = useParams();
   const [teamPage, setTeamPage] = useState(null);
   const [squad, setSquad] = useState(null);
-  const [fixtures, setFixtures] = useState([])
+  const [fixtures, setFixtures] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -57,102 +57,99 @@ const TeamInfo = () => {
     fetchTeamData();
   }, [teamId]);
 
-  if (loading) return <p>Loading team info...</p>;
-  if (!teamPage) return <p>Team not found.</p>;
-
-  const { team, venue } = teamPage;
-
-  const pastFixtures = fixtures
-  .filter((fixture) => fixture.fixture.status.short === "FT")
-  .sort((a, b) => new Date(b.fixture.date) - new Date(a.fixture.date)); 
-
-const upcomingFixtures = fixtures
-  .filter((fixture) => ["NS", "TBD"].includes(fixture.fixture.status.short))
-  .sort((a, b) => new Date(a.fixture.date) - new Date(b.fixture.date)); 
-
   return (
-    
     <div className="team-info-main">
-      <Header/>
-      <div className="facts-container">
-        <img src={team.logo} alt="logo" className="team-info-logo" />
-        <div className="team-facts">
-          <h2>{team.name}</h2>
-          <p>Established {team.founded}</p>
-          <p>
-            {venue.city}, {team.country}
-          </p>
-          <p>
-            {venue.name} - {venue.capacity}
-          </p>
-        </div>
-      </div>
-      <div className="teaminfo-container">
-        <div className="squad">
-          <h3>Squad</h3>
-          {Object.entries(
-            squad.reduce((acc, player) => {
-              const position = player.position || "Unknown";
-              if (!acc[position]) acc[position] = [];
-              acc[position].push(player);
-              return acc;
-            }, {})
-          ).map(([position, players]) => (
-            <div key={position} className="squad-group">
-              <h4>{position}</h4>
-              <ul className="squad-list">
-                {players.map((player) => (
-                  <li key={player.id}>
-                    <img
-                      src={player.photo}
-                      alt={player.name}
-                      className="player-photo"
-                    />
-                    {player.name} ({player.age} years)
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <div className="results">
-  
-  <div className="results-list">
-    <h3>Results</h3>
-    {pastFixtures.map((fixture) => {
-      const { id, date, teams, goals } = fixture;
-      const matchDate = new Date(fixture.fixture.date).toLocaleDateString("en-GB", {
-  year: "numeric",
-  month: "short",
-  day: "numeric",
-});
-      return (
-        <div key={id} className="result-item">
-          <strong>{matchDate}</strong>: {teams.home.name} {goals.home} - {goals.away} {teams.away.name}
-        </div>
-      );
-    })}
-  </div>
+      <Header />
 
-  
-  <div className="results-list">
-    <h3>Upcoming Fixtures</h3>
-    {upcomingFixtures.map((fixture) => {
-      const { id, date, teams } = fixture;
-      const matchDate = new Date(fixture.fixture.date).toLocaleDateString("en-GB", {
-  year: "numeric",
-  month: "short",
-  day: "numeric",
-});
-      return (
-        <div key={id} className="result-item">
-          <strong>{matchDate}</strong>: {teams.home.name} - {teams.away.name}
-        </div>
-      );
-    })}
-  </div>
-</div>
-      </div>
+      {loading ? (
+        <p>Loading team info...</p>
+      ) : !teamPage ? (
+        <p>Team not found.</p>
+      ) : (() => {
+        const { team, venue } = teamPage;
+
+        const pastFixtures = fixtures
+          .filter((fixture) => fixture.fixture.status.short === "FT")
+          .sort((a, b) => new Date(b.fixture.date) - new Date(a.fixture.date));
+
+        const upcomingFixtures = fixtures
+          .filter((fixture) => ["NS", "TBD"].includes(fixture.fixture.status.short))
+          .sort((a, b) => new Date(a.fixture.date) - new Date(b.fixture.date));
+
+        return (
+          <>
+            <div className="facts-container">
+              <img src={team.logo} alt="logo" className="team-info-logo" />
+              <div className="team-facts">
+                <h2>{team.name}</h2>
+                <p>Established {team.founded}</p>
+                <p>{venue.city}, {team.country}</p>
+                <p>{venue.name} - {venue.capacity}</p>
+              </div>
+            </div>
+
+            <div className="teaminfo-container">
+              <div className="squad">
+                <h3>Squad</h3>
+                {Object.entries(
+                  squad.reduce((acc, player) => {
+                    const position = player.position || "Unknown";
+                    if (!acc[position]) acc[position] = [];
+                    acc[position].push(player);
+                    return acc;
+                  }, {})
+                ).map(([position, players]) => (
+                  <div key={position} className="squad-group">
+                    <h4>{position}</h4>
+                    <ul className="squad-list">
+                      {players.map((player) => (
+                        <li key={player.id}>
+                          <img src={player.photo} alt={player.name} className="player-photo" />
+                          {player.name} ({player.age} years)
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+
+              <div className="results">
+                <div className="results-list">
+                  <h3>Results</h3>
+                  {pastFixtures.map((fixture) => {
+                    const matchDate = new Date(fixture.fixture.date).toLocaleDateString("en-GB", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    });
+                    return (
+                      <div key={fixture.fixture.id} className="result-item">
+                        <strong>{matchDate}</strong>: {fixture.teams.home.name} {fixture.goals.home} - {fixture.goals.away} {fixture.teams.away.name}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="results-list">
+                  <h3>Upcoming Fixtures</h3>
+                  {upcomingFixtures.map((fixture) => {
+                    const matchDate = new Date(fixture.fixture.date).toLocaleDateString("en-GB", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    });
+                    return (
+                      <div key={fixture.fixture.id} className="result-item">
+                        <strong>{matchDate}</strong>: {fixture.teams.home.name} - {fixture.teams.away.name}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </>
+        );
+      })()}
     </div>
   );
 };
