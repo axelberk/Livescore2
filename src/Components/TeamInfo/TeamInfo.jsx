@@ -17,36 +17,23 @@ const TeamInfo = () => {
     const fetchTeamData = async () => {
       try {
         const [teamRes, squadRes, fixturesRes] = await Promise.all([
-          axios.get("https://v3.football.api-sports.io/teams", {
-            headers: {
-              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-            },
-            params: { id: teamId },
-          }),
-          axios.get("https://v3.football.api-sports.io/players", {
-            headers: {
-              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-            },
-            params: {
-              team: teamId,
-              season: currentSeason,
-            },
-          }),
-          axios.get("https://v3.football.api-sports.io/fixtures", {
-            headers: {
-              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-            },
-            params: {
-              team: teamId,
-              season: currentSeason,
-            },
-          }),
-        ]);
+  axios.get("https://v3.football.api-sports.io/teams", {
+    headers: { "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY },
+    params: { id: teamId },
+  }),
+  axios.get("https://v3.football.api-sports.io/players/squads", {
+    headers: { "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY },
+    params: { team: teamId },
+  }),
+  axios.get("https://v3.football.api-sports.io/fixtures", {
+    headers: { "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY },
+    params: { team: teamId, season: currentSeason },
+  }),
+]);
 
-        setTeamPage(teamRes.data.response[0]);
-        const players = squadRes.data.response.map((entry) => entry.player);
-        setSquad(players);
-        setFixtures(fixturesRes.data.response);
+setTeamPage(teamRes.data.response[0]);
+setSquad(squadRes.data.response[0].players);
+setFixtures(fixturesRes.data.response);
       } catch (err) {
         console.error("Failed to fetch team data:", err);
       } finally {
@@ -100,7 +87,7 @@ const TeamInfo = () => {
                   }, {})
                 ).map(([position, players]) => (
                   <div key={position} className="squad-group">
-                    <h4>{position}</h4>
+                    <h4>{position}s</h4>
                     <ul className="squad-list">
                       {players.map((player) => (
                         <li key={player.id}>
