@@ -1,0 +1,37 @@
+.footer {
+    position:static;
+    width: 100%;
+   display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 48px;
+    background-color: rgb(218, 213, 213);
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 0px 8px;
+}
+
+.footer h4 {
+    font-weight: 500;
+}
+
+
+.ext-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+}
+
+.ext-links img {
+    max-height: 30px;
+    transition: all 0.2s ease-in-out;
+}
+
+.ext-links img:hover {
+    transform: scale(1.2);
+}

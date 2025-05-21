@@ -6,7 +6,7 @@ import Match from "./Components/Match/Match";
 import LeagueInfo from "./Components/LeagueInfo/LeagueInfo";
 import TeamInfo from "./Components/TeamInfo/TeamInfo";
 import { Routes, Route } from "react-router-dom";
-import Header from "./Components/Header/Header";
+import Footer from "./Components/Footer/Footer";
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -14,8 +14,6 @@ function App() {
 
   return (
     <div className="App">
-      
-
       <Routes>
         <Route
           path="/"
@@ -38,6 +36,7 @@ function App() {
         <Route path="/league/:leagueId" element={<LeagueInfo />} />
         <Route path="/team/:teamId" element={<TeamInfo />} />
       </Routes>
+      <Footer />
     </div>
   );
 }
