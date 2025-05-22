@@ -29,6 +29,15 @@ padding: 20px 0;
     text-align: left;
 }
 
+.squad h3 {
+  margin: 0px 10px 0px 0px;
+}
+
+.squad h4 {
+  margin: 0px 10px 0px 0px;
+  text-align: left;
+}
+
 .squad-list {
   list-style: none;
   padding: 0;
@@ -38,6 +47,7 @@ padding: 20px 0;
   display: flex;
   align-items: center;
   margin: 8px 0;
+  font-size: 14px;
 }
 
 .player-photo {
@@ -49,11 +59,68 @@ padding: 20px 0;
 
 .results {
   display: flex;
-  gap: 16px;
+  
   width: 50%;
+  font-size: 12.5px;
+}
+
+.results h3 {
+  margin: 0px 0px 6px 0px;
 }
 
 .results-list {
   text-align: left;
+  max-width: 50%;
+}
+
+.result-item .win {
+  background-color: #d4edda;
+  color: #155724;
  
+  border-radius: 4px;
+}
+
+.result-item .loss {
+  background-color: #f8d7da;
+  color: #721c24;
+ 
+  border-radius: 4px;
+}
+
+.result-item .draw {
+  background-color: #fff3cd;
+  color: #856404;
+  
+  border-radius: 4px;
+}
+
+.result-legend {
+  display: flex;
+ 
+  gap: 1rem;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  align-items: center;
+}
+
+.legend-item {
+  padding: 0.1rem 0.6rem;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.legend-item.win {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.legend-item.loss {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.legend-item.draw {
+  background-color: #fff3cd;
+  color: #856404;
 }

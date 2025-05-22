@@ -77,7 +77,7 @@ setFixtures(fixturesRes.data.response);
 
             <div className="teaminfo-container">
               <div className="squad">
-                <h3>Squad</h3>
+                {/* <h3>Squad</h3> */}
                 {Object.entries(
                   squad.reduce((acc, player) => {
                     const position = player.position || "Unknown";
@@ -103,18 +103,35 @@ setFixtures(fixturesRes.data.response);
               <div className="results">
                 <div className="results-list">
                   <h3>Results</h3>
+                  <div className="result-legend">
+  <span className="legend-item win">Win</span>
+  <span className="legend-item draw">Draw</span>
+  <span className="legend-item loss">Loss</span>
+</div>
                   {pastFixtures.map((fixture) => {
-                    const matchDate = new Date(fixture.fixture.date).toLocaleDateString("en-GB", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    });
-                    return (
-                      <div key={fixture.fixture.id} className="result-item">
-                        <strong>{matchDate}</strong>: {fixture.teams.home.name} {fixture.goals.home} - {fixture.goals.away} {fixture.teams.away.name}
-                      </div>
-                    );
-                  })}
+  const matchDate = new Date(fixture.fixture.date).toLocaleDateString("en-GB", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+
+  const isHome = fixture.teams.home.id == team.id;
+  const goalsFor = isHome ? fixture.goals.home : fixture.goals.away;
+  const goalsAgainst = isHome ? fixture.goals.away : fixture.goals.home;
+
+  let resultClass = "draw";
+  if (goalsFor > goalsAgainst) resultClass = "win";
+  else if (goalsFor < goalsAgainst) resultClass = "loss";
+
+  return (
+    <div key={fixture.fixture.id} className="result-item">
+      <strong>{matchDate}</strong>:{" "}
+      <span className={resultClass}>
+        {fixture.teams.home.name} {fixture.goals.home} - {fixture.goals.away} {fixture.teams.away.name}
+      </span>
+    </div>
+  );
+})}
                 </div>
 
                 <div className="results-list">
