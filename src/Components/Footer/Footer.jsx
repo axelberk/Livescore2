@@ -1,12 +1,11 @@
-import "./Footer.css"
+import "./Footer.css";
 
 const Footer = () => {
-    return (
-        <div className="footer">
-            <h4>&copy; 2025 - Designed & Built by Axel Bergquist</h4>
-            <div className="Contact" id="contact">
+  return (
+    <div className="footer">
+      <h4>&copy; 2025 - Designed & Built by Axel Bergquist</h4>
+      <div className="Contact" id="contact">
         <div className="ext-links">
-           
           <a
             href="https://www.linkedin.com/in/axel-bergquist-360940114/"
             target="_blank"
@@ -21,9 +20,8 @@ const Footer = () => {
           </a>
         </div>
       </div>
-        </div>
-        
-    )
-}
+    </div>
+  );
+};
 
-export default Footer
+export default Footer;

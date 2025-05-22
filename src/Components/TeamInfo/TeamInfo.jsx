@@ -54,8 +54,8 @@ const TeamInfo = () => {
         const teamStanding = standingsData.find(
           (entry) => entry.team.id == teamId
         );
+        
         setLeaguePosition(teamStanding?.rank || "N/A");
-
         setTeamPage(teamRes.data.response[0]);
         setSquad(squadRes.data.response[0].players);
         setFixtures(fixturesRes.data.response);
