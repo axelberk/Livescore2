@@ -17,16 +17,16 @@ gap: 100px;
 padding: 20px 0;
 }
 
-.team-facts-one {
+h2 {
 
 }
 
-.team-facts-one h2 {
+.team-facts h2 {
   text-align: left;
   margin-top: 0;
 }
 
-.team-facts-one p {
+.team-facts p {
     margin: 6px 0;
     text-align: left;
 }

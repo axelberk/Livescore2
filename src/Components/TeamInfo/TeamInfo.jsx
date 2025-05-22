@@ -99,7 +99,7 @@ const TeamInfo = () => {
             <>
               <div className="facts-container">
                 <img src={team.logo} alt="logo" className="team-info-logo" />
-                <div className="team-facts-one">
+                <div className="team-facts">
                   <h2>{team.name}</h2>
                   <p>Established {team.founded}</p>
                   <p>
@@ -111,8 +111,11 @@ const TeamInfo = () => {
 
                   <p>League position: {leaguePosition}</p>
                 </div>
-                <div className="team-facts-two">
-                  <p>Manager: {team.coach}</p>
+                <div className="team-facts">
+                  <p>Manager:</p>
+                  <p>League titles: </p>
+                  <p>European titles: {team.coach}</p>
+                  <p>Domestic titles: {team.coach}</p>
                 </div>
               </div>
 
