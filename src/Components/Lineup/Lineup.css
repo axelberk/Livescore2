@@ -46,13 +46,18 @@
 
 .player {
   background: rgba(255, 255, 255, 0.1);
-  padding: 0.2rem 0.2rem;
+  padding: 0.2rem 0.3rem;
   border-radius: 20px;
   /* margin: 0.7rem 0.5rem; */
   text-align: center;
   display: flex;
   align-items: center;
   cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.player:hover {
+  background-color: rgb(73, 167, 78);
 }
 
 .substitutes-box {
@@ -69,12 +74,17 @@
 
 .player-substitute {
   cursor: pointer;
+  object-fit: contain;
   font-size: 0.7rem;
   font-family: inherit;
   display: flex;
   align-items: center;
- 
-  
+ transition: 0.3s ease;
+  border-radius: 4px;
+}
+
+.player-substitute:hover {
+  background-color: rgb(73, 167, 78);
 }
 
 .substitutes-box h4 {

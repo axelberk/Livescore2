@@ -1,6 +1,5 @@
 import "./Lineup.css";
 import { useState } from "react";
-import CloseIcon from "@mui/icons-material/Close";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import LoopIcon from '@mui/icons-material/Loop';
 import PlayerModal from "../PlayerModal/PlayerModal";
@@ -8,8 +7,7 @@ import PlayerModal from "../PlayerModal/PlayerModal";
 const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [], substitutions = [] }) => {
   if (!team || !team.formation || !team.startXI) return null;
 
-  const [selectedPlayer, setSelectedPlayer] = useState(null);
-  const [closing, setClosing] = useState(false);
+   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
 
   const subbedOffIds = new Set(substitutions.map((subs) => subs.player_out?.id).filter(Boolean));
   const subbedOnIds = new Set(substitutions.map((subs) => subs.player_in?.id).filter(Boolean));
@@ -30,19 +28,13 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
   const orderedRows = isAway ? [...rows].reverse() : rows;
   const orderedGoalkeeper = goalkeeper;
 
-  const closeModal = () => {
-    setClosing(true);
-    setTimeout(() => {
-      setSelectedPlayer(null);
-      setClosing(false);
-    }, 200);
-  };
+  
 
    const renderRow = (row, rowIndex) => (
     <div key={rowIndex} className="formation-row">
       {(isAway ? [...row].reverse() : row).map((player, i) => (
-        <div key={i} className="player" onClick={() => setSelectedPlayer(player)}>
-          {player.name}
+        <div key={i} className="player" onClick={() => setSelectedPlayerId(player.id)}>
+          {player.number}. {player.name}
           {goalCounts.has(player.id) && (
             <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 1 }} />
             
@@ -58,8 +50,8 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
 
    const renderGoalkeeper = (keeper) => (
     <div className="goalkeeper">
-      <div className="player" onClick={() => setSelectedPlayer(keeper)}>
-        {keeper.name}
+      <div className="player" onClick={() => setSelectedPlayerId(keeper.id)}>
+        {keeper.number} . {keeper.name}
         {goalCounts.has(keeper.id) && (
           <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 1 }} />
         )}
@@ -86,9 +78,10 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
             <div
               key={i}
               className="player-substitute"
-              onClick={() => setSelectedPlayer(sub.player)}
+              onClick={() => setSelectedPlayerId(sub.player.id)}
             >
-              {sub.player.name}
+              {sub.player.number}. {sub.player.name}
+              
               {subbedOnIds.has(sub.player.id) && (
                 <LoopIcon fontSize="small" style={{ height:"14px" }} />
               )}
@@ -106,10 +99,11 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
         </div>
       )}
 
-      <PlayerModal
-      player={selectedPlayer}
-      isOpen={!!selectedPlayer}
-      onClose={() => setSelectedPlayer(null)}/>
+       <PlayerModal
+  playerId={selectedPlayerId}
+  isOpen={!!selectedPlayerId}
+  onClose={() => setSelectedPlayerId(null)}
+/>
     </div> 
   );
 };
