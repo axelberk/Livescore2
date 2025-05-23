@@ -3,6 +3,7 @@ import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import LoopIcon from '@mui/icons-material/Loop';
+import PlayerModal from "../PlayerModal/PlayerModal";
 
 const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [], substitutions = [] }) => {
   if (!team || !team.formation || !team.startXI) return null;
@@ -105,24 +106,11 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
         </div>
       )}
 
-      {selectedPlayer && (
-        <div className={`player-modal${closing ? " closing" : ""}`}>
-          <div className="modal-content">
-            <div className="button-header">
-              <button onClick={closeModal}>
-                <CloseIcon fontSize="small" />
-              </button>
-            </div>
-            <h3>{selectedPlayer.name}</h3>
-            <p>{selectedPlayer.statistics?.[0]?.games?.position || "Position unknown"}</p>
-            <p>Goals: {selectedPlayer.statistics?.[0]?.goals?.total ?? 0}</p>
-            <p>Assists: {selectedPlayer.statistics?.[0]?.goals?.assists ?? 0}</p>
-            <p>Age: {selectedPlayer.age || "?"}</p>
-            <p>Height: {selectedPlayer.height || "?"}</p>
-          </div>
-        </div>
-      )}
-    </div>
+      <PlayerModal
+      player={selectedPlayer}
+      isOpen={!!selectedPlayer}
+      onClose={() => setSelectedPlayer(null)}/>
+    </div> 
   );
 };
 
