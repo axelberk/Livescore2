@@ -11,7 +11,7 @@ const TeamInfo = () => {
   const [squad, setSquad] = useState(null);
   const [fixtures, setFixtures] = useState([]);
   const [leaguePosition, setLeaguePosition] = useState(null);
-  const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const [selectedPlayerId, setSelectedPlayerId] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -170,7 +170,7 @@ const TeamInfo = () => {
                           {players.map((player) => (
                             <li
                               key={player.id}
-                              onClick={() => setSelectedPlayer(player)}
+                              onClick={() => setSelectedPlayerId(player.id)}
                             >
                               <img
                                 src={player.photo}
@@ -184,10 +184,10 @@ const TeamInfo = () => {
                       </div>
                     ))}
                   <PlayerModal
-                    player={selectedPlayer}
-                    isOpen={!!selectedPlayer}
-                    onClose={() => setSelectedPlayer(null)}
-                  />
+  playerId={selectedPlayerId}
+  isOpen={!!selectedPlayerId}
+  onClose={() => setSelectedPlayerId(null)}
+/>
                 </div>
 
                 <div className="results">
