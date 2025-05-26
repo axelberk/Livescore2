@@ -36,11 +36,11 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
         <div key={i} className="player" onClick={() => setSelectedPlayerId(player.id)}>
           {player.number}. {player.name}
           {goalCounts.has(player.id) && (
-            <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 1 }} />
+            <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 0, marginRight: -2 }} />
             
           )}
           {subbedOffIds.has(player.id) && (
-            <LoopIcon fontSize="small" style={{  height:"14px"}} />
+            <LoopIcon fontSize="small" style={{  height:"14px", marginLeft: -1, marginRight: -2}} />
           )}
         </div>
       ))}
@@ -53,7 +53,7 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
       <div className="player" onClick={() => setSelectedPlayerId(keeper.id)}>
         {keeper.number} . {keeper.name}
         {goalCounts.has(keeper.id) && (
-          <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 1 }} />
+          <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 0 }} />
         )}
       </div>
     </div>
@@ -83,7 +83,7 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
               {sub.player.number}. {sub.player.name}
               
               {subbedOnIds.has(sub.player.id) && (
-                <LoopIcon fontSize="small" style={{ height:"14px" }} />
+                <LoopIcon fontSize="small" style={{ height:"12px" }} />
               )}
 {goalCounts.has(sub.player.id) &&
   Array.from({ length: goalCounts.get(sub.player.id) }).map((_, idx) => (

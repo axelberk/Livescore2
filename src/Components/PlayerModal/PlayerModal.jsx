@@ -52,6 +52,11 @@ const PlayerModal = ({ playerId, isOpen, onClose, team }) => {
   return (
     <div className={`player-modal${closing ? " closing" : ""}`}>
       <div className="button-header">
+        <img
+              src={player.player.photo}
+              alt={player.player.name}
+              className="player-photo-lg"
+            />
         <button onClick={handleClose}>
           <CloseIcon fontSize="small" />
         </button>
@@ -62,38 +67,46 @@ const PlayerModal = ({ playerId, isOpen, onClose, team }) => {
         ) : !player || !player.player ? (
           <p>Player data not available.</p>
         ) : (
+          
           <>
-            <img
-              src={player.player.photo}
-              alt={player.player.name}
-              className="player-photo-lg"
-            />
-            <div className="modal-facts">
-              <h3>
-                {player.player.firstname} {player.player.lastname}
-              </h3>
+          
+            
+            <h3 className="modal-name">
+                  {player.player.firstname} {player.player.lastname}
+                </h3>
+            <div className="modal-facts-container">
+              <div className="modal-facts">
+                
 
-              <p>
-                Position: {player.statistics?.[0]?.games?.position || "Unknown"}
-              </p>
-              <p>Age: {player.player.age ?? "?"}</p>
-              <p>Height: {player.player.height || "?"}</p>
-              <p>Weight: {player.player.weight || "?"}</p>
-              <p>Nationality: {player.player.nationality || "?"}</p>
-              <p>
-                Number:{" "}
-                {player?.statistics?.[0]?.games?.number ??
-                  player?.player?.number ??
-                  numberFromLineup ??
-                  "N/A"}
-              </p>
-              <p>
-                Appearances: {player.statistics?.[0]?.games?.appearences ?? 0}
-              </p>
-              <p>Goals: {player.statistics?.[0]?.goals?.total ?? 0}</p>
-              <p>Assists: {player.statistics?.[0]?.goals?.assists ?? 0}</p>
-              <p>Yellow Cards: {player.statistics?.[0]?.cards?.yellow ?? 0}</p>
-              <p>Red Cards: {player.statistics?.[0]?.cards?.red ?? 0}</p>
+                <p>
+                  Position:{" "}
+                  {player.statistics?.[0]?.games?.position || "Unknown"}
+                </p>
+                <p>Age: {player.player.age ?? "?"}</p>
+                <p>Height: {player.player.height || "?"}</p>
+                <p>Weight: {player.player.weight || "?"}</p>
+                <p>Nationality: {player.player.nationality || "?"}</p>
+                <p>
+                  Number:{" "}
+                  {player?.statistics?.[0]?.games?.number ??
+                    player?.player?.number ??
+                    numberFromLineup ??
+                    "N/A"}
+                </p>
+                
+              </div>
+              <div className="modal-facts">
+                  <p>
+                    Appearances:{" "}
+                    {player.statistics?.[0]?.games?.appearences ?? 0}
+                  </p>
+                  <p>Goals: {player.statistics?.[0]?.goals?.total ?? 0}</p>
+                  <p>Assists: {player.statistics?.[0]?.goals?.assists ?? 0}</p>
+                  <p>
+                    Yellow Cards: {player.statistics?.[0]?.cards?.yellow ?? 0}
+                  </p>
+                  <p>Red Cards: {player.statistics?.[0]?.cards?.red ?? 0}</p>
+                </div>
             </div>
           </>
         )}
