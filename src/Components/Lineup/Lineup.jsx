@@ -4,7 +4,7 @@ import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import LoopIcon from '@mui/icons-material/Loop';
 import PlayerModal from "../PlayerModal/PlayerModal";
 
-const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [], substitutions = [] }) => {
+const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [], substitutions = [] , isOpen}) => {
   if (!team || !team.formation || !team.startXI) return null;
 
    const [selectedPlayerId, setSelectedPlayerId] = useState(null);
@@ -60,6 +60,7 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
   );
 
   return (
+    
     <div className="lineup-wrapper">
       <div className="pitch" style={{ borderColor: color }}>
         <div className={`formation-display ${isAway ? "away-formation" : "home-formation"}`}>

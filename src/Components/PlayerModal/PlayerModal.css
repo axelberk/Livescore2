@@ -1,3 +1,15 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4); /* dark transparent overlay */
+  z-index: 999;
+  transition: opacity 0.2s ease;
+}
+
+
 .player-modal.closing {
   animation: popup-close 0.2s ease-in forwards;
 }
