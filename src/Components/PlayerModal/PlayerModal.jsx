@@ -100,7 +100,6 @@ const PlayerModal = ({ playerId, isOpen, onClose, team }) => {
                 </p>
                 {player.statistics?.[0]?.games?.position === "Goalkeeper" ? (
                   <>
-                    <p>Clean Sheets: {player.statistics?.[0]?.goals?.saves ?? 0}</p>
                     <p>Goals Conceded: {player.statistics?.[0]?.goals?.conceded ?? 0}</p>
                   </>
                 ) : (
