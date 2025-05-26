@@ -9,6 +9,8 @@ const PlayerModal = ({ playerId, isOpen, onClose, team }) => {
   const numberFromLineup = playerId?.number;
   const [loading, setLoading] = useState(true);
 
+  
+
   useEffect(() => {
     if (!playerId || !isOpen) return;
 
@@ -49,18 +51,22 @@ const PlayerModal = ({ playerId, isOpen, onClose, team }) => {
 
   if (!isOpen) return null;
 
+
+
   return (
     <div className={`player-modal${closing ? " closing" : ""}`}>
       <div className="button-header">
-        <img
-              src={player.player.photo}
-              alt={player.player.name}
-              className="player-photo-lg"
-            />
-        <button onClick={handleClose}>
-          <CloseIcon fontSize="small" />
-        </button>
-      </div>
+  {player?.player?.photo && (
+    <img
+      src={player.player.photo}
+      alt={player.player.name}
+      className="player-photo-lg"
+    />
+  )}
+  <button onClick={handleClose}>
+    <CloseIcon fontSize="small" />
+  </button>
+</div>
       <div className="modal-content">
         {loading ? (
           <p>Loading player info...</p>
@@ -100,8 +106,17 @@ const PlayerModal = ({ playerId, isOpen, onClose, team }) => {
                     Appearances:{" "}
                     {player.statistics?.[0]?.games?.appearences ?? 0}
                   </p>
-                  <p>Goals: {player.statistics?.[0]?.goals?.total ?? 0}</p>
-                  <p>Assists: {player.statistics?.[0]?.goals?.assists ?? 0}</p>
+                 {player.statistics?.[0]?.games?.position === "Goalkeeper" ? (
+  <>
+    <p>Clean Sheets: {player.statistics?.[0]?.goals?.saves ?? 0}</p>
+    <p>Goals Conceded: {player.statistics?.[0]?.goals?.conceded ?? 0}</p>
+  </>
+) : (
+  <>
+    <p>Goals: {player.statistics?.[0]?.goals?.total ?? 0}</p>
+    <p>Assists: {player.statistics?.[0]?.goals?.assists ?? 0}</p>
+  </>
+)}
                   <p>
                     Yellow Cards: {player.statistics?.[0]?.cards?.yellow ?? 0}
                   </p>
