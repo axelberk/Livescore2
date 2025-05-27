@@ -14,6 +14,7 @@ const TeamInfo = () => {
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [loading, setLoading] = useState(true);
+ const [coach, setCoach] = useState(null);
 
   useEffect(() => {
     const fetchTeamData = async () => {
@@ -53,7 +54,7 @@ const TeamInfo = () => {
           season = today.getFullYear();
         }
 
-        const [teamRes, squadRes, fixturesRes, standingsRes] =
+        const [teamRes, squadRes, fixturesRes, standingsRes, coachRes] =
           await Promise.all([
             axios.get("https://v3.football.api-sports.io/teams", {
               headers: {
@@ -83,7 +84,19 @@ const TeamInfo = () => {
                 league: leagueId,
               },
             }),
+            await axios.get(
+  "https://v3.football.api-sports.io/coachs",
+  {
+    headers: {
+      "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+    },
+    params: { team: teamId },
+  }
+)
+
           ]);
+
+         
 
         const standingsData =
           standingsRes.data.response[0]?.league?.standings[0] || [];
@@ -92,6 +105,7 @@ const TeamInfo = () => {
           (entry) => entry.team.id == teamId
         );
 
+        setCoach(coachRes.data.response[0] || null);
         setLeaguePosition(teamStanding?.rank || "N/A");
         setTeamPage(teamRes.data.response[0]);
         setSquad(squadRes.data.response[0].players);
@@ -147,7 +161,6 @@ const TeamInfo = () => {
                   <p>League position: {leaguePosition}</p>
                 </div>
                 <div className="team-facts">
-                  <p>Manager:</p>
                   <p>League titles: </p>
                   <p>European titles: </p>
                   <p>Domestic titles: </p>
@@ -166,7 +179,7 @@ const TeamInfo = () => {
                       }, {})
                     ).map(([position, players]) => (
                       <div key={position} className="squad-group">
-                        <h4>{position}s</h4>
+                        <h4 className="squad-type-title">{position}s</h4>
                         <ul className="squad-list">
                           {players.map((player) => (
                             <li
@@ -191,7 +204,22 @@ const TeamInfo = () => {
   onClose={() => setSelectedPlayer(null)}
 />
                 </div>
-
+                {coach && (
+                  
+  <div className="coach-info">
+    <h4 className="squad-type-title">Manager</h4>
+    <div className="coachphoto-name">
+    
+    <img
+      src={coach.photo}
+      alt={coach.name}
+      className="coach-photo"
+      style={{ width: "60px", borderRadius: "50%", marginBottom: "0.5rem" }}
+    />
+    <p>{coach.name}</p>
+    </div>
+  </div>
+)}
                 <div className="results">
                   <div className="results-list">
                     <h3>Results</h3>

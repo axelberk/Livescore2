@@ -37,7 +37,7 @@
   margin: 0px 10px 0px 0px;
 }
 
-.squad h4 {
+.squad-type-title {
   margin: 0px 10px 0px 0px;
   text-align: left;
 }
@@ -53,27 +53,12 @@
   margin: 2px 0;
   font-size: 14px;
   cursor: pointer;
+   border-radius: 14px;
 }
 
-.squad-columns {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  margin-top: 2rem;
-}
-
-.squad-column {
-  flex: 1;
-  min-width: 250px;
-}
-
-.squad-group {
-  margin-bottom: 1.5rem;
-}
-
-.squad-list {
-  list-style: none;
-  padding: 0;
+.squad-list li:hover {
+  background-color: #96cea3;
+ 
 }
 
 .player-photo {
@@ -84,11 +69,25 @@
   margin-right: 0.5rem;
 }
 
-.player-photo {
-  width: 30px;
-  height: 30px;
+.coach-info {
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.coachphoto-name {
+  display: flex;
+  flex-direction: row;
+  font-size: 18px;
+ 
+}
+
+.coach-photo {
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  margin-right: 10px;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
 }
 
 .results {
