@@ -33,7 +33,7 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
    const renderRow = (row, rowIndex) => (
     <div key={rowIndex} className="formation-row">
       {(isAway ? [...row].reverse() : row).map((player, i) => (
-        <div key={i} className="player" onClick={() => setSelectedPlayerId(player.id)}>
+        <div key={i} className="player" onClick={() => setSelectedPlayerId({ id: player.id, number: player.number })}>
           {player.number}. {player.name}
           {goalCounts.has(player.id) && (
             <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 0, marginRight: -2 }} />
@@ -50,7 +50,7 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
 
    const renderGoalkeeper = (keeper) => (
     <div className="goalkeeper">
-      <div className="player" onClick={() => setSelectedPlayerId(keeper.id)}>
+      <div className="player" onClick={() => setSelectedPlayerId({ id: keeper.id, number: keeper.number })}>
         {keeper.number} . {keeper.name}
         {goalCounts.has(keeper.id) && (
           <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 0 }} />
@@ -79,7 +79,7 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
             <div
               key={i}
               className="player-substitute"
-              onClick={() => setSelectedPlayerId(sub.player.id)}
+              onClick={() => setSelectedPlayerId({ id: sub.player.id, number: sub.player.number })}
             >
               {sub.player.number}. {sub.player.name}
               
@@ -101,7 +101,8 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
       )}
 
        <PlayerModal
-  playerId={selectedPlayerId}
+  playerId={selectedPlayerId?.id}
+  squadNumber={selectedPlayerId?.number}
   isOpen={!!selectedPlayerId}
   onClose={() => setSelectedPlayerId(null)}
 />

@@ -3,10 +3,10 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
-const PlayerModal = ({ playerId, isOpen, onClose, team }) => {
+const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
   const [closing, setClosing] = useState(false);
   const [player, setPlayer] = useState(null);
-  const numberFromLineup = playerId?.number;
+  const numberFromLineup = squadNumber;
   const [loading, setLoading] = useState(true);
 
   
@@ -76,23 +76,22 @@ const PlayerModal = ({ playerId, isOpen, onClose, team }) => {
           <p>Player data not available.</p>
         ) : (
           <>
-            <h3 className="modal-name">
+            <h2 className="modal-name">
+              {player?.statistics?.[0]?.games?.number ?? player?.player?.number ?? numberFromLineup ?? "N/A"}
+              {". "}
               {player.player.firstname} {player.player.lastname}
-            </h3>
+            </h2>
             <div className="modal-facts-container">
               <div className="modal-facts">
                 <p>Position: {player.statistics?.[0]?.games?.position || "Unknown"}</p>
-                <p>Age: {player.player.age ?? "?"}</p>
-                <p>Height: {player.player.height || "?"}</p>
-                <p>Weight: {player.player.weight || "?"}</p>
-                <p>Nationality: {player.player.nationality || "?"}</p>
-                <p>
-                  Number:{" "}
-                  {player?.statistics?.[0]?.games?.number ??
-                    player?.player?.number ??
-                    numberFromLineup ??
-                    "N/A"}
-                </p>
+                <p>Age: {player.player.age ?? "N/A"}</p>
+                <p>Height: {player.player.height || "N/A"}</p>
+                <p>Weight: {player.player.weight || "N/A"}</p>
+                <p>Nationality: {player.player.nationality || "N/A"}</p>
+                {/* <p>
+                  Squad number:{" "}
+                  {player?.statistics?.[0]?.games?.number ?? player?.player?.number ?? numberFromLineup ?? "N/A"}
+                </p> */}
               </div>
               <div className="modal-facts">
                 <p>

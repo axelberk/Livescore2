@@ -55,6 +55,35 @@
   cursor: pointer;
 }
 
+.squad-columns {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.squad-column {
+  flex: 1;
+  min-width: 250px;
+}
+
+.squad-group {
+  margin-bottom: 1.5rem;
+}
+
+.squad-list {
+  list-style: none;
+  padding: 0;
+}
+
+.player-photo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+
 .player-photo {
   width: 30px;
   height: 30px;
