@@ -106,16 +106,6 @@ const TeamInfo = () => {
     fetchTeamData();
   }, [teamId]);
 
-  const leftGroups = ["Goalkeeper", "Defender"];
-const rightGroups = ["Midfielder", "Attacker"]; // or "Forward"
-
-const groupedPlayers = squad.reduce((acc, player) => {
-  const pos = player.position || "Unknown";
-  if (!acc[pos]) acc[pos] = [];
-  acc[pos].push(player);
-  return acc;
-}, {});
-
   return (
     <div className="team-info-main">
       <Header />
@@ -274,58 +264,3 @@ const groupedPlayers = squad.reduce((acc, player) => {
 export default TeamInfo;
 
 
-// <div className="squad-columns">
-//   <div className="squad-column">
-//     {leftGroups.map((pos) =>
-//       groupedPlayers[pos] ? (
-//         <div key={pos} className="squad-group">
-//           <h4>{pos}s</h4>
-//           <ul className="squad-list">
-//             {groupedPlayers[pos].map((player) => (
-//               <li
-//                 key={player.id}
-//                 onClick={() =>
-//                   setSelectedPlayer({ id: player.id, number: player.number })
-//                 }
-//               >
-//                 <img
-//                   src={player.photo}
-//                   alt={player.name}
-//                   className="player-photo"
-//                 />
-//                 {player.name} ({player.age} years)
-//               </li>
-//             ))}
-//           </ul>
-//         </div>
-//       ) : null
-//     )}
-//   </div>
-
-//   <div className="squad-column">
-//     {rightGroups.map((pos) =>
-//       groupedPlayers[pos] ? (
-//         <div key={pos} className="squad-group">
-//           <h4>{pos}s</h4>
-//           <ul className="squad-list">
-//             {groupedPlayers[pos].map((player) => (
-//               <li
-//                 key={player.id}
-//                 onClick={() =>
-//                   setSelectedPlayer({ id: player.id, number: player.number })
-//                 }
-//               >
-//                 <img
-//                   src={player.photo}
-//                   alt={player.name}
-//                   className="player-photo"
-//                 />
-//                 {player.name} ({player.age} years)
-//               </li>
-//             ))}
-//           </ul>
-//         </div>
-//       ) : null
-//     )}
-//   </div>
-// </div>
