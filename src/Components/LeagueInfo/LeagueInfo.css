@@ -1,0 +1,12 @@
+.league-container {
+    text-align: left;
+  
+}
+
+.league-table {
+    width: 50%;
+}
+
+.league-phase {
+border: 1px solid black;
+}

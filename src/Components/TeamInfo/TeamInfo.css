@@ -94,7 +94,8 @@
   display: flex;
 
   width: 50%;
-  font-size: 12.5px;
+  font-size: 13px;
+  gap: 16px;
 }
 
 .results h3 {
