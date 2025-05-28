@@ -68,6 +68,12 @@
   gap: 10px;
 }
 
+.modal-facts p {
+  font-size: 13px;
+  margin: 0;
+  text-align: left;
+}
+
 .fact-span {
   font-weight: 700;
 }
@@ -78,7 +84,3 @@
   border-radius: 8px;
 }
 
-.modal-content p {
-  margin: 0;
-  text-align: left;
-}
