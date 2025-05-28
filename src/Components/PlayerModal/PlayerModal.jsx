@@ -27,7 +27,9 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
               id: playerId,
               season: "2024",
             },
+            
           }
+          
         );
         setPlayer(res.data.response[0] || null);
       } catch (err) {
@@ -37,7 +39,7 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
         setLoading(false);
       }
     };
-
+    
     fetchPlayer();
   }, [playerId, isOpen]);
 
@@ -83,15 +85,12 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
             </h2>
             <div className="modal-facts-container">
               <div className="modal-facts">
+                {/* <p>Age: {player.player.age ?? "N/A"}</p> */}
+                <p>Date of birth: {player.player.birth.date} ({player.player.age} years)</p>
                 <p>Position: {player.statistics?.[0]?.games?.position || "Unknown"}</p>
-                <p>Age: {player.player.age ?? "N/A"}</p>
                 <p>Height: {player.player.height || "N/A"}</p>
                 <p>Weight: {player.player.weight || "N/A"}</p>
                 <p>Nationality: {player.player.nationality || "N/A"}</p>
-                {/* <p>
-                  Squad number:{" "}
-                  {player?.statistics?.[0]?.games?.number ?? player?.player?.number ?? numberFromLineup ?? "N/A"}
-                </p> */}
               </div>
               <div className="modal-facts">
                 <p>
