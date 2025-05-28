@@ -85,29 +85,28 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
             </h2>
             <div className="modal-facts-container">
               <div className="modal-facts">
-                {/* <p>Age: {player.player.age ?? "N/A"}</p> */}
-                <p>Date of birth: {player.player.birth.date} ({player.player.age} years)</p>
-                <p>Position: {player.statistics?.[0]?.games?.position || "Unknown"}</p>
-                <p>Height: {player.player.height || "N/A"}</p>
-                <p>Weight: {player.player.weight || "N/A"}</p>
-                <p>Nationality: {player.player.nationality || "N/A"}</p>
+                <p>Date of birth: <span className="fact-span">{player.player.birth.date} ({player.player.age} years)</span></p>
+                <p>Position: <span className="fact-span">{player.statistics?.[0]?.games?.position || "Unknown"}</span></p>
+                <p>Height: <span className="fact-span">{player.player.height || "N/A"}</span></p>
+                <p>Weight: <span className="fact-span">{player.player.weight || "N/A"}</span></p>
+                <p>Nationality: <span className="fact-span">{player.player.nationality || "N/A"}</span></p>
               </div>
               <div className="modal-facts">
                 <p>
-                  Appearances: {player.statistics?.[0]?.games?.appearences ?? 0}
+                  Appearances: <span className="fact-span">{player.statistics?.[0]?.games?.appearences ?? 0}</span>
                 </p>
                 {player.statistics?.[0]?.games?.position === "Goalkeeper" ? (
                   <>
-                    <p>Goals Conceded: {player.statistics?.[0]?.goals?.conceded ?? 0}</p>
+                    <p>Goals Conceded: <span className="fact-span">{player.statistics?.[0]?.goals?.conceded ?? 0}</span></p>
                   </>
                 ) : (
                   <>
-                    <p>Goals: {player.statistics?.[0]?.goals?.total ?? 0}</p>
-                    <p>Assists: {player.statistics?.[0]?.goals?.assists ?? 0}</p>
+                    <p>Goals: <span className="fact-span">{player.statistics?.[0]?.goals?.total ?? 0}</span></p>
+                    <p>Assists: <span className="fact-span">{player.statistics?.[0]?.goals?.assists ?? 0}</span></p>
                   </>
                 )}
-                <p>Yellow Cards: {player.statistics?.[0]?.cards?.yellow ?? 0}</p>
-                <p>Red Cards: {player.statistics?.[0]?.cards?.red ?? 0}</p>
+                <p>Yellow Cards: <span className="fact-span">{player.statistics?.[0]?.cards?.yellow ?? 0}</span></p>
+                <p>Red Cards: <span className="fact-span">{player.statistics?.[0]?.cards?.red ?? 0}</span></p>
               </div>
             </div>
           </>
