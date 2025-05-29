@@ -10,3 +10,12 @@
 .league-phase {
 border: 1px solid black;
 }
+
+.top-scorers {
+    text-align: left;
+}
+
+.top-scorers li {
+ 
+    padding-inline-start: 0px;
+}
