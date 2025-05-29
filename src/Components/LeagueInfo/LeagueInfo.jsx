@@ -14,17 +14,22 @@ const LeagueInfo = () => {
   useEffect(() => {
     const fetchLeague = async () => {
       try {
-        const res = await axios.get("https://v3.football.api-sports.io/leagues", {
-          headers: {
-            "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-          },
-          params: { id: leagueId },
-        });
+        const res = await axios.get(
+          "https://v3.football.api-sports.io/leagues",
+          {
+            headers: {
+              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+            },
+            params: { id: leagueId },
+          }
+        );
 
         const leagueData = res.data.response[0];
         setLeague(leagueData);
 
-        const currentSeason = leagueData.seasons.find(season => season.current)?.year;
+        const currentSeason = leagueData.seasons.find(
+          (season) => season.current
+        )?.year;
         setSeasonYear(currentSeason);
       } catch (err) {
         console.error("Failed to fetch league info:", err);
@@ -67,16 +72,22 @@ const LeagueInfo = () => {
   if (!league) return <div>Loading league info...</div>;
 
   return (
-    <div>
+    <div className="league-info">
       <Header />
-      <h2>{league.league.name}</h2>
-      <img src={league.league.logo} alt="League logo" style={{ height: 40 }} />
-      <p>Current Season: {seasonYear}</p>
+      <div className="leagueinfo-header">
+        <img
+          src={league.league.logo}
+          alt="League logo"
+          style={{ height: 40 }}
+        />
+        <h2>{league.league.name}</h2>
+      </div>
+      <p className="league-season">Season: {seasonYear}</p>
 
       <div className="league-container">
         <h3>League Phase</h3>
         <div className="league-table">
-          {standings.map(team => (
+          {standings.map((team) => (
             <div key={team.team.id} className="league-phase">
               {team.rank}. {team.team.name} - {team.points} pts
             </div>
@@ -87,9 +98,10 @@ const LeagueInfo = () => {
       <div className="top-scorers">
         <h3>Top Scorers</h3>
         <ol>
-          {topScorers.map(player => (
+          {topScorers.map((player) => (
             <li key={player.player.id}>
-              {player.player.name} ({player.statistics[0].team.name}) - {player.statistics[0].goals.total} goals
+              {player.player.name} ({player.statistics[0].team.name}) -{" "}
+              {player.statistics[0].goals.total} goals
             </li>
           ))}
         </ol>

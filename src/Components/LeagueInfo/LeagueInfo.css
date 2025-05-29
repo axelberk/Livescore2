@@ -1,21 +1,37 @@
-.league-container {
+
+
+.leagueinfo-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+}
+
+.leagueinfo-header h2 {
+    margin: 8px 0px;
+}
+
+.league-season {
     text-align: left;
-  
+}
+
+.league-container {
+  text-align: left;
 }
 
 .league-table {
-    width: 50%;
+  width: 50%;
 }
 
 .league-phase {
-border: 1px solid black;
+  border: 1px solid black;
 }
 
 .top-scorers {
-    text-align: left;
+  text-align: left;
 }
 
 .top-scorers li {
- 
-    padding-inline-start: 0px;
+  padding-inline-start: 0px;
 }
