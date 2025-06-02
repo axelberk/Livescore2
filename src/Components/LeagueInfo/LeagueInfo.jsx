@@ -82,7 +82,7 @@ const LeagueInfo = () => {
         />
         <h2>{league.league.name}</h2>
       </div>
-      <img src={league.league.flag} style={{ height: 40 }} alt="league-country" />
+     
       <p className="league-season">Season: {seasonYear}</p>
 
      <div className="league-container">
@@ -97,6 +97,7 @@ const LeagueInfo = () => {
         <th>D</th>
         <th>L</th>
         <th>PTS</th>
+         <th>Note</th>
       </tr>
     </thead>
     <tbody>
@@ -109,6 +110,9 @@ const LeagueInfo = () => {
           <td>{team.all.draw}</td>
           <td>{team.all.lose}</td>
           <td>{team.points}</td>
+         <td style={{ backgroundColor: team.description?.includes("Champions League") ? "#00FF00" : "inherit" }}>
+  {team.description || "-"}
+</td>
         </tr>
       ))}
     </tbody>
