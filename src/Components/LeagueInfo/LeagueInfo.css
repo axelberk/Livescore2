@@ -18,14 +18,30 @@
 
 .league-container {
   text-align: left;
+  
 }
 
 .league-table {
   width: 50%;
 }
 
+.table-legend  tr {
+  display: flex;
+  justify-content: space-between;
+
+}
+
 .league-phase {
   border: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 35px;
+ 
+}
+
+.league-phase tr {
+  display: flex;
 }
 
 .top-scorers {

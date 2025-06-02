@@ -82,18 +82,38 @@ const LeagueInfo = () => {
         />
         <h2>{league.league.name}</h2>
       </div>
+      <img src={league.league.flag} style={{ height: 40 }} alt="league-country" />
       <p className="league-season">Season: {seasonYear}</p>
 
-      <div className="league-container">
-        <h3>League Phase</h3>
-        <div className="league-table">
-          {standings.map((team) => (
-            <div key={team.team.id} className="league-phase">
-              {team.rank}. {team.team.name} - {team.points} pts
-            </div>
-          ))}
-        </div>
-      </div>
+     <div className="league-container">
+  <h3>League Table</h3>
+  <table className="league-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Team</th>
+        <th>GP</th>
+        <th>W</th>
+        <th>D</th>
+        <th>L</th>
+        <th>PTS</th>
+      </tr>
+    </thead>
+    <tbody>
+      {standings.map((team) => (
+        <tr key={team.team.id}>
+          <td>{team.rank}</td>
+          <td>{team.team.name}</td>
+          <td>{team.all.played}</td>
+          <td>{team.all.win}</td>
+          <td>{team.all.draw}</td>
+          <td>{team.all.lose}</td>
+          <td>{team.points}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
 
       <div className="top-scorers">
         <h3>Top Scorers</h3>
