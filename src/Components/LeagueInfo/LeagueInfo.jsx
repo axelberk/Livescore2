@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../Header/Header";
+import TeamInfo from "../TeamInfo/TeamInfo";
 
 const LeagueInfo = () => {
   const { leagueId } = useParams();
@@ -10,6 +11,17 @@ const LeagueInfo = () => {
   const [standings, setStandings] = useState([]);
   const [topScorers, setTopScorers] = useState([]);
   const [seasonYear, setSeasonYear] = useState(null);
+
+  const getDescriptionColor = (description) => {
+    if (!description) return "inherit";
+
+    if (description.includes("Champions League")) return "#4CAF50";
+    if (description.includes("Europa League")) return "#6495ED";
+    if (description.includes("Conference League")) return "#F0E68C";
+    if (description.includes("Relegation")) return "#F44336";
+    if (description.includes("Promotion")) return "#FF9800";
+    return "#E0E0E0";
+  };
 
   useEffect(() => {
     const fetchLeague = async () => {
@@ -82,42 +94,45 @@ const LeagueInfo = () => {
         />
         <h2>{league.league.name}</h2>
       </div>
-     
+
       <p className="league-season">Season: {seasonYear}</p>
 
-     <div className="league-container">
-  <h3>League Table</h3>
-  <table className="league-table">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Team</th>
-        <th>GP</th>
-        <th>W</th>
-        <th>D</th>
-        <th>L</th>
-        <th>PTS</th>
-         <th>Note</th>
-      </tr>
-    </thead>
-    <tbody>
-      {standings.map((team) => (
-        <tr key={team.team.id}>
-          <td>{team.rank}</td>
-          <td>{team.team.name}</td>
-          <td>{team.all.played}</td>
-          <td>{team.all.win}</td>
-          <td>{team.all.draw}</td>
-          <td>{team.all.lose}</td>
-          <td>{team.points}</td>
-         <td style={{ backgroundColor: team.description?.includes("Champions League") ? "#00FF00" : "inherit" }}>
-  {team.description || "-"}
-</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
+      <div className="league-container">
+        <h3>League Table</h3>
+        <table className="league-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Team</th>
+              <th>GP</th>
+              <th>W</th>
+              <th>D</th>
+              <th>L</th>
+              <th>PTS</th>
+              <th>Qualification or relegation</th>
+            </tr>
+          </thead>
+          <tbody>
+            {standings.map((team) => (
+              <tr
+                key={team.team.id}
+                style={{
+                  backgroundColor: getDescriptionColor(team.description),
+                }}
+              >
+                <td>{team.rank}</td> 
+                <td> {team.team.name}</td>
+                <td>{team.all.played}</td>
+                <td>{team.all.win}</td>
+                <td>{team.all.draw}</td>
+                <td>{team.all.lose}</td>
+                <td>{team.points}</td>
+                <td>{team.description || "-"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <div className="top-scorers">
         <h3>Top Scorers</h3>
