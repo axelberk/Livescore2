@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../Header/Header";
 import TeamInfo from "../TeamInfo/TeamInfo";
+import { Link } from "react-router-dom";
 
 const LeagueInfo = () => {
   const { leagueId } = useParams();
@@ -11,6 +12,7 @@ const LeagueInfo = () => {
   const [standings, setStandings] = useState([]);
   const [topScorers, setTopScorers] = useState([]);
   const [seasonYear, setSeasonYear] = useState(null);
+  const [topAssists, setTopAssists] = useState([])
 
   const getDescriptionColor = (description) => {
     if (!description) return "inherit";
@@ -56,7 +58,7 @@ const LeagueInfo = () => {
 
     const fetchDetails = async () => {
       try {
-        const [standingsRes, scorersRes] = await Promise.all([
+        const [standingsRes, scorersRes, assistsRes] = await Promise.all([
           axios.get("https://v3.football.api-sports.io/standings", {
             headers: {
               "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
@@ -69,10 +71,17 @@ const LeagueInfo = () => {
             },
             params: { league: leagueId, season: seasonYear },
           }),
+          axios.get("https://v3.football.api-sports.io/players/topassists", {
+            headers: {
+              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+            },
+            params: { league: leagueId, season: seasonYear },
+          }),
         ]);
 
         setStandings(standingsRes.data.response[0]?.league?.standings[0] || []);
         setTopScorers(scorersRes.data.response || []);
+        setTopAssists(assistsRes.data.response || []);
       } catch (err) {
         console.error("Failed to fetch standings or top scorers:", err);
       }
@@ -133,7 +142,7 @@ const LeagueInfo = () => {
           </tbody>
         </table>
       </div>
-
+      <div className="goals-assists">
       <div className="top-scorers">
         <h3>Top Scorers</h3>
         <ol>
@@ -144,6 +153,18 @@ const LeagueInfo = () => {
             </li>
           ))}
         </ol>
+      </div>
+      <div className="top-assists">
+          <h3>Assists</h3>
+          <ol>
+            {topAssists.map((player) => (
+              <li key={player.player.id}>
+                {player.player.name} ({player.statistics[0].team.name}) -{" "}
+                {player.statistics[0].goals.assists} assists
+              </li>
+            ))}
+          </ol>
+      </div>
       </div>
     </div>
   );

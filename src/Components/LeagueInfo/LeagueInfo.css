@@ -39,9 +39,18 @@
   font-weight: bold;
 }
 
+.goals-assists {
+  display: flex;
+}
+
 .top-scorers {
   text-align: left;
 }
+
+.top-assists {
+  text-align: left;
+}
+
 
 .top-scorers li {
   padding-inline-start: 0px;
