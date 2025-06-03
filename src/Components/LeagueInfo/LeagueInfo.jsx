@@ -144,27 +144,61 @@ const LeagueInfo = () => {
       </div>
       <div className="goals-assists">
       <div className="top-scorers">
-        <h3>Top Scorers</h3>
-        <ol>
-          {topScorers.map((player) => (
+  <h3>Top Scorers</h3>
+  <ol style={{ listStyleType: "none", paddingLeft: 0 }}>
+    {(() => {
+      let lastGoals = null;
+      let displayRank = 0;
+      let actualIndex = 0;
+
+      return topScorers
+        .sort((a, b) => (b.statistics[0].goals.total ?? 0) - (a.statistics[0].goals.total ?? 0))
+        .map((player, index, arr) => {
+          actualIndex += 1;
+          const goals = player.statistics[0].goals.total ?? 0;
+          if (goals !== lastGoals) {
+            displayRank = actualIndex;
+            lastGoals = goals;
+          }
+
+          return (
             <li key={player.player.id}>
-              {player.player.name} ({player.statistics[0].team.name}) -{" "}
-              {player.statistics[0].goals.total} goals
+              {displayRank}. {player.player.name} ({player.statistics[0].team.name}) – {goals} goals
             </li>
-          ))}
-        </ol>
-      </div>
+          );
+        });
+    })()}
+  </ol>
+</div>
+
       <div className="top-assists">
-          <h3>Assists</h3>
-          <ol>
-            {topAssists.map((player) => (
-              <li key={player.player.id}>
-                {player.player.name} ({player.statistics[0].team.name}) -{" "}
-                {player.statistics[0].goals.assists} assists
-              </li>
-            ))}
-          </ol>
-      </div>
+  <h3>Assists</h3>
+  <ol style={{ listStyleType: "none", paddingLeft: 10 }}>
+    {(() => {
+      let lastGoals = null;
+      let displayRank = 0;
+      let actualIndex = 0;
+
+      return topScorers
+        .sort((a, b) => (b.statistics[0].goals.assists ?? 0) - (a.statistics[0].goals.assists ?? 0))
+        .map((player, index, arr) => {
+          actualIndex += 1;
+          const goals = player.statistics[0].goals.assists ?? 0;
+          if (goals !== lastGoals) {
+            displayRank = actualIndex;
+            lastGoals = goals;
+          }
+
+          return (
+            <li key={player.player.id}>
+              {displayRank}. {player.player.name} ({player.statistics[0].team.name}) – {goals} assists
+            </li>
+          );
+        });
+    })()}
+  </ol>
+</div>
+
       </div>
     </div>
   );
