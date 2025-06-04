@@ -5,6 +5,7 @@ import axios from "axios";
 import Header from "../Header/Header";
 import TeamInfo from "../TeamInfo/TeamInfo";
 import { Link } from "react-router-dom";
+import { styled } from "@mui/material";
 
 const LeagueInfo = () => {
   const { leagueId } = useParams();
@@ -83,7 +84,7 @@ const LeagueInfo = () => {
               headers: {
                 "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
               },
-              params: { league: leagueId, season: seasonYear,  },
+              params: { league: leagueId, season: seasonYear },
             }),
           ]);
 
@@ -139,7 +140,11 @@ const LeagueInfo = () => {
                 }}
               >
                 <td>{team.rank}</td>
-                <td> {team.team.name}</td>
+                <td>
+                  <Link to={`/team/${team.team.id}`} className="table-team">
+                    {team.team.name}
+                  </Link>
+                </td>
                 <td>{team.all.played}</td>
                 <td>{team.all.win}</td>
                 <td>{team.all.draw}</td>
@@ -154,7 +159,159 @@ const LeagueInfo = () => {
       <div className="goals-assists">
         <div className="top-scorers">
           <h3>Top Scorers</h3>
-          <ol style={{ listStyleType: "none", paddingLeft: 0 }}>
+          <table className="individual-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Player</th>
+                <th>Team</th>
+                <th>Goals</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(() => {
+                let lastGoals = null;
+                let displayRank = 0;
+                let actualIndex = 0;
+
+                return topScorers
+                  .sort(
+                    (a, b) =>
+                      (b.statistics[0].goals.total ?? 0) -
+                      (a.statistics[0].goals.total ?? 0)
+                  )
+                  .slice(0, 10)
+                  .map((player) => {
+                    actualIndex++;
+                    const goals = player.statistics[0].goals.total ?? 0;
+                    if (goals !== lastGoals) {
+                      displayRank = actualIndex;
+                      lastGoals = goals;
+                    }
+
+                    return (
+                      <tr key={player.player.id}>
+                        <td>{displayRank}</td>
+                        <td>{player.player.name}</td>
+                        <td>{player.statistics[0].team.name}</td>
+                        <td className="individual-number">{goals}</td>
+                      </tr>
+                    );
+                  });
+              })()}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="top-assists">
+          <h3>Top Assists</h3>
+          <table className="individual-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Player</th>
+                <th>Team</th>
+                <th>Assists</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(() => {
+                let lastAssists = null;
+                let displayRank = 0;
+                let actualIndex = 0;
+
+                return topAssists
+                  .sort(
+                    (a, b) =>
+                      (b.statistics[0].goals.assists ?? 0) -
+                      (a.statistics[0].goals.assists ?? 0)
+                  )
+                  .slice(0, 10)
+                  .map((player) => {
+                    actualIndex++;
+                    const assists = player.statistics[0].goals.assists ?? 0;
+                    if (assists !== lastAssists) {
+                      displayRank = actualIndex;
+                      lastAssists = assists;
+                    }
+
+                    return (
+                      <tr key={player.player.id}>
+                        <td>{displayRank}</td>
+                        <td>{player.player.name}</td>
+                        <td>{player.statistics[0].team.name}</td>
+                        <td className="individual-number">{assists}</td>
+                      </tr>
+                    );
+                  });
+              })()}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="top-red-cards">
+          <h3>Red Cards</h3>
+          <table className="individual-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Player</th>
+                <th>Team</th>
+                <th>Reds</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(() => {
+                let lastRed = null;
+                let displayRank = 0;
+                let actualIndex = 0;
+
+                return redCards
+                  .sort(
+                    (a, b) =>
+                      (b.statistics[0].cards.red ?? 0) -
+                      (a.statistics[0].cards.red ?? 0)
+                  )
+                  .filter((player) => (player.statistics[0].cards.red ?? 0) > 0)
+                  .slice(0, 10)
+                  .map((player) => {
+                    actualIndex++;
+                    const red = player.statistics[0].cards.red ?? 0;
+                    if (red !== lastRed) {
+                      displayRank = actualIndex;
+                      lastRed = red;
+                    }
+
+                    return (
+                      <tr key={player.player.id}>
+                        <td>{displayRank}</td>
+                        <td>{player.player.name}</td>
+                        <td>{player.statistics[0].team.name}</td>
+                        <td className="individual-number">{red}</td>
+                      </tr>
+                    );
+                  });
+              })()}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LeagueInfo;
+
+{
+  /* <table className="top-players">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Player</th>
+              <th>Goals</th>
+            </tr>
+          </thead>
+          <tbody>
             {(() => {
               let lastGoals = null;
               let displayRank = 0;
@@ -183,80 +340,6 @@ const LeagueInfo = () => {
                   );
                 });
             })()}
-          </ol>
-        </div>
-
-        <div className="top-assists">
-          <h3>Assists</h3>
-          <ol style={{ listStyleType: "none", paddingLeft: 10 }}>
-            {(() => {
-              let lastGoals = null;
-              let displayRank = 0;
-              let actualIndex = 0;
-
-              return topAssists
-                .sort(
-                  (a, b) =>
-                    (b.statistics[0].goals.assists ?? 0) -
-                    (a.statistics[0].goals.assists ?? 0)
-                )
-                 .slice(0, 10)
-                .map((player, index, arr) => {
-                  actualIndex += 1;
-                  const goals = player.statistics[0].goals.assists ?? 0;
-                  if (goals !== lastGoals) {
-                    displayRank = actualIndex;
-                    lastGoals = goals;
-                  }
-
-                  return (
-                    <li key={player.player.id}>
-                      {displayRank}. {player.player.name} (
-                      {player.statistics[0].team.name}) – {goals} assists
-                    </li>
-                  );
-                });
-            })()}
-          </ol>
-        </div>
-        <div className="top-assists">
-          <h3>Red Cards</h3>
-          <ol style={{ listStyleType: "none", paddingLeft: 10 }}>
-            {(() => {
-              let lastCards = null;
-              let displayRank = 0;
-              let actualIndex = 0;
-
-              return redCards
-                .sort(
-                  (a, b) =>
-                    (b.statistics[0].cards.red ?? 0) -
-                    (a.statistics[0].cards.red ?? 0)
-                )
-                 .slice(0, 10)
-                .filter((player) => player?.statistics?.[0]?.cards?.red > 0)
-                .map((player, index) => {
-                  actualIndex += 1;
-                  const red = player.statistics[0].cards.red ?? 0;
-                  if (red !== lastCards) {
-                    displayRank = actualIndex;
-                    lastCards = red;
-                  }
-
-                  return (
-                    <li key={player.player.id}>
-                      {displayRank}. {player.player.name} (
-                      {player.statistics[0].team.name}) – {red} red card
-                      {red > 1 ? "s" : ""}
-                    </li>
-                  );
-                });
-            })()}
-          </ol>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default LeagueInfo;
+          </tbody>
+        </table> */
+}

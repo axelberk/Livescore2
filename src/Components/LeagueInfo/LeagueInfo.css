@@ -39,15 +39,36 @@
   font-weight: bold;
 }
 
-.goals-assists {
-  display: flex;
+.table-team {
+text-decoration: none;
+color: inherit;
+
 }
 
-.top-scorers {
+.table-team:hover {
+   color: #151786;
+  text-decoration:underline;
+}
+
+.goals-assists {
+  display: flex;
+  justify-content: space-between;
   text-align: left;
 }
 
-.top-assists {
+.individual-table th, 
+.individual-table td {
+padding: 0.1rem 0.5rem;
+  border: 1px solid #ddd;
+}
+
+.individual-number {
+  text-align: center;
+}
+
+.top-scorers,
+.top-assists,
+.top-reds {
   text-align: left;
 }
 
