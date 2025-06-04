@@ -6,6 +6,7 @@ import Header from "../Header/Header";
 import TeamInfo from "../TeamInfo/TeamInfo";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material";
+import PlayerModal from "../PlayerModal/PlayerModal";
 
 const LeagueInfo = () => {
   const { leagueId } = useParams();
@@ -115,7 +116,8 @@ const LeagueInfo = () => {
       </div>
 
       <p className="league-season">Season: {seasonYear}</p>
-
+      <p className="league-season">Holders</p>
+      <hr class="solid"></hr>
       <div className="league-container">
         <h3>League Table</h3>
         <table className="league-table">
@@ -123,11 +125,14 @@ const LeagueInfo = () => {
             <tr>
               <th>#</th>
               <th>Team</th>
-              <th>GP</th>
-              <th>W</th>
-              <th>D</th>
-              <th>L</th>
-              <th>PTS</th>
+              <th className="individual-number">GP</th>
+              <th className="individual-number">W</th>
+              <th className="individual-number">D</th>
+              <th className="individual-number">L</th>
+              <th className="individual-number">GF</th>
+              <th className="individual-number">GA</th>
+              <th className="individual-number">GD</th>
+              <th className="individual-number">PTS</th>
               <th>Qualification or relegation</th>
             </tr>
           </thead>
@@ -145,17 +150,21 @@ const LeagueInfo = () => {
                     {team.team.name}
                   </Link>
                 </td>
-                <td>{team.all.played}</td>
-                <td>{team.all.win}</td>
-                <td>{team.all.draw}</td>
-                <td>{team.all.lose}</td>
-                <td>{team.points}</td>
-                <td>{team.description || "-"}</td>
+                <td className="individual-number">{team.all.played}</td>
+                <td className="individual-number">{team.all.win}</td>
+                <td className="individual-number">{team.all.draw}</td>
+                <td className="individual-number">{team.all.lose}</td>
+                <td className="individual-number">{team.all.goals.for}</td>
+                <td className="individual-number">{team.all.goals.against}</td>
+                <td className="individual-number">{team.goalsDiff}</td>
+                <td className="team-points">{team.points}</td>
+                <td>{team.description}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      <hr class="solid"></hr>
       <div className="goals-assists">
         <div className="top-scorers">
           <h3>Top Scorers</h3>
@@ -202,7 +211,7 @@ const LeagueInfo = () => {
             </tbody>
           </table>
         </div>
-
+        <hr class="solid"></hr>
         <div className="top-assists">
           <h3>Top Assists</h3>
           <table className="individual-table">
@@ -248,9 +257,12 @@ const LeagueInfo = () => {
             </tbody>
           </table>
         </div>
-
+        <hr class="solid"></hr>
         <div className="top-red-cards">
-          <h3>Red Cards</h3>
+          <h3>
+            Red Cards{" "}
+            <img src="/Red_card.svg" alt="" className="individual-logo" />
+          </h3>
           <table className="individual-table">
             <thead>
               <tr>
@@ -301,45 +313,3 @@ const LeagueInfo = () => {
 };
 
 export default LeagueInfo;
-
-{
-  /* <table className="top-players">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Player</th>
-              <th>Goals</th>
-            </tr>
-          </thead>
-          <tbody>
-            {(() => {
-              let lastGoals = null;
-              let displayRank = 0;
-              let actualIndex = 0;
-
-              return topScorers
-                .sort(
-                  (a, b) =>
-                    (b.statistics[0].goals.total ?? 0) -
-                    (a.statistics[0].goals.total ?? 0)
-                )
-                 .slice(0, 10)
-                .map((player, index, arr) => {
-                  actualIndex += 1;
-                  const goals = player.statistics[0].goals.total ?? 0;
-                  if (goals !== lastGoals) {
-                    displayRank = actualIndex;
-                    lastGoals = goals;
-                  }
-
-                  return (
-                    <li key={player.player.id}>
-                      {displayRank}. {player.player.name} (
-                      {player.statistics[0].team.name}) – {goals} goals
-                    </li>
-                  );
-                });
-            })()}
-          </tbody>
-        </table> */
-}

@@ -1,28 +1,28 @@
-
-
-.leagueinfo-header {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 20px;
-    text-align: center;
-}
-
-.leagueinfo-header h2 {
-    margin: 8px 0px;
-}
-
-.league-season {
-    text-align: left;
+.league-info {
+  text-align: left;
 }
 
 .league-container {
-  text-align: left;
-  
+ 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.leagueinfo-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+}
+
+.leagueinfo-header h2 {
+  margin: 8px 0px;
 }
 
 .league-table {
-  width: 50%;
+  
   border-collapse: collapse;
   margin-top: 1rem;
 }
@@ -30,7 +30,6 @@
 .league-table th,
 .league-table td {
   padding: 0.3rem;
-  text-align: center;
   border: 1px solid #ddd;
 }
 
@@ -39,15 +38,19 @@
   font-weight: bold;
 }
 
-.table-team {
-text-decoration: none;
-color: inherit;
+.team-points {
+  font-weight: 600;
+  text-align: center;
+}
 
+.table-team {
+  text-decoration: none;
+  color: inherit;
 }
 
 .table-team:hover {
-   color: #151786;
-  text-decoration:underline;
+  color: #151786;
+  text-decoration: underline;
 }
 
 .goals-assists {
@@ -56,9 +59,9 @@ color: inherit;
   text-align: left;
 }
 
-.individual-table th, 
+.individual-table th,
 .individual-table td {
-padding: 0.1rem 0.5rem;
+  padding: 0.1rem 0.5rem;
   border: 1px solid #ddd;
 }
 
@@ -72,7 +75,10 @@ padding: 0.1rem 0.5rem;
   text-align: left;
 }
 
-
 .top-scorers li {
   padding-inline-start: 0px;
+}
+
+.individual-logo {
+  width: 12px;
 }
