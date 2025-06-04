@@ -12,7 +12,8 @@ const LeagueInfo = () => {
   const [standings, setStandings] = useState([]);
   const [topScorers, setTopScorers] = useState([]);
   const [seasonYear, setSeasonYear] = useState(null);
-  const [topAssists, setTopAssists] = useState([])
+  const [topAssists, setTopAssists] = useState([]);
+  const [redCards, setRedCards] = useState([]);
 
   const getDescriptionColor = (description) => {
     if (!description) return "inherit";
@@ -58,30 +59,38 @@ const LeagueInfo = () => {
 
     const fetchDetails = async () => {
       try {
-        const [standingsRes, scorersRes, assistsRes] = await Promise.all([
-          axios.get("https://v3.football.api-sports.io/standings", {
-            headers: {
-              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-            },
-            params: { league: leagueId, season: seasonYear },
-          }),
-          axios.get("https://v3.football.api-sports.io/players/topscorers", {
-            headers: {
-              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-            },
-            params: { league: leagueId, season: seasonYear },
-          }),
-          axios.get("https://v3.football.api-sports.io/players/topassists", {
-            headers: {
-              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-            },
-            params: { league: leagueId, season: seasonYear },
-          }),
-        ]);
+        const [standingsRes, scorersRes, assistsRes, redCardsRes] =
+          await Promise.all([
+            axios.get("https://v3.football.api-sports.io/standings", {
+              headers: {
+                "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+              },
+              params: { league: leagueId, season: seasonYear },
+            }),
+            axios.get("https://v3.football.api-sports.io/players/topscorers", {
+              headers: {
+                "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+              },
+              params: { league: leagueId, season: seasonYear },
+            }),
+            axios.get("https://v3.football.api-sports.io/players/topassists", {
+              headers: {
+                "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+              },
+              params: { league: leagueId, season: seasonYear },
+            }),
+            axios.get("https://v3.football.api-sports.io/players/topredcards", {
+              headers: {
+                "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+              },
+              params: { league: leagueId, season: seasonYear,  },
+            }),
+          ]);
 
         setStandings(standingsRes.data.response[0]?.league?.standings[0] || []);
         setTopScorers(scorersRes.data.response || []);
         setTopAssists(assistsRes.data.response || []);
+        setRedCards(redCardsRes.data.response || []);
       } catch (err) {
         console.error("Failed to fetch standings or top scorers:", err);
       }
@@ -129,7 +138,7 @@ const LeagueInfo = () => {
                   backgroundColor: getDescriptionColor(team.description),
                 }}
               >
-                <td>{team.rank}</td> 
+                <td>{team.rank}</td>
                 <td> {team.team.name}</td>
                 <td>{team.all.played}</td>
                 <td>{team.all.win}</td>
@@ -143,62 +152,108 @@ const LeagueInfo = () => {
         </table>
       </div>
       <div className="goals-assists">
-      <div className="top-scorers">
-  <h3>Top Scorers</h3>
-  <ol style={{ listStyleType: "none", paddingLeft: 0 }}>
-    {(() => {
-      let lastGoals = null;
-      let displayRank = 0;
-      let actualIndex = 0;
+        <div className="top-scorers">
+          <h3>Top Scorers</h3>
+          <ol style={{ listStyleType: "none", paddingLeft: 0 }}>
+            {(() => {
+              let lastGoals = null;
+              let displayRank = 0;
+              let actualIndex = 0;
 
-      return topScorers
-        .sort((a, b) => (b.statistics[0].goals.total ?? 0) - (a.statistics[0].goals.total ?? 0))
-        .map((player, index, arr) => {
-          actualIndex += 1;
-          const goals = player.statistics[0].goals.total ?? 0;
-          if (goals !== lastGoals) {
-            displayRank = actualIndex;
-            lastGoals = goals;
-          }
+              return topScorers
+                .sort(
+                  (a, b) =>
+                    (b.statistics[0].goals.total ?? 0) -
+                    (a.statistics[0].goals.total ?? 0)
+                )
+                 .slice(0, 10)
+                .map((player, index, arr) => {
+                  actualIndex += 1;
+                  const goals = player.statistics[0].goals.total ?? 0;
+                  if (goals !== lastGoals) {
+                    displayRank = actualIndex;
+                    lastGoals = goals;
+                  }
 
-          return (
-            <li key={player.player.id}>
-              {displayRank}. {player.player.name} ({player.statistics[0].team.name}) – {goals} goals
-            </li>
-          );
-        });
-    })()}
-  </ol>
-</div>
+                  return (
+                    <li key={player.player.id}>
+                      {displayRank}. {player.player.name} (
+                      {player.statistics[0].team.name}) – {goals} goals
+                    </li>
+                  );
+                });
+            })()}
+          </ol>
+        </div>
 
-      <div className="top-assists">
-  <h3>Assists</h3>
-  <ol style={{ listStyleType: "none", paddingLeft: 10 }}>
-    {(() => {
-      let lastGoals = null;
-      let displayRank = 0;
-      let actualIndex = 0;
+        <div className="top-assists">
+          <h3>Assists</h3>
+          <ol style={{ listStyleType: "none", paddingLeft: 10 }}>
+            {(() => {
+              let lastGoals = null;
+              let displayRank = 0;
+              let actualIndex = 0;
 
-      return topScorers
-        .sort((a, b) => (b.statistics[0].goals.assists ?? 0) - (a.statistics[0].goals.assists ?? 0))
-        .map((player, index, arr) => {
-          actualIndex += 1;
-          const goals = player.statistics[0].goals.assists ?? 0;
-          if (goals !== lastGoals) {
-            displayRank = actualIndex;
-            lastGoals = goals;
-          }
+              return topAssists
+                .sort(
+                  (a, b) =>
+                    (b.statistics[0].goals.assists ?? 0) -
+                    (a.statistics[0].goals.assists ?? 0)
+                )
+                 .slice(0, 10)
+                .map((player, index, arr) => {
+                  actualIndex += 1;
+                  const goals = player.statistics[0].goals.assists ?? 0;
+                  if (goals !== lastGoals) {
+                    displayRank = actualIndex;
+                    lastGoals = goals;
+                  }
 
-          return (
-            <li key={player.player.id}>
-              {displayRank}. {player.player.name} ({player.statistics[0].team.name}) – {goals} assists
-            </li>
-          );
-        });
-    })()}
-  </ol>
-</div>
+                  return (
+                    <li key={player.player.id}>
+                      {displayRank}. {player.player.name} (
+                      {player.statistics[0].team.name}) – {goals} assists
+                    </li>
+                  );
+                });
+            })()}
+          </ol>
+        </div>
+        <div className="top-assists">
+          <h3>Red Cards</h3>
+          <ol style={{ listStyleType: "none", paddingLeft: 10 }}>
+            {(() => {
+              let lastCards = null;
+              let displayRank = 0;
+              let actualIndex = 0;
 
+              return redCards
+                .sort(
+                  (a, b) =>
+                    (b.statistics[0].cards.red ?? 0) -
+                    (a.statistics[0].cards.red ?? 0)
+                )
+                 .slice(0, 10)
+                .filter((player) => player?.statistics?.[0]?.cards?.red > 0)
+                .map((player, index) => {
+                  actualIndex += 1;
+                  const red = player.statistics[0].cards.red ?? 0;
+                  if (red !== lastCards) {
+                    displayRank = actualIndex;
+                    lastCards = red;
+                  }
+
+                  return (
+                    <li key={player.player.id}>
+                      {displayRank}. {player.player.name} (
+                      {player.statistics[0].team.name}) – {red} red card
+                      {red > 1 ? "s" : ""}
+                    </li>
+                  );
+                });
+            })()}
+          </ol>
+        </div>
       </div>
     </div>
   );
