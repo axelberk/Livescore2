@@ -1,48 +1,56 @@
 .Calendar {
-    background-color: rgb(218, 213, 213);
-    flex-direction: row;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: black;
-    justify-content: center;
-    border-radius: 10px;
+  background-color: rgb(218, 213, 213);
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: black;
+  justify-content: space-between;
+  border-radius: 10px;
+  padding: 0px 6px 0px 10px;
+}
+
+.calendar-nav {
+  display: flex;
+  flex-direction: row;
 }
 
 .date-clicker {
-    background-color: black;
+  background-color: black;
 }
 
 .calendar-arrow {
-    background: none;
-    border: none;
+  background: none;
+  border: none;
 }
 
 .calendar-arrow:hover {
-    cursor: pointer;
-    background-color: #e0e0e0;
+  cursor: pointer;
+  background-color: #e0e0e0;
 }
 
 .calendar-date {
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 500;
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-    display: flex;
-  }
-  
-  .calendar-date:hover {
-    background-color: #e0e0e0;
-  }
-
-
-.react-datepicker {
-    font-family: inherit;
-    background-color: rgb(218, 213, 213);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+.calendar-date:hover {
+  background-color: #e0e0e0;
+}
 
-
+.react-datepicker {
+  font-family: inherit;
+  background-color: rgb(218, 213, 213);
+}
