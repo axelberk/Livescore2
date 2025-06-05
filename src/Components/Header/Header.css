@@ -5,7 +5,8 @@
     align-items: center;
     gap: 10px;
     color: black;
-    justify-content: center;
+    justify-content: space-between;
+    padding: 0px 10px 0px 10px;
     height: 40px;
     border-radius: 10px;
    
@@ -20,4 +21,18 @@
 .home-button:hover {
     text-decoration: underline;
    
+}
+
+
+.search-input {
+  padding: 0.5rem;
+  font-size: inherit;
+  border-radius: 6px;
+  border: none;
+  width: 250px;
+ 
+}
+
+.search-input {
+    border: none;
 }
