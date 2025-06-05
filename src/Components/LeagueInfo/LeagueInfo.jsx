@@ -101,6 +101,12 @@ const LeagueInfo = () => {
     fetchDetails();
   }, [seasonYear, leagueId]);
 
+  const hasLeagueEnded = () => {
+  const season = league?.seasons?.find((s) => s.year === seasonYear);
+  if (!season?.end) return false;
+  return new Date(season.end) < new Date(); // Compare to today
+};
+
   if (!league) return <div>Loading league info...</div>;
 
   return (
@@ -145,11 +151,11 @@ const LeagueInfo = () => {
           }}
         >
           <td>{team.rank}</td>
-          <td>
-            <Link to={`/team/${id}`} className="table-team">
-              {name} {team.rank === 1 && <strong>(C)</strong>}
-            </Link>
-          </td>
+         <td>
+  <Link to={`/team/${id}`} className="table-team">
+    {name} {hasLeagueEnded() && team.rank === 1 && <strong>(C)</strong>}
+  </Link>
+</td>
           <td className="individual-number">{played}</td>
           <td className="individual-number">{win}</td>
           <td className="individual-number">{draw}</td>
