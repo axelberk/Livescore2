@@ -121,48 +121,50 @@ const LeagueInfo = () => {
       <div className="league-container">
         <h3>League Table</h3>
         <table className="league-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Team</th>
-              <th className="individual-number">GP</th>
-              <th className="individual-number">W</th>
-              <th className="individual-number">D</th>
-              <th className="individual-number">L</th>
-              <th className="individual-number">GF</th>
-              <th className="individual-number">GA</th>
-              <th className="individual-number">GD</th>
-              <th className="individual-number">PTS</th>
-              <th>Qualification or relegation</th>
-            </tr>
-          </thead>
-          <tbody>
-            {standings.map((team) => (
-              <tr
-                key={team.team.id}
-                style={{
-                  backgroundColor: getDescriptionColor(team.description),
-                }}
-              >
-                <td>{team.rank}</td>
-                <td>
-                  <Link to={`/team/${team.team.id}`} className="table-team">
-                    {team.team.name}
-                  </Link>
-                </td>
-                <td className="individual-number">{team.all.played}</td>
-                <td className="individual-number">{team.all.win}</td>
-                <td className="individual-number">{team.all.draw}</td>
-                <td className="individual-number">{team.all.lose}</td>
-                <td className="individual-number">{team.all.goals.for}</td>
-                <td className="individual-number">{team.all.goals.against}</td>
-                <td className="individual-number">{team.goalsDiff}</td>
-                <td className="team-points">{team.points}</td>
-                <td>{team.description}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Team</th>
+      {["GP", "W", "D", "L", "GF", "GA", "GD", "PTS"].map((label) => (
+        <th key={label} className="individual-number">{label}</th>
+      ))}
+      <th>Qualification or relegation</th>
+    </tr>
+  </thead>
+  <tbody>
+    {standings.map((team) => {
+      const { id, name } = team.team;
+      const { played, win, draw, lose, goals } = team.all;
+      const { for: goalsFor, against: goalsAgainst } = goals;
+
+      return (
+        <tr
+          key={id}
+          style={{
+            backgroundColor: getDescriptionColor(team.description),
+          }}
+        >
+          <td>{team.rank}</td>
+          <td>
+            <Link to={`/team/${id}`} className="table-team">
+              {name} {team.rank === 1 && <strong>(C)</strong>}
+            </Link>
+          </td>
+          <td className="individual-number">{played}</td>
+          <td className="individual-number">{win}</td>
+          <td className="individual-number">{draw}</td>
+          <td className="individual-number">{lose}</td>
+          <td className="individual-number">{goalsFor}</td>
+          <td className="individual-number">{goalsAgainst}</td>
+          <td className="individual-number">{team.goalsDiff}</td>
+          <td className="team-points">{team.points}</td>
+          <td>{team.description || "-"}</td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table>
+
       </div>
       <hr class="solid"></hr>
       <div className="goals-assists">
