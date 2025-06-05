@@ -7,7 +7,7 @@
   color: black;
   justify-content: space-between;
   border-radius: 10px;
-  padding: 0px 6px 0px 10px;
+  padding: 0px 4px 0px 10px;
 }
 
 .calendar-nav {
@@ -22,11 +22,13 @@
 .calendar-arrow {
   background: none;
   border: none;
+  
 }
 
 .calendar-arrow:hover {
   cursor: pointer;
   background-color: #e0e0e0;
+  border-radius: 25%;
 }
 
 .calendar-date {
