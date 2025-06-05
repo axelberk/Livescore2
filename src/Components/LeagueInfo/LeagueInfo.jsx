@@ -101,12 +101,29 @@ const LeagueInfo = () => {
     fetchDetails();
   }, [seasonYear, leagueId]);
 
-  const hasLeagueEnded = () => {
-  const season = league?.seasons?.find((s) => s.year === seasonYear);
+const hasLeagueEnded = () => {
+  if (!league || !league.seasons) return false; 
+
+  const season = league.seasons.find((s) => s.year === seasonYear);
   if (!season?.end) return false;
+
   return new Date(season.end) < new Date(); 
 };
 
+const formatSeasonLabel = (season) => {
+  if (!season?.start || !season?.end) return season?.year ?? "";
+
+  const startYear = new Date(season.start).getFullYear();  
+  const endYear   = new Date(season.end).getFullYear();     
+
+  if (startYear === endYear) return `${startYear}`;
+
+  const endYY = String(endYear).slice(-2);
+  return `${startYear}-${endYY}`;
+};
+
+const currentSeasonObj = league?.seasons?.find(s => s.current);
+const seasonLabel = formatSeasonLabel(currentSeasonObj);
   if (!league) return <div>Loading league info...</div>;
 
   return (
@@ -121,7 +138,7 @@ const LeagueInfo = () => {
         <h2>{league.league.name}</h2>
       </div>
 
-      <p className="league-season">Season: {seasonYear}</p>
+      <p className="league-season">Season: {seasonLabel}</p>
       <p className="league-season">Holders</p>
       <hr class="solid"></hr>
       <div className="league-container">
@@ -153,8 +170,9 @@ const LeagueInfo = () => {
           <td>{team.rank}</td>
          <td>
   <Link to={`/team/${id}`} className="table-team">
-    {name} {hasLeagueEnded() && team.rank === 1 && <strong>(C)</strong>}
-  </Link>
+    {name}
+  </Link> 
+   {hasLeagueEnded() && team.rank === 1 && <strong>(C)</strong>}
 </td>
           <td className="individual-number">{played}</td>
           <td className="individual-number">{win}</td>
