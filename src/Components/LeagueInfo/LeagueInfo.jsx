@@ -104,7 +104,7 @@ const LeagueInfo = () => {
   const hasLeagueEnded = () => {
   const season = league?.seasons?.find((s) => s.year === seasonYear);
   if (!season?.end) return false;
-  return new Date(season.end) < new Date(); // Compare to today
+  return new Date(season.end) < new Date(); 
 };
 
   if (!league) return <div>Loading league info...</div>;
