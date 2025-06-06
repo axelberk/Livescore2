@@ -61,11 +61,7 @@ const Match = ({ selectedMatch }) => {
 
         setSubstitutions(substitutions);
 
-        // const goals = eventsRes.data.response
-        //   .filter((event) => event.type === "Goal" && event.player)
-        //   .map((event) => event.player.id);
-
-        // setGoalScorerIds(new Set(goals));
+        
 
         const goalCounts = new Map();
 
@@ -106,6 +102,31 @@ const Match = ({ selectedMatch }) => {
     (s) => s.team.id === selectedMatch.teams.away.id
   );
 
+  const getMatchStatus = () => {
+  const { status, timestamp } = selectedMatch.fixture;
+
+  switch (status.short) {
+    case "NS":
+      const kickoff = new Date(timestamp * 1000);
+      return `Kickoff: ${kickoff.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      })}`;
+    case "1H":
+    case "2H":
+    case "ET":
+      return `${selectedMatch.fixture.status.elapsed}'`;
+    case "HT":
+      return "Half Time";
+    case "FT":
+      return "Full Time";
+    case "PST":
+      return "Postponed";
+    default:
+      return status.long || "Status Unavailable";
+  }
+};
+
   return (
     <div className="Match">
       {loading ? (
@@ -125,7 +146,9 @@ const Match = ({ selectedMatch }) => {
             </div>
             <div className="match-scores">
               {selectedMatch.goals.home} - {selectedMatch.goals.away}
+               
             </div>
+           
             <div className="team-info">
               <span>{selectedMatch.teams.away.name}</span>
               <Link to={`/team/${selectedMatch.teams.away.id}` }>
@@ -136,7 +159,11 @@ const Match = ({ selectedMatch }) => {
               />
               </Link>
             </div>
+            
           </div>
+          <div className="match-status">
+  {getMatchStatus()}
+</div>
           <div className="pitch-wrapper vertical">
             {homeTeam && (
               <div className="pitch-side">
