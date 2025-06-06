@@ -17,9 +17,10 @@ const MatchSkeleton = () => (
 
 const Match = ({ selectedMatch }) => {
   const [lineups, setLineups] = useState(null);
-  const [goalScorerIds, setGoalScorerIds] = useState(new Set());
+  const [goalScorerIds, setGoalScorerIds] = useState(new Map());
   const [substitutions, setSubstitutions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [usingFallback, setUsingFallback] = useState(false);
 
   useEffect(() => {
     if (!selectedMatch) return;
@@ -27,52 +28,66 @@ const Match = ({ selectedMatch }) => {
     const fetchLineupsAndEvents = async () => {
       setLoading(true);
       try {
+        const headers = {
+          headers: {
+            "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+          },
+        };
+
+        const fixtureId = selectedMatch.fixture.id;
+
         const [lineupsRes, eventsRes] = await Promise.all([
-          axios.get(
-            `https://v3.football.api-sports.io/fixtures/lineups?fixture=${selectedMatch.fixture.id}`,
-            {
-              headers: {
-                "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-              },
-            }
-          ),
-          axios.get(
-            `https://v3.football.api-sports.io/fixtures/events?fixture=${selectedMatch.fixture.id}`,
-            {
-              headers: {
-                "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-              },
-            }
-          ),
+          axios.get(`https://v3.football.api-sports.io/fixtures/lineups?fixture=${fixtureId}`, headers),
+          axios.get(`https://v3.football.api-sports.io/fixtures/events?fixture=${fixtureId}`, headers),
         ]);
 
-        setLineups(lineupsRes.data.response);
+        let lineupData = lineupsRes.data.response;
 
+        // If no lineups available, try to fetch last match lineups
+        if (lineupData.length === 0) {
+          const [homeLastRes, awayLastRes] = await Promise.all([
+            axios.get(`https://v3.football.api-sports.io/fixtures?team=${selectedMatch.teams.home.id}&last=1`, headers),
+            axios.get(`https://v3.football.api-sports.io/fixtures?team=${selectedMatch.teams.away.id}&last=1`, headers),
+          ]);
+
+          const homeLastFixtureId = homeLastRes.data.response[0]?.fixture?.id;
+          const awayLastFixtureId = awayLastRes.data.response[0]?.fixture?.id;
+
+          const [homeLineupRes, awayLineupRes] = await Promise.all([
+            axios.get(`https://v3.football.api-sports.io/fixtures/lineups?fixture=${homeLastFixtureId}`, headers),
+            axios.get(`https://v3.football.api-sports.io/fixtures/lineups?fixture=${awayLastFixtureId}`, headers),
+          ]);
+
+          lineupData = [...homeLineupRes.data.response, ...awayLineupRes.data.response];
+          setUsingFallback(true);
+        } else {
+          setUsingFallback(false);
+        }
+
+        setLineups(lineupData);
+
+        // Substitutions
         const allEvents = eventsRes.data.response;
-
-        const substitutions = eventsRes.data.response
-          .filter((event) => event.type === "subst")
-          .map((event) => ({
-            player_in: event.assist,
-            player_out: event.player,
-            team: event.team,
-            time: event.time.elapsed,
+        const subs = allEvents
+          .filter((e) => e.type === "subst")
+          .map((e) => ({
+            player_in: e.assist,
+            player_out: e.player,
+            team: e.team,
+            time: e.time.elapsed,
           }));
 
-        setSubstitutions(substitutions);
+        setSubstitutions(subs);
 
-        
-
-        const goalCounts = new Map();
-
-        eventsRes.data.response.forEach((event) => {
-          if (event.type === "Goal" && event.player?.id) {
-            const playerId = event.player.id;
-            goalCounts.set(playerId, (goalCounts.get(playerId) || 0) + 1);
+        // Goal counts
+        const goalMap = new Map();
+        allEvents.forEach((e) => {
+          if (e.type === "Goal" && e.player?.id) {
+            const id = e.player.id;
+            goalMap.set(id, (goalMap.get(id) || 0) + 1);
           }
         });
-
-        setGoalScorerIds(goalCounts);
+        setGoalScorerIds(goalMap);
       } catch (err) {
         console.error("Error fetching match data:", err);
       } finally {
@@ -87,45 +102,32 @@ const Match = ({ selectedMatch }) => {
     return <div className="Match">Select a match to view details</div>;
   if (!lineups) return <div className="Match">Loading lineups...</div>;
 
-  const homeTeam = lineups.find(
-    (team) => team.team.id === selectedMatch.teams.home.id
-  );
-  const awayTeam = lineups.find(
-    (team) => team.team.id === selectedMatch.teams.away.id
-  );
+  const homeTeam = lineups.find((team) => team.team.id === selectedMatch.teams.home.id);
+  const awayTeam = lineups.find((team) => team.team.id === selectedMatch.teams.away.id);
 
-  const homeSubstitutions = substitutions.filter(
-    (s) => s.team.id === selectedMatch.teams.home.id
-  );
-
-  const awaySubstitutions = substitutions.filter(
-    (s) => s.team.id === selectedMatch.teams.away.id
-  );
+  const homeSubs = substitutions.filter((s) => s.team.id === selectedMatch.teams.home.id);
+  const awaySubs = substitutions.filter((s) => s.team.id === selectedMatch.teams.away.id);
 
   const getMatchStatus = () => {
-  const { status, timestamp } = selectedMatch.fixture;
-
-  switch (status.short) {
-    case "NS":
-      const kickoff = new Date(timestamp * 1000);
-      return `Kickoff: ${kickoff.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      })}`;
-    case "1H":
-    case "2H":
-    case "ET":
-      return `${selectedMatch.fixture.status.elapsed}'`;
-    case "HT":
-      return "Half Time";
-    case "FT":
-      return "Full Time";
-    case "PST":
-      return "Postponed";
-    default:
-      return status.long || "Status Unavailable";
-  }
-};
+    const { status, timestamp } = selectedMatch.fixture;
+    switch (status.short) {
+      case "NS":
+        const kickoff = new Date(timestamp * 1000);
+        return `Kickoff: ${kickoff.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+      case "1H":
+      case "2H":
+      case "ET":
+        return `${selectedMatch.fixture.status.elapsed}'`;
+      case "HT":
+        return "Half Time";
+      case "FT":
+        return "Full Time";
+      case "PST":
+        return "Postponed";
+      default:
+        return status.long || "Status Unavailable";
+    }
+  };
 
   return (
     <div className="Match">
@@ -135,35 +137,32 @@ const Match = ({ selectedMatch }) => {
         <>
           <div className="match-header">
             <div className="team-info">
-              <Link to={`/team/${selectedMatch.teams.home.id}` }>
-              <img
-                src={selectedMatch.teams.home.logo}
-                alt={selectedMatch.teams.home.name}
-                className="match-team-logo"
-              />
+              <Link to={`/team/${selectedMatch.teams.home.id}`}>
+                <img
+                  src={selectedMatch.teams.home.logo}
+                  alt={selectedMatch.teams.home.name}
+                  className="match-team-logo"
+                />
               </Link>
               <span>{selectedMatch.teams.home.name}</span>
             </div>
             <div className="match-scores">
               {selectedMatch.goals.home} - {selectedMatch.goals.away}
-               
             </div>
-           
             <div className="team-info">
               <span>{selectedMatch.teams.away.name}</span>
-              <Link to={`/team/${selectedMatch.teams.away.id}` }>
-              <img
-                src={selectedMatch.teams.away.logo}
-                alt={selectedMatch.teams.away.name}
-                className="match-team-logo"
-              />
+              <Link to={`/team/${selectedMatch.teams.away.id}`}>
+                <img
+                  src={selectedMatch.teams.away.logo}
+                  alt={selectedMatch.teams.away.name}
+                  className="match-team-logo"
+                />
               </Link>
             </div>
-            
           </div>
-          <div className="match-status">
-  {getMatchStatus()}
-</div>
+
+          <div className="match-status">{getMatchStatus()}</div>
+
           <div className="pitch-wrapper vertical">
             {homeTeam && (
               <div className="pitch-side">
@@ -172,7 +171,8 @@ const Match = ({ selectedMatch }) => {
                   color="#03A9F4"
                   goalCounts={goalScorerIds}
                   substitutes={homeTeam.substitutes}
-                  substitutions={homeSubstitutions}
+                  substitutions={homeSubs}
+                  isFallback={usingFallback}
                 />
               </div>
             )}
@@ -189,7 +189,8 @@ const Match = ({ selectedMatch }) => {
                   isAway
                   goalCounts={goalScorerIds}
                   substitutes={awayTeam.substitutes}
-                  substitutions={awaySubstitutions}
+                  substitutions={awaySubs}
+                  isFallback={usingFallback}
                 />
               </div>
             )}

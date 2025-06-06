@@ -4,7 +4,7 @@ import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import LoopIcon from '@mui/icons-material/Loop';
 import PlayerModal from "../PlayerModal/PlayerModal";
 
-const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [], substitutions = [] , isOpen}) => {
+const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [], substitutions = [] , isOpen, isFallback = false,}) => {
   if (!team || !team.formation || !team.startXI) return null;
 
    const [selectedPlayerId, setSelectedPlayerId] = useState(null);
@@ -62,11 +62,17 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
   return (
     
     <div className="lineup-wrapper">
+   
       <div className="pitch" style={{ borderColor: color }}>
-        <div className={`formation-display ${isAway ? "away-formation" : "home-formation"}`}>
-          {team.formation}
+        <div className={`formation-container ${isAway ? "away-corner" : "home-corner"}`}>
+          {!isAway && isFallback && (
+            <div className="fallback-lineup-label">Last lineup</div>
+          )}
+          <div className="formation-display">{team.formation}</div>
+          {isAway && isFallback && (
+            <div className="fallback-lineup-label">Last lineup</div>
+          )}
         </div>
-
         {!isAway && renderGoalkeeper(orderedGoalkeeper)}
         {orderedRows.map(renderRow)}
         {isAway && renderGoalkeeper(orderedGoalkeeper)}
