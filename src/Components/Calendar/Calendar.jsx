@@ -9,12 +9,12 @@ import { useSearch } from "../SearchContext/SearchContext";
 import { useNavigate } from "react-router-dom";
 
 const Calendar = ({ selectedDate, setSelectedDate }) => {
-  const { searchTerm, setSearchTerm } = useSearch();
+  const { searchQuery, setSearchQuery } = useSearch();
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
-    if (e.key === "Enter" && searchTerm.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+    if (e.key === "Enter" && searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
@@ -57,8 +57,8 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
       </div>
       <input
         type="text"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
         onKeyDown={handleSearch}
         placeholder="Search..."
         className="search-input"

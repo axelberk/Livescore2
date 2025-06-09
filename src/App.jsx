@@ -7,6 +7,7 @@ import LeagueInfo from "./Components/LeagueInfo/LeagueInfo";
 import TeamInfo from "./Components/TeamInfo/TeamInfo";
 import { Routes, Route } from "react-router-dom";
 import Footer from "./Components/Footer/Footer";
+import SearchPage from "./Components/SearchPage/SearchPage";
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
         />
         <Route path="/league/:leagueId" element={<LeagueInfo />} />
         <Route path="/team/:teamId" element={<TeamInfo />} />
+        <Route path="/search" element={<SearchPage />} />
       </Routes>
       <Footer />
     </div>
