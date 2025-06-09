@@ -24,7 +24,7 @@ export const SearchProvider = ({ children }) => {
         headers: {
           'x-apisports-key': import.meta.env.VITE_API_FOOTBALL_KEY,
         },
-        params: { search: query, season: 2024, league: 39 },
+        params: { search: query, season: 2024 },
       }),
       axios.get('https://v3.football.api-sports.io/teams', {
         headers: {

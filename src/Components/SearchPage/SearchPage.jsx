@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useSearch } from '../SearchContext/SearchContext';
 import SearchResults from '../SearchResults/SearchResults';
+import Header from '../Header/Header';
 
 const SearchPage = () => {
   const { searchQuery, performSearch } = useSearch();
@@ -12,7 +13,8 @@ const SearchPage = () => {
   }, [searchQuery]);
 
   return (
-    <div style={{ padding: '1rem' }}>
+    <div>
+      <Header/>
       <h2>Search Results for "{searchQuery}"</h2>
       <SearchResults />
     </div>

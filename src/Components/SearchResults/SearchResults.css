@@ -1,0 +1,32 @@
+.search-results {
+    text-align: left;
+    text-decoration: none;
+}
+
+.search-results {
+    color: black;
+}
+
+.team-result,
+.league-result {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: inherit;
+    gap: 0.5rem;
+    margin-bottom: 10px;
+}
+
+
+.team-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.league-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
