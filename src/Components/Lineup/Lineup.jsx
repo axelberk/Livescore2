@@ -58,6 +58,7 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
       </div>
     </div>
   );
+  
 
   return (
     
@@ -81,7 +82,10 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
       {substitutes.length > 0 && (
         <div className="substitutes-box">
           <h4>Substitutes</h4>
-          {substitutes.map((sub, i) => (
+          {[...substitutes]
+  .sort((a, b) => (b.player.pos === "G") - (a.player.pos === "G"))
+  .map((sub, i) => (
+            
             <div
               key={i}
               className="player-substitute"
@@ -102,6 +106,7 @@ const Lineup = ({ team, color, isAway, goalCounts = new Map(), substitutes = [],
   ))}
               
             </div>
+            
           ))}
         </div>
       )}

@@ -2,6 +2,7 @@ import "./PlayerModal.css";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import { Link } from "react-router-dom";
 
 const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
   const [closing, setClosing] = useState(false);
@@ -106,6 +107,21 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
                       {player.player.weight || "N/A"}
                     </span>
                   </p>
+             <p>
+  Club:{" "}
+  {player.statistics?.[0]?.team ? (
+    <Link
+      to={`/team/${player.statistics[0].team.id}`}
+      className="modal-club"
+      
+      onClick={handleClose} 
+    >
+      {player.statistics[0].team.name}
+    </Link>
+  ) : (
+    <span className="fact-span">N/A</span>
+  )}
+</p>
                   <p>
                     Nationality:{" "}
                     <span className="fact-span">

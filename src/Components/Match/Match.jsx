@@ -43,7 +43,6 @@ const Match = ({ selectedMatch }) => {
 
         let lineupData = lineupsRes.data.response;
 
-        // If no lineups available, try to fetch last match lineups
         if (lineupData.length === 0) {
           const [homeLastRes, awayLastRes] = await Promise.all([
             axios.get(`https://v3.football.api-sports.io/fixtures?team=${selectedMatch.teams.home.id}&last=1`, headers),
@@ -66,7 +65,6 @@ const Match = ({ selectedMatch }) => {
 
         setLineups(lineupData);
 
-        // Substitutions
         const allEvents = eventsRes.data.response;
         const subs = allEvents
           .filter((e) => e.type === "subst")
@@ -79,7 +77,6 @@ const Match = ({ selectedMatch }) => {
 
         setSubstitutions(subs);
 
-        // Goal counts
         const goalMap = new Map();
         allEvents.forEach((e) => {
           if (e.type === "Goal" && e.player?.id) {
