@@ -20,12 +20,13 @@
   font-size: 0.8rem;
   background: #3f7c44;
   width: 340px;
-  height: 295px;
-  padding: 2px 10px;
+  max-height: 80vh;
+  padding: 2px 10px 6px;
   z-index: 1000;
   border-radius: 8px;
   animation: popup 0.2s ease-out;
   color: white;
+  overflow: hidden;
 }
 
 .button-header {
@@ -57,9 +58,11 @@
 }
 
 .modal-content {
+  flex: 1;
   position: relative;
   display: flex;
   flex-direction: column;
+  
 }
 
 .modal-facts-container {
@@ -72,6 +75,7 @@
   font-size: 13px;
   margin: 0;
   text-align: left;
+   white-space: normal;
 }
 
 .fact-span {
