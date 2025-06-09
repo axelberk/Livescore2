@@ -1,8 +1,15 @@
-import SearchResults from '../SearchResults/SearchResults';
+import { useEffect } from 'react';
 import { useSearch } from '../SearchContext/SearchContext';
+import SearchResults from '../SearchResults/SearchResults';
 
 const SearchPage = () => {
-  const { searchQuery } = useSearch();
+  const { searchQuery, performSearch } = useSearch();
+
+  useEffect(() => {
+    if (searchQuery.trim()) {
+      performSearch(searchQuery);
+    }
+  }, [searchQuery]);
 
   return (
     <div style={{ padding: '1rem' }}>

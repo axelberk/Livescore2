@@ -60,7 +60,7 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         onKeyDown={handleSearch}
-        placeholder="Search..."
+        placeholder="Search teams or leagues..."
         className="search-input"
       />
     </div>

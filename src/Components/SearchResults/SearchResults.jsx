@@ -1,5 +1,6 @@
 import { useSearch } from '../SearchContext/SearchContext';
 import { Link } from 'react-router-dom';
+import Header from '../Header/Header';
 
 const SearchResults = () => {
   const { searchResults } = useSearch();
