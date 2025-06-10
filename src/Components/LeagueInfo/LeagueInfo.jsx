@@ -16,6 +16,15 @@ const LeagueInfo = () => {
   const [seasonYear, setSeasonYear] = useState(null);
   const [topAssists, setTopAssists] = useState([]);
   const [redCards, setRedCards] = useState([]);
+  const [selectedPlayerId, setSelectedPlayerId] = useState(null);
+
+  const handlePlayerClick = (player) => {
+  setSelectedPlayerId(player);
+};
+
+const closeModal = () => {
+  setSelectedPlayer(null);
+};
 
   const getDescriptionColor = (description) => {
     if (!description) return "inherit";
@@ -227,7 +236,11 @@ const seasonLabel = formatSeasonLabel(currentSeasonObj);
                     return (
                       <tr key={player.player.id}>
                         <td>{displayRank}</td>
-                        <td>{player.player.name}</td>
+                        <td>
+  <a className="player-link" onClick={() => handlePlayerClick(player.player)}>
+    {player.player.name}
+  </a>
+</td>
                         <td>{player.statistics[0].team.name}</td>
                         <td className="individual-number">{goals}</td>
                       </tr>
@@ -273,7 +286,11 @@ const seasonLabel = formatSeasonLabel(currentSeasonObj);
                     return (
                       <tr key={player.player.id}>
                         <td>{displayRank}</td>
-                        <td>{player.player.name}</td>
+                       <td>
+  <a className="player-link" onClick={() => handlePlayerClick(player.player)}>
+    {player.player.name}
+  </a>
+</td>
                         <td>{player.statistics[0].team.name}</td>
                         <td className="individual-number">{assists}</td>
                       </tr>
@@ -323,7 +340,11 @@ const seasonLabel = formatSeasonLabel(currentSeasonObj);
                     return (
                       <tr key={player.player.id}>
                         <td>{displayRank}</td>
-                        <td>{player.player.name}</td>
+                       <td>
+  <a className="player-link" onClick={() => handlePlayerClick(player.player)}>
+    {player.player.name}
+  </a>
+</td>
                         <td>{player.statistics[0].team.name}</td>
                         <td className="individual-number">{red}</td>
                       </tr>
@@ -334,6 +355,12 @@ const seasonLabel = formatSeasonLabel(currentSeasonObj);
           </table>
         </div>
       </div>
+     <PlayerModal
+  playerId={selectedPlayerId?.id}
+  squadNumber={selectedPlayerId?.number}
+  isOpen={!!selectedPlayerId}
+  onClose={() => setSelectedPlayerId(null)}
+/>
     </div>
   );
 };

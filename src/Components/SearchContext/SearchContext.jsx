@@ -46,8 +46,6 @@ export const SearchProvider = ({ children }) => {
       leagues: leaguesRes.data.response,
     });
 
-   console.log('Players response raw:', playersRes.data);
-
     setSearchResults({
       players: playersRes.data.response,
       teams: teamsRes.data.response,

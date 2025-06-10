@@ -41,6 +41,7 @@ h2 {
 .league-logo {
   height: 50px;
   object-fit: contain;
+  
 }
 
 .league-name a {
@@ -73,6 +74,7 @@ h2 {
 .team-logo {
   height: 25px;
   margin: 0px 6px;
+  
 }
 
 .match-card:hover {

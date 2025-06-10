@@ -99,6 +99,7 @@ const LiveScores = ({ selectedDate, setSelectedMatch }) => {
                 src={leagueMatches[0].league.logo}
                 alt={`${leagueMatches[0].league.name} logo`}
                 className="league-logo"
+                loading="lazy"
               />
               <p>{leagueMatches[0].league.name}</p>
               <ArrowRightIcon />
@@ -123,12 +124,14 @@ const LiveScores = ({ selectedDate, setSelectedMatch }) => {
                     src={match.teams.home.logo}
                     alt={`${match.teams.home.name} logo`}
                     className="team-logo"
+                    loading="lazy"
                   />
                   {match.teams.home.name} - {match.teams.away.name}
                   <img
                     src={match.teams.away.logo}
                     alt={`${match.teams.away.name} logo`}
                     className="team-logo"
+                    loading="lazy"
                   />
                 </div>{" "}
                 <div className="match-result">

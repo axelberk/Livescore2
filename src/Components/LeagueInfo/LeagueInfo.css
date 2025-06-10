@@ -82,3 +82,11 @@
 .individual-logo {
   width: 12px;
 }
+
+.player-link {
+  cursor: pointer;
+}
+
+.player-link:hover {
+  text-decoration: underline;
+}
