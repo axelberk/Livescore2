@@ -17,29 +17,38 @@
   text-align: center;
 }
 
-.group-standings {
- width: 100vh;
-}
-
 .leagueinfo-header h2 {
   margin: 8px 0px;
 }
 
 .league-table {
-
+ width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
 }
 
+
 .league-table th,
 .league-table td {
   padding: 0.3rem;
-  border: 1px solid #ddd;
+  border: 1px solid #eee;
+  border-style: dotted;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
 }
 
 .league-table th {
   background-color: #f5f5f5;
   font-weight: bold;
+}
+
+.first-place {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  margin: 0;
+
 }
 
 .team-points {
@@ -50,7 +59,19 @@
 .table-team {
   text-decoration: none;
   color: inherit;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
+
+.group-standings {
+  width: 100%;
+  max-width: 1000px;
+ 
+}
+
+
 
 .table-team:hover {
   color: #151786;
