@@ -17,12 +17,16 @@
   text-align: center;
 }
 
+.group-standings {
+ width: 100vh;
+}
+
 .leagueinfo-header h2 {
   margin: 8px 0px;
 }
 
 .league-table {
-  
+
   border-collapse: collapse;
   margin-top: 1rem;
 }

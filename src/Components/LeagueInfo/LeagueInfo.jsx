@@ -98,7 +98,7 @@ const closeModal = () => {
             }),
           ]);
 
-        setStandings(standingsRes.data.response[0]?.league?.standings[0] || []);
+       setStandings(standingsRes.data.response[0]?.league?.standings || []);
         setTopScorers(scorersRes.data.response || []);
         setTopAssists(assistsRes.data.response || []);
         setRedCards(redCardsRes.data.response || []);
@@ -150,55 +150,65 @@ const seasonLabel = formatSeasonLabel(currentSeasonObj);
       <p className="league-season">Season: {seasonLabel}</p>
       <p className="league-season">Holders</p>
       <hr class="solid"></hr>
-      <div className="league-container">
-        <h3>League Table</h3>
+    <div className="league-container">
+  {/* <h3>League Table</h3> */}
+
+  {standings.map((group, groupIndex) => {
+    const groupName = group[0]?.group || `Group ${groupIndex + 1}`;
+
+    return (
+      <div key={groupName} className="group-standings">
+        <h4>{groupName}</h4>
         <table className="league-table">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Team</th>
-      {["GP", "W", "D", "L", "GF", "GA", "GD", "PTS"].map((label) => (
-        <th key={label} className="individual-number">{label}</th>
-      ))}
-      <th>Qualification or relegation</th>
-    </tr>
-  </thead>
-  <tbody>
-    {standings.map((team) => {
-      const { id, name } = team.team;
-      const { played, win, draw, lose, goals } = team.all;
-      const { for: goalsFor, against: goalsAgainst } = goals;
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Team</th>
+              {["GP", "W", "D", "L", "GF", "GA", "GD", "PTS"].map((label) => (
+                <th key={label} className="individual-number">{label}</th>
+              ))}
+              <th>Qualification or relegation</th>
+            </tr>
+          </thead>
+          <tbody>
+            {group.map((team) => {
+              const { id, name } = team.team;
+              const { played, win, draw, lose, goals } = team.all;
+              const { for: goalsFor, against: goalsAgainst } = goals;
 
-      return (
-        <tr
-          key={id}
-          style={{
-            backgroundColor: getDescriptionColor(team.description),
-          }}
-        >
-          <td>{team.rank}</td>
-         <td>
-  <Link to={`/team/${id}`} className="table-team">
-    {name}
-  </Link> 
-   {hasLeagueEnded() && team.rank === 1 && <strong>(C)</strong>}
-</td>
-          <td className="individual-number">{played}</td>
-          <td className="individual-number">{win}</td>
-          <td className="individual-number">{draw}</td>
-          <td className="individual-number">{lose}</td>
-          <td className="individual-number">{goalsFor}</td>
-          <td className="individual-number">{goalsAgainst}</td>
-          <td className="individual-number">{team.goalsDiff}</td>
-          <td className="team-points">{team.points}</td>
-          <td>{team.description || "-"}</td>
-        </tr>
-      );
-    })}
-  </tbody>
-</table>
-
+              return (
+                <tr
+                  key={id}
+                  style={{
+                    backgroundColor: getDescriptionColor(team.description),
+                  }}
+                >
+                  <td>{team.rank}</td>
+                  <td>
+                    <Link to={`/team/${id}`} className="table-team">
+                      {name}
+                    </Link>
+                    {hasLeagueEnded() && team.rank === 1 && <strong>(C)</strong>}
+                  </td>
+                  <td className="individual-number">{played}</td>
+                  <td className="individual-number">{win}</td>
+                  <td className="individual-number">{draw}</td>
+                  <td className="individual-number">{lose}</td>
+                  <td className="individual-number">{goalsFor}</td>
+                  <td className="individual-number">{goalsAgainst}</td>
+                  <td className="individual-number">{team.goalsDiff}</td>
+                  <td className="team-points">{team.points}</td>
+                  <td>{team.description || "-"}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
+    );
+  })}
+</div>
+
       <hr class="solid"></hr>
       <div className="goals-assists">
         <div className="top-scorers">
