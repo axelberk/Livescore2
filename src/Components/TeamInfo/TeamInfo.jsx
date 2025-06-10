@@ -190,6 +190,7 @@ const TeamInfo = () => {
                                 src={player.photo}
                                 alt={player.name}
                                 className="player-photo"
+                                loading="lazy"
                               />
                               {player.name} ({player.age} years)
                             </li>

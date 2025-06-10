@@ -73,14 +73,16 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
             <p>Player data not available.</p>
           ) : (
             <>
-              <h2 className="modal-name">
-                {player?.statistics?.[0]?.games?.number ??
-                  player?.player?.number ??
-                  numberFromLineup ??
-                  "N/A"}
-                {". "}
-                {player.player.firstname} {player.player.lastname}
-              </h2>
+             <h2 className="modal-name">
+  {(() => {
+    const number =
+      player?.statistics?.[0]?.games?.number ??
+      player?.player?.number ??
+      numberFromLineup;
+
+    return `${number ? number + ". " : ""}${player.player.firstname} ${player.player.lastname}`;
+  })()}
+</h2>
               <div className="modal-facts-container">
                 <div className="modal-facts">
                   <p>
