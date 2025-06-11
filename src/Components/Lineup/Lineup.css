@@ -76,6 +76,15 @@
   transition: 0.3s ease;
 }
 
+.player-photo-s {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
 .player:hover {
   background-color: rgb(73, 167, 78);
 }
