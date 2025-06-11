@@ -5,6 +5,10 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { Link } from "react-router-dom";
 import LeagueInfo from "../LeagueInfo/LeagueInfo";
 import { Skeleton, Box } from "@mui/material";
+import Match from "../Match/Match";
+import { useNavigate } from "react-router-dom";
+
+
 
 const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135, 88, 40, 114, 5, 10, 15];
 
@@ -35,8 +39,10 @@ const ScoreSkeleton = () => (
 );
 
 const LiveScores = ({ selectedDate, setSelectedMatch }) => {
+ 
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchLiveMatches = async () => {
@@ -106,11 +112,11 @@ const LiveScores = ({ selectedDate, setSelectedMatch }) => {
             </Link>
 
             {leagueMatches.map((match) => (
-              <div
-                key={match.fixture.id}
-                className="match-card"
-                onClick={() => setSelectedMatch(match)}
-              >
+               <div
+    key={match.fixture.id}
+    className="match-card"
+    onClick={() => navigate(`/match/${match.fixture.id}`)}
+  >
                 <div className="match-time">
                   {new Date(match.fixture.date).toLocaleTimeString([], {
                     hour: "2-digit",

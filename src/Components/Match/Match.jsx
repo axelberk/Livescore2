@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./Match.css";
 import Lineup from "../Lineup/Lineup";
 import { Skeleton, Box } from "@mui/material";
 import { Link } from "react-router-dom";
+import Header from "../Header/Header";
 
 const MatchSkeleton = () => (
   <Box padding={2}>
@@ -15,7 +17,9 @@ const MatchSkeleton = () => (
   </Box>
 );
 
-const Match = ({ selectedMatch }) => {
+const Match = () => {
+  const { matchId } = useParams(); 
+  const [fixture, setFixture] = useState(null);
   const [lineups, setLineups] = useState(null);
   const [goalScorerIds, setGoalScorerIds] = useState(new Map());
   const [substitutions, setSubstitutions] = useState([]);
@@ -23,47 +27,44 @@ const Match = ({ selectedMatch }) => {
   const [usingFallback, setUsingFallback] = useState(false);
 
   useEffect(() => {
-    if (!selectedMatch) return;
+  if (fixture && lineups) {
+    console.log("Lineups:", lineups);
+    console.log("Fixture home ID:", fixture.teams.home.id);
+    console.log("Fixture away ID:", fixture.teams.away.id);
 
-    const fetchLineupsAndEvents = async () => {
-      setLoading(true);
+    const homeTeam = lineups.find(team => team.team.id === fixture.teams.home.id);
+    const awayTeam = lineups.find(team => team.team.id === fixture.teams.away.id);
+
+    console.log("homeTeam:", homeTeam);
+    console.log("awayTeam:", awayTeam);
+  }
+}, [fixture, lineups]);
+
+  useEffect(() => {
+ 
+
+     const fetchFixtureAndDetails = async () => {
       try {
-        const headers = {
-          headers: {
-            "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-          },
-        };
-
-        const fixtureId = selectedMatch.fixture.id;
+        const fixtureRes = await axios.get(
+          "https://v3.football.api-sports.io/fixtures",
+          {headers: {
+              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+            }, params: { id: matchId } }
+        );
+        const match = fixtureRes.data.response[0];
+        setFixture(match);
 
         const [lineupsRes, eventsRes] = await Promise.all([
-          axios.get(`https://v3.football.api-sports.io/fixtures/lineups?fixture=${fixtureId}`, headers),
-          axios.get(`https://v3.football.api-sports.io/fixtures/events?fixture=${fixtureId}`, headers),
+          axios.get(`https://v3.football.api-sports.io/fixtures/lineups?fixture=${matchId}`, {headers: {
+              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+            }, params: { fixture: matchId } }),
+          axios.get(`https://v3.football.api-sports.io/fixtures/events?fixture=${matchId}`,  {headers: {
+              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+            }, params: { fixture: matchId } }),
         ]);
 
-        let lineupData = lineupsRes.data.response;
-
-        if (lineupData.length === 0) {
-          const [homeLastRes, awayLastRes] = await Promise.all([
-            axios.get(`https://v3.football.api-sports.io/fixtures?team=${selectedMatch.teams.home.id}&last=1`, headers),
-            axios.get(`https://v3.football.api-sports.io/fixtures?team=${selectedMatch.teams.away.id}&last=1`, headers),
-          ]);
-
-          const homeLastFixtureId = homeLastRes.data.response[0]?.fixture?.id;
-          const awayLastFixtureId = awayLastRes.data.response[0]?.fixture?.id;
-
-          const [homeLineupRes, awayLineupRes] = await Promise.all([
-            axios.get(`https://v3.football.api-sports.io/fixtures/lineups?fixture=${homeLastFixtureId}`, headers),
-            axios.get(`https://v3.football.api-sports.io/fixtures/lineups?fixture=${awayLastFixtureId}`, headers),
-          ]);
-
-          lineupData = [...homeLineupRes.data.response, ...awayLineupRes.data.response];
-          setUsingFallback(true);
-        } else {
-          setUsingFallback(false);
-        }
-
-        setLineups(lineupData);
+        setLineups(lineupsRes.data.response);
+        console.log("Lineups API response:", lineupsRes.data);
 
         const allEvents = eventsRes.data.response;
         const subs = allEvents
@@ -91,22 +92,22 @@ const Match = ({ selectedMatch }) => {
         setLoading(false);
       }
     };
+ 
+console.log("Lineups from API:", lineups);
+    fetchFixtureAndDetails();
+  }, [matchId]);
 
-    fetchLineupsAndEvents();
-  }, [selectedMatch]);
+ if (loading) return <MatchSkeleton />;
+if (!fixture || !lineups) return <div>Error loading match.</div>;
 
-  if (!selectedMatch)
-    return <div className="Match">Select a match to view details</div>;
-  if (!lineups) return <div className="Match">Loading lineups...</div>;
+  const homeTeam = lineups.find((team) => team.team.id === fixture.teams.home.id);
+  const awayTeam = lineups.find((team) => team.team.id === fixture.teams.away.id);
 
-  const homeTeam = lineups.find((team) => team.team.id === selectedMatch.teams.home.id);
-  const awayTeam = lineups.find((team) => team.team.id === selectedMatch.teams.away.id);
-
-  const homeSubs = substitutions.filter((s) => s.team.id === selectedMatch.teams.home.id);
-  const awaySubs = substitutions.filter((s) => s.team.id === selectedMatch.teams.away.id);
+  const homeSubs = substitutions.filter((s) => s.team.id === fixture.teams.home.id);
+  const awaySubs = substitutions.filter((s) => s.team.id === fixture.teams.away.id);
 
   const getMatchStatus = () => {
-    const { status, timestamp } = selectedMatch.fixture;
+    const { status, timestamp } = fixture.fixture;
     switch (status.short) {
       case "NS":
         const kickoff = new Date(timestamp * 1000);
@@ -114,7 +115,7 @@ const Match = ({ selectedMatch }) => {
       case "1H":
       case "2H":
       case "ET":
-        return `${selectedMatch.fixture.status.elapsed}'`;
+        return `${fixture.fixture.status.elapsed}'`;
       case "HT":
         return "Half Time";
       case "FT":
@@ -124,34 +125,37 @@ const Match = ({ selectedMatch }) => {
       default:
         return status.long || "Status Unavailable";
     }
+  
   };
 
   return (
     <div className="Match">
+      <Header/>
       {loading ? (
         <MatchSkeleton />
       ) : (
         <>
+        <div className="match-container">
           <div className="match-header">
             <div className="team-info">
-              <Link to={`/team/${selectedMatch.teams.home.id}`}>
+              <Link to={`/team/${fixture.teams.home.id}`}>
                 <img
-                  src={selectedMatch.teams.home.logo}
-                  alt={selectedMatch.teams.home.name}
+                  src={fixture.teams.home.logo}
+                  alt={fixture.teams.home.name}
                   className="match-team-logo"
                 />
               </Link>
-              <span>{selectedMatch.teams.home.name}</span>
+              <span>{fixture.teams.home.name}</span>
             </div>
             <div className="match-scores">
-              {selectedMatch.goals.home} - {selectedMatch.goals.away}
+              {fixture.goals.home} - {fixture.goals.away}
             </div>
             <div className="team-info">
-              <span>{selectedMatch.teams.away.name}</span>
-              <Link to={`/team/${selectedMatch.teams.away.id}`}>
+              <span>{fixture.teams.away.name}</span>
+              <Link to={`/team/${fixture.teams.away.id}`}>
                 <img
-                  src={selectedMatch.teams.away.logo}
-                  alt={selectedMatch.teams.away.name}
+                  src={fixture.teams.away.logo}
+                  alt={fixture.teams.away.name}
                   className="match-team-logo"
                 />
               </Link>
@@ -161,6 +165,7 @@ const Match = ({ selectedMatch }) => {
           <div className="match-status">{getMatchStatus()}</div>
 
           <div className="pitch-wrapper vertical">
+            
             {homeTeam && (
               <div className="pitch-side">
                 <Lineup
@@ -192,9 +197,13 @@ const Match = ({ selectedMatch }) => {
               </div>
             )}
           </div>
+          </div>
         </>
+        
       )}
+      
     </div>
+    
   );
 };
 

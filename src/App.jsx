@@ -30,11 +30,12 @@ function App() {
                   selectedDate={selectedDate}
                   setSelectedMatch={setSelectedMatch}
                 />
-                <Match selectedMatch={selectedMatch} />
+                {/* <Match selectedMatch={selectedMatch} /> */}
               </div>
             </div>
           }
         />
+        <Route path="/match/:matchId" element={<Match/>} />
         <Route path="/league/:leagueId" element={<LeagueInfo />} />
         <Route path="/team/:teamId" element={<TeamInfo />} />
         <Route path="/search" element={<SearchPage />} />

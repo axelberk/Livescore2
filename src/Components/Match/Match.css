@@ -1,6 +1,13 @@
 .Match {
-  width: 50%;
+
  
+}
+
+.match-container {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .match-header {
