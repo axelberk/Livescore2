@@ -1,9 +1,3 @@
-.lineup-wrapper {
-  display: flex;
-  flex-direction: c;
-  
-  
-}
 
 .blurred {
   filter: blur(4px);
@@ -17,7 +11,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 400;
 }
 
@@ -46,12 +40,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #1b5e20;
+  background: #4ca752;
   width: 100%;
   max-height: 100%;
   padding: 1rem;
   color: white;
-  font-size: 0.65rem;
+  font-size: 0.8rem;
   position: relative; 
  
 }
@@ -65,29 +59,35 @@
 }
 
 .player {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 0.2rem 0.3rem;
+  /* background: rgba(255, 255, 255, 0.1); */
+  padding: 1rem 1rem;
   border-radius: 20px;
-  margin: 0.3rem 0.8rem;
+  margin: 0rem 1rem;
   text-align: center;
   display: flex;
   align-items: center;
   cursor: pointer;
   transition: 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.player-text {
+  display: flex;
+  align-items: center;
 }
 
 .player-photo-s {
-  width: 24px;
-  height: 24px;
+  width: 50px;
   border-radius: 50%;
-  object-fit: cover;
-  margin-right: 6px;
   vertical-align: middle;
 }
 
 .player:hover {
-  background-color: rgb(73, 167, 78);
+  background-color: rgb(53, 121, 57);
 }
+
+
 
 .substitutes-box {
   margin-left: 0.8px;
