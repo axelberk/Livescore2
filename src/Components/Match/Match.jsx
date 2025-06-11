@@ -6,6 +6,7 @@ import Lineup from "../Lineup/Lineup";
 import { Skeleton, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import Header from "../Header/Header";
+import PlayerModal from "../PlayerModal/PlayerModal";
 
 const MatchSkeleton = () => (
   <Box padding={2}>
@@ -25,18 +26,12 @@ const Match = () => {
   const [substitutions, setSubstitutions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [usingFallback, setUsingFallback] = useState(false);
+  const [selectedPlayerId, setSelectedPlayerId] = useState(null);
 
   useEffect(() => {
   if (fixture && lineups) {
-    console.log("Lineups:", lineups);
-    console.log("Fixture home ID:", fixture.teams.home.id);
-    console.log("Fixture away ID:", fixture.teams.away.id);
-
     const homeTeam = lineups.find(team => team.team.id === fixture.teams.home.id);
     const awayTeam = lineups.find(team => team.team.id === fixture.teams.away.id);
-
-    console.log("homeTeam:", homeTeam);
-    console.log("awayTeam:", awayTeam);
   }
 }, [fixture, lineups]);
 
@@ -197,11 +192,44 @@ if (!fixture || !lineups) return <div>Error loading match.</div>;
               </div>
             )}
           </div>
+          <div className="subs-wrapper">
+  <div className="subs-side home-subs">
+    <h3>Home Substitutes</h3>
+    {homeTeam?.substitutes.length > 0 ? (
+      homeTeam.substitutes.map((sub) => (
+        <div key={sub.player.id} className="substitute-player" >
+          {sub.player.number}. {sub.player.name}
+        </div>
+      ))
+    ) : (
+      <div>No substitutes</div>
+    )}
+  </div>
+
+  <div className="subs-side away-subs">
+    <h3>Away Substitutes</h3>
+    {awayTeam?.substitutes.length > 0 ? (
+      awayTeam.substitutes.map((sub) => (
+        <div key={sub.player.id} className="substitute-player">
+          {sub.player.number}. {sub.player.name}
+        </div>
+      ))
+    ) : (
+      <div>No substitutes</div>
+    )}
+  </div>
+</div>
+
           </div>
         </>
         
       )}
-      
+      <PlayerModal
+          playerId={selectedPlayerId?.id}
+          squadNumber={selectedPlayerId?.number}
+          isOpen={!!selectedPlayerId}
+          onClose={() => setSelectedPlayerId(null)}
+        />
     </div>
     
   );

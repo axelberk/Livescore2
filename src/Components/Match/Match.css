@@ -4,6 +4,7 @@
   flex-direction: column;
   align-items: center;
   margin-top: 10px;
+ 
 }
 
 .match-header {
@@ -62,4 +63,32 @@
   height: 1px;
   background-color: white;
   position: relative;
+}
+
+.pitch-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  
+}
+
+.subs-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+
+   background: #4ca752;
+  
+   color: white;
+   text-align: left;
+}
+
+.subs-side {
+  flex: 1;
+  max-width: 300px;
+}
+
+.substitute-player {
+  padding: 4px 0;
+ font-size: 14px;
 }

@@ -178,7 +178,7 @@ const Lineup = ({
           {orderedRows.map(renderRow)}
           {isAway && renderGoalkeeper(orderedGoalkeeper)}
         </div>
-<div className="subs-container">
+{/* <div className="subs-container">
         {substitutes.length > 0 && (
           <div className="substitutes-box">
             <h4>Substitutes</h4>
@@ -222,7 +222,7 @@ const Lineup = ({
               ))}
           </div>
         )}
-      </div>
+      </div> */}
         <PlayerModal
           playerId={selectedPlayerId?.id}
           squadNumber={selectedPlayerId?.number}
