@@ -15,7 +15,7 @@ const SearchBar = () => {
   return (
     <input
       type="text"
-      placeholder="Search..."
+      placeholder="Search leagues or teams..."
       value={searchQuery}
       onChange={(e) => setSearchQuery(e.target.value)}
       onKeyDown={handleKeyDown}
