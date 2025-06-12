@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -29,17 +30,10 @@ const Match = () => {
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
 
   useEffect(() => {
-  if (fixture && lineups) {
-    const homeTeam = lineups.find(team => team.team.id === fixture.teams.home.id);
-    const awayTeam = lineups.find(team => team.team.id === fixture.teams.away.id);
-  }
-}, [fixture, lineups]);
-
-  useEffect(() => {
- 
-
-     const fetchFixtureAndDetails = async () => {
+    const fetchFixtureAndDetails = async () => {
       try {
+        console.log("Fetching match data for ID:", matchId);
+        
         const fixtureRes = await axios.get(
           "https://v3.football.api-sports.io/fixtures",
           {headers: {
@@ -47,6 +41,7 @@ const Match = () => {
             }, params: { id: matchId } }
         );
         const match = fixtureRes.data.response[0];
+        console.log("Fixture data:", match);
         setFixture(match);
 
         const [lineupsRes, eventsRes] = await Promise.all([
@@ -58,8 +53,8 @@ const Match = () => {
             }, params: { fixture: matchId } }),
         ]);
 
-        setLineups(lineupsRes.data.response);
         console.log("Lineups API response:", lineupsRes.data);
+        setLineups(lineupsRes.data.response);
 
         const allEvents = eventsRes.data.response;
         const subs = allEvents
@@ -87,16 +82,30 @@ const Match = () => {
         setLoading(false);
       }
     };
- 
-console.log("Lineups from API:", lineups);
+
     fetchFixtureAndDetails();
   }, [matchId]);
 
- if (loading) return <MatchSkeleton />;
-if (!fixture || !lineups) return <div>Error loading match.</div>;
+  if (loading) return <MatchSkeleton />;
+  
+  if (!fixture) {
+    return <div>Error loading match data.</div>;
+  }
+
+  if (!lineups || lineups.length === 0) {
+    return (
+      <div className="Match">
+        <Header/>
+        <div>No lineups available for this match.</div>
+      </div>
+    );
+  }
 
   const homeTeam = lineups.find((team) => team.team.id === fixture.teams.home.id);
   const awayTeam = lineups.find((team) => team.team.id === fixture.teams.away.id);
+
+  console.log("Home team lineup:", homeTeam);
+  console.log("Away team lineup:", awayTeam);
 
   const homeSubs = substitutions.filter((s) => s.team.id === fixture.teams.home.id);
   const awaySubs = substitutions.filter((s) => s.team.id === fixture.teams.away.id);
@@ -120,118 +129,115 @@ if (!fixture || !lineups) return <div>Error loading match.</div>;
       default:
         return status.long || "Status Unavailable";
     }
-  
   };
 
   return (
     <div className="Match">
       <Header/>
-      {loading ? (
-        <MatchSkeleton />
-      ) : (
-        <>
-        <div className="match-container">
-          <div className="match-header">
-            <div className="team-info">
-              <Link to={`/team/${fixture.teams.home.id}`}>
-                <img
-                  src={fixture.teams.home.logo}
-                  alt={fixture.teams.home.name}
-                  className="match-team-logo"
-                />
-              </Link>
-              <span>{fixture.teams.home.name}</span>
+      <div className="match-container">
+        <div className="match-header">
+          <div className="team-info">
+            <Link to={`/team/${fixture.teams.home.id}`}>
+              <img
+                src={fixture.teams.home.logo}
+                alt={fixture.teams.home.name}
+                className="match-team-logo"
+              />
+            </Link>
+            <span>{fixture.teams.home.name}</span>
+          </div>
+          <div className="match-scores">
+            {fixture.goals.home} - {fixture.goals.away}
+          </div>
+          <div className="team-info">
+            <span>{fixture.teams.away.name}</span>
+            <Link to={`/team/${fixture.teams.away.id}`}>
+              <img
+                src={fixture.teams.away.logo}
+                alt={fixture.teams.away.name}
+                className="match-team-logo"
+              />
+            </Link>
+          </div>
+        </div>
+
+        <div className="match-status">{getMatchStatus()}</div>
+
+        <div className="pitch-wrapper vertical">
+          {homeTeam ? (
+            <div className="pitch-side">
+              <Lineup
+                team={homeTeam}
+                color="#03A9F4"
+                goalCounts={goalScorerIds}
+                substitutions={homeSubs}
+                isFallback={usingFallback}
+              />
             </div>
-            <div className="match-scores">
-              {fixture.goals.home} - {fixture.goals.away}
-            </div>
-            <div className="team-info">
-              <span>{fixture.teams.away.name}</span>
-              <Link to={`/team/${fixture.teams.away.id}`}>
-                <img
-                  src={fixture.teams.away.logo}
-                  alt={fixture.teams.away.name}
-                  className="match-team-logo"
-                />
-              </Link>
-            </div>
+          ) : (
+            <div>Home team lineup not available</div>
+          )}
+
+          <div className="pitch-divider horizontal">
+            <div className="center-circle horizontal-circle"></div>
           </div>
 
-          <div className="match-status">{getMatchStatus()}</div>
-
-          <div className="pitch-wrapper vertical">
-            
-            {homeTeam && (
-              <div className="pitch-side">
-                <Lineup
-                  team={homeTeam}
-                  color="#03A9F4"
-                  goalCounts={goalScorerIds}
-                  substitutes={homeTeam.substitutes}
-                  substitutions={homeSubs}
-                  isFallback={usingFallback}
-                />
-              </div>
-            )}
-
-            <div className="pitch-divider horizontal">
-              <div className="center-circle horizontal-circle"></div>
+          {awayTeam ? (
+            <div className="pitch-side">
+              <Lineup
+                team={awayTeam}
+                color="#F44336"
+                isAway
+                goalCounts={goalScorerIds}
+                substitutions={awaySubs}
+                isFallback={usingFallback}
+              />
             </div>
+          ) : (
+            <div>Away team lineup not available</div>
+          )}
+        </div>
 
-            {awayTeam && (
-              <div className="pitch-side">
-                <Lineup
-                  team={awayTeam}
-                  color="#F44336"
-                  isAway
-                  goalCounts={goalScorerIds}
-                  substitutes={awayTeam.substitutes}
-                  substitutions={awaySubs}
-                  isFallback={usingFallback}
-                />
-              </div>
-            )}
-          </div>
+        {homeTeam?.substitutes && awayTeam?.substitutes && (
           <div className="subs-wrapper">
-  <div className="subs-side home-subs">
-    <h3>Home Substitutes</h3>
-    {homeTeam?.substitutes.length > 0 ? (
-      homeTeam.substitutes.map((sub) => (
-        <div key={sub.player.id} className="substitute-player" >
-          {sub.player.number}. {sub.player.name}
-        </div>
-      ))
-    ) : (
-      <div>No substitutes</div>
-    )}
-  </div>
+            <div className="subs-side home-subs">
+              <h3>Home Substitutes</h3>
+              {homeTeam.substitutes.map((sub) => (
+                <div
+                  key={sub.player.id}
+                  className="substitute-player"
+                  onClick={() => setSelectedPlayerId({ id: sub.player.id, number: sub.player.number })}
+                  style={{ cursor: "pointer" }}
+                >
+                  {sub.player.number}. {sub.player.name}
+                </div>
+              ))}
+            </div>
 
-  <div className="subs-side away-subs">
-    <h3>Away Substitutes</h3>
-    {awayTeam?.substitutes.length > 0 ? (
-      awayTeam.substitutes.map((sub) => (
-        <div key={sub.player.id} className="substitute-player">
-          {sub.player.number}. {sub.player.name}
-        </div>
-      ))
-    ) : (
-      <div>No substitutes</div>
-    )}
-  </div>
-</div>
-
+            <div className="subs-side away-subs">
+              <h3>Away Substitutes</h3>
+              {awayTeam.substitutes.map((sub) => (
+                <div
+                  key={sub.player.id}
+                  className="substitute-player"
+                  onClick={() => setSelectedPlayerId({ id: sub.player.id, number: sub.player.number })}
+                  style={{ cursor: "pointer" }}
+                >
+                  {sub.player.number}. {sub.player.name}
+                </div>
+              ))}
+            </div>
           </div>
-        </>
-        
-      )}
+        )}
+      </div>
+
       <PlayerModal
-          playerId={selectedPlayerId?.id}
-          squadNumber={selectedPlayerId?.number}
-          isOpen={!!selectedPlayerId}
-          onClose={() => setSelectedPlayerId(null)}
-        />
+        playerId={selectedPlayerId?.id}
+        squadNumber={selectedPlayerId?.number}
+        isOpen={!!selectedPlayerId}
+        onClose={() => setSelectedPlayerId(null)}
+      />
     </div>
-    
   );
 };
 

@@ -12,18 +12,27 @@ const Lineup = ({
   goalCounts = new Map(),
   substitutes = [],
   substitutions = [],
-  isOpen,
   isFallback = false,
 }) => {
-  if (!team || !team.formation || !team.startXI) return null;
-
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
-  const [playerPhotos, setPlayerPhotos] = useState({}); // id → photo URL
+  const [playerPhotos, setPlayerPhotos] = useState({});
   const [loadingPhotos, setLoadingPhotos] = useState(false);
+
+  console.log("Lineup component received team:", team);
+
+  if (!team) {
+    console.log("No team data provided to Lineup component");
+    return <div>No team data available</div>;
+  }
+
+  if (!team.startXI || team.startXI.length === 0) {
+    console.log("No starting XI data for team:", team.team?.name);
+    return <div>No starting lineup available for {team.team?.name}</div>;
+  }
 
   const allPlayers = [
     ...team.startXI.map((p) => p.player),
-    ...substitutes.map((s) => s.player),
+    ...(team.substitutes || []).map((s) => s.player),
   ];
 
   const subbedOffIds = new Set(
@@ -34,8 +43,13 @@ const Lineup = ({
   );
 
   const getFormationGroups = (players, formation) => {
+    if (!formation) {
+      console.log("No formation data available, using fallback 4-4-2");
+      formation = "4-4-2";
+    }
+
     const formationArray = formation.split("-").map(Number);
-    const goalkeeper = players[0].player;
+    const goalkeeper = players[0]?.player;
     let index = 1;
     const rows = formationArray.map((count) => {
       const group = players.slice(index, index + count).map((p) => p.player);
@@ -45,16 +59,15 @@ const Lineup = ({
     return { goalkeeper, rows };
   };
 
-  const { goalkeeper, rows } = getFormationGroups(team.startXI, team.formation);
+  const formation = team.formation || "4-4-2"; // default fallback
+  const { goalkeeper, rows } = getFormationGroups(team.startXI, formation);
   const orderedRows = isAway ? [...rows].reverse() : rows;
-  const orderedGoalkeeper = goalkeeper;
 
   useEffect(() => {
     if (!allPlayers.length) return;
 
     const fetchPlayerPhotos = async () => {
       setLoadingPhotos(true);
-      const photosMap = {};
 
       for (const player of allPlayers) {
         try {
@@ -71,7 +84,6 @@ const Lineup = ({
             }
           );
           if (res.data.response && res.data.response.length > 0) {
-            photosMap[player.id] = res.data.response[0].player.photo;
             setPlayerPhotos((prev) => ({
               ...prev,
               [player.id]: res.data.response[0].player.photo,
@@ -86,7 +98,7 @@ const Lineup = ({
     };
 
     fetchPlayerPhotos();
-  }, [team.startXI, substitutes]);
+  }, [team.startXI, team.substitutes]);
 
   const renderRow = (row, rowIndex) => (
     <div key={rowIndex} className="formation-row">
@@ -112,13 +124,13 @@ const Lineup = ({
             {goalCounts.has(player.id) && (
               <SportsSoccerIcon
                 fontSize="small"
-                style={{ height: "14px", marginLeft: 0, marginRight: -2 }}
+                style={{ height: "14px", marginLeft: 4 }}
               />
             )}
             {subbedOffIds.has(player.id) && (
               <LoopIcon
                 fontSize="small"
-                style={{ height: "14px", marginLeft: -1, marginRight: -2 }}
+                style={{ height: "14px", marginLeft: 4 }}
               />
             )}
           </div>
@@ -145,11 +157,11 @@ const Lineup = ({
           <div className="player-photo-placeholder" />
         )}
         <div className="player-text">
-          {keeper.number} . {keeper.name}
+          {keeper.number}. {keeper.name}
           {goalCounts.has(keeper.id) && (
             <SportsSoccerIcon
               fontSize="small"
-              style={{ height: "14px", marginLeft: 0 }}
+              style={{ height: "14px", marginLeft: 4 }}
             />
           )}
         </div>
@@ -169,60 +181,23 @@ const Lineup = ({
             {!isAway && isFallback && (
               <div className="fallback-lineup-label">Last lineup</div>
             )}
-            <div className="formation-display">{team.formation}</div>
+            <div className="formation-display">
+              {team.formation || "Formation unavailable"}
+            </div>
             {isAway && isFallback && (
               <div className="fallback-lineup-label">Last lineup</div>
             )}
           </div>
-          {!isAway && renderGoalkeeper(orderedGoalkeeper)}
-          {orderedRows.map(renderRow)}
-          {isAway && renderGoalkeeper(orderedGoalkeeper)}
+
+          {goalkeeper && (
+            <>
+              {!isAway && renderGoalkeeper(goalkeeper)}
+              {orderedRows.map(renderRow)}
+              {isAway && renderGoalkeeper(goalkeeper)}
+            </>
+          )}
         </div>
-{/* <div className="subs-container">
-        {substitutes.length > 0 && (
-          <div className="substitutes-box">
-            <h4>Substitutes</h4>
-            {[...substitutes]
-              .sort((a, b) => (b.player.pos === "G") - (a.player.pos === "G"))
-              .map((sub, i) => (
-                <div
-                  key={i}
-                  className="player-substitute"
-                  onClick={() =>
-                    setSelectedPlayerId({
-                      id: sub.player.id,
-                      number: sub.player.number,
-                    })
-                  }
-                >
-                  {playerPhotos[sub.player.id] ? (
-                    <img
-                      src={playerPhotos[sub.player.id]}
-                      alt={sub.player.name}
-                      className="player-photo-s"
-                    />
-                  ) : (
-                    <div className="player-photo-placeholder" />
-                  )}
-                  {sub.player.number}. {sub.player.name}
-                  {subbedOnIds.has(sub.player.id) && (
-                    <LoopIcon fontSize="small" style={{ height: "12px" }} />
-                  )}
-                  {goalCounts.has(sub.player.id) &&
-                    Array.from({ length: goalCounts.get(sub.player.id) }).map(
-                      (_, idx) => (
-                        <SportsSoccerIcon
-                          key={idx}
-                          fontSize="small"
-                          style={{ height: "12px", marginLeft: "-6px" }}
-                        />
-                      )
-                    )}
-                </div>
-              ))}
-          </div>
-        )}
-      </div> */}
+
         <PlayerModal
           playerId={selectedPlayerId?.id}
           squadNumber={selectedPlayerId?.number}
@@ -230,7 +205,6 @@ const Lineup = ({
           onClose={() => setSelectedPlayerId(null)}
         />
       </div>
-      
     </div>
   );
 };
