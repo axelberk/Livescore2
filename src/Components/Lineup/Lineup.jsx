@@ -10,23 +10,19 @@ const Lineup = ({
   color,
   isAway,
   goalCounts = new Map(),
-  substitutes = [],
   substitutions = [],
   isFallback = false,
+  
 }) => {
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
   const [playerPhotos, setPlayerPhotos] = useState({});
   const [loadingPhotos, setLoadingPhotos] = useState(false);
 
-  console.log("Lineup component received team:", team);
-
   if (!team) {
-    console.log("No team data provided to Lineup component");
     return <div>No team data available</div>;
   }
 
   if (!team.startXI || team.startXI.length === 0) {
-    console.log("No starting XI data for team:", team.team?.name);
     return <div>No starting lineup available for {team.team?.name}</div>;
   }
 
@@ -35,6 +31,7 @@ const Lineup = ({
     ...(team.substitutes || []).map((s) => s.player),
   ];
 
+  // Track substituted players to show substitution icons
   const subbedOffIds = new Set(
     substitutions.map((subs) => subs.player_out?.id).filter(Boolean)
   );
@@ -44,10 +41,8 @@ const Lineup = ({
 
   const getFormationGroups = (players, formation) => {
     if (!formation) {
-      console.log("No formation data available, using fallback 4-4-2");
       formation = "4-4-2";
     }
-
     const formationArray = formation.split("-").map(Number);
     const goalkeeper = players[0]?.player;
     let index = 1;
@@ -59,9 +54,11 @@ const Lineup = ({
     return { goalkeeper, rows };
   };
 
-  const formation = team.formation || "4-4-2"; // default fallback
+  const formation = team.formation || "4-4-2"; // fallback
   const { goalkeeper, rows } = getFormationGroups(team.startXI, formation);
-  const orderedRows = isAway ? [...rows].reverse() : rows;
+ const orderedGoalkeeper = isAway ? null : goalkeeper;
+const orderedRows = isAway ? [...rows].reverse() : rows;
+const bottomGoalkeeper = isAway ? goalkeeper : null;
 
   useEffect(() => {
     if (!allPlayers.length) return;
@@ -70,6 +67,7 @@ const Lineup = ({
       setLoadingPhotos(true);
 
       for (const player of allPlayers) {
+        if (playerPhotos[player.id]) continue; // skip if already loaded
         try {
           const res = await axios.get(
             "https://v3.football.api-sports.io/players",
@@ -98,7 +96,7 @@ const Lineup = ({
     };
 
     fetchPlayerPhotos();
-  }, [team.startXI, team.substitutes]);
+  }, [allPlayers]);
 
   const renderRow = (row, rowIndex) => (
     <div key={rowIndex} className="formation-row">
@@ -169,11 +167,9 @@ const Lineup = ({
     </div>
   );
 
-  return (
-    <div className="lineup-container">
-      <div className="lineup-wrapper">
-        <div className="pitch" style={{ borderColor: color }}>
-          <div
+ return (
+  <div className="pitch">
+    <div
             className={`formation-container ${
               isAway ? "away-corner" : "home-corner"
             }`}
@@ -182,31 +178,28 @@ const Lineup = ({
               <div className="fallback-lineup-label">Last lineup</div>
             )}
             <div className="formation-display">
-              {team.formation || "Formation unavailable"}
+              {team.formation || "4-4-2 (formation unavailable)"}
             </div>
             {isAway && isFallback && (
               <div className="fallback-lineup-label">Last lineup</div>
             )}
           </div>
-
-          {goalkeeper && (
-            <>
-              {!isAway && renderGoalkeeper(goalkeeper)}
-              {orderedRows.map(renderRow)}
-              {isAway && renderGoalkeeper(goalkeeper)}
-            </>
-          )}
-        </div>
-
-        <PlayerModal
-          playerId={selectedPlayerId?.id}
-          squadNumber={selectedPlayerId?.number}
-          isOpen={!!selectedPlayerId}
-          onClose={() => setSelectedPlayerId(null)}
-        />
-      </div>
+  <div className="lineup-container">
+    <div className="formation" style={{ borderColor: color }}>
+      {orderedGoalkeeper && renderGoalkeeper(orderedGoalkeeper)}
+      {orderedRows.map((row, idx) => renderRow(row, idx))}
+      {bottomGoalkeeper && renderGoalkeeper(bottomGoalkeeper)}
     </div>
-  );
+
+    <PlayerModal
+      playerId={selectedPlayerId?.id}
+      squadNumber={selectedPlayerId?.number}
+      isOpen={!!selectedPlayerId}
+      onClose={() => setSelectedPlayerId(null)}
+    />
+  </div>
+  </div>
+);
 };
 
 export default Lineup;

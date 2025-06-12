@@ -1,13 +1,13 @@
-
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import "./Match.css";
 import Lineup from "../Lineup/Lineup";
 import { Skeleton, Box } from "@mui/material";
-import { Link } from "react-router-dom";
 import Header from "../Header/Header";
 import PlayerModal from "../PlayerModal/PlayerModal";
+import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
+import LoopIcon from "@mui/icons-material/Loop";
 
 const MatchSkeleton = () => (
   <Box padding={2}>
@@ -20,7 +20,7 @@ const MatchSkeleton = () => (
 );
 
 const Match = () => {
-  const { matchId } = useParams(); 
+  const { matchId } = useParams();
   const [fixture, setFixture] = useState(null);
   const [lineups, setLineups] = useState(null);
   const [goalScorerIds, setGoalScorerIds] = useState(new Map());
@@ -28,35 +28,84 @@ const Match = () => {
   const [loading, setLoading] = useState(true);
   const [usingFallback, setUsingFallback] = useState(false);
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
+  const [playerPhotos, setPlayerPhotos] = useState({});
 
   useEffect(() => {
     const fetchFixtureAndDetails = async () => {
       try {
         console.log("Fetching match data for ID:", matchId);
-        
+
         const fixtureRes = await axios.get(
           "https://v3.football.api-sports.io/fixtures",
-          {headers: {
+          {
+            headers: {
               "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-            }, params: { id: matchId } }
+            },
+            params: { id: matchId },
+          }
         );
         const match = fixtureRes.data.response[0];
-        console.log("Fixture data:", match);
         setFixture(match);
 
         const [lineupsRes, eventsRes] = await Promise.all([
-          axios.get(`https://v3.football.api-sports.io/fixtures/lineups?fixture=${matchId}`, {headers: {
-              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-            }, params: { fixture: matchId } }),
-          axios.get(`https://v3.football.api-sports.io/fixtures/events?fixture=${matchId}`,  {headers: {
-              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-            }, params: { fixture: matchId } }),
+          axios.get(
+            `https://v3.football.api-sports.io/fixtures/lineups?fixture=${matchId}`,
+            {
+              headers: {
+                "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+              },
+            }
+          ),
+          axios.get(
+            `https://v3.football.api-sports.io/fixtures/events?fixture=${matchId}`,
+            {
+              headers: {
+                "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+              },
+            }
+          ),
         ]);
 
-        console.log("Lineups API response:", lineupsRes.data);
         setLineups(lineupsRes.data.response);
 
+        const allPlayers = [
+  ...(homeTeam?.startXI || []).map((p) => p.player),
+  ...(homeTeam?.substitutes || []).map((p) => p.player),
+  ...(awayTeam?.startXI || []).map((p) => p.player),
+  ...(awayTeam?.substitutes || []).map((p) => p.player),
+];
+
+const fetchPlayerPhotos = async () => {
+  const photos = {};
+  for (const player of allPlayers) {
+    try {
+      const res = await axios.get(
+        "https://v3.football.api-sports.io/players",
+        {
+          headers: {
+            "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+          },
+          params: {
+            id: player.id,
+            season: "2024",
+          },
+        }
+      );
+      const data = res.data.response[0]?.player?.photo;
+      if (data) {
+        photos[player.id] = data;
+      }
+    } catch (e) {
+      console.warn("Photo not found for player", player.name);
+    }
+  }
+  setPlayerPhotos(photos);
+};
+
+await fetchPlayerPhotos();
+
         const allEvents = eventsRes.data.response;
+
         const subs = allEvents
           .filter((e) => e.type === "subst")
           .map((e) => ({
@@ -65,7 +114,6 @@ const Match = () => {
             team: e.team,
             time: e.time.elapsed,
           }));
-
         setSubstitutions(subs);
 
         const goalMap = new Map();
@@ -87,35 +135,44 @@ const Match = () => {
   }, [matchId]);
 
   if (loading) return <MatchSkeleton />;
-  
-  if (!fixture) {
-    return <div>Error loading match data.</div>;
-  }
 
-  if (!lineups || lineups.length === 0) {
+  if (!fixture) return <div>Error loading match data.</div>;
+
+  if (!lineups || lineups.length === 0)
     return (
       <div className="Match">
-        <Header/>
+        <Header />
         <div>No lineups available for this match.</div>
       </div>
     );
-  }
 
-  const homeTeam = lineups.find((team) => team.team.id === fixture.teams.home.id);
-  const awayTeam = lineups.find((team) => team.team.id === fixture.teams.away.id);
+  const homeTeam = lineups.find(
+    (team) => team.team.id === fixture.teams.home.id
+  );
+  const awayTeam = lineups.find(
+    (team) => team.team.id === fixture.teams.away.id
+  );
 
-  console.log("Home team lineup:", homeTeam);
-  console.log("Away team lineup:", awayTeam);
+  const homeSubs = substitutions.filter(
+    (s) => s.team.id === fixture.teams.home.id
+  );
+  const awaySubs = substitutions.filter(
+    (s) => s.team.id === fixture.teams.away.id
+  );
 
-  const homeSubs = substitutions.filter((s) => s.team.id === fixture.teams.home.id);
-  const awaySubs = substitutions.filter((s) => s.team.id === fixture.teams.away.id);
+  const subbedOnIds = new Set(
+  substitutions.map((s) => s.player_in?.id).filter(Boolean)
+);
 
   const getMatchStatus = () => {
     const { status, timestamp } = fixture.fixture;
     switch (status.short) {
       case "NS":
         const kickoff = new Date(timestamp * 1000);
-        return `Kickoff: ${kickoff.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+        return `Kickoff: ${kickoff.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        })}`;
       case "1H":
       case "2H":
       case "ET":
@@ -133,7 +190,7 @@ const Match = () => {
 
   return (
     <div className="Match">
-      <Header/>
+      <Header />
       <div className="match-container">
         <div className="match-header">
           <div className="team-info">
@@ -172,6 +229,7 @@ const Match = () => {
                 goalCounts={goalScorerIds}
                 substitutions={homeSubs}
                 isFallback={usingFallback}
+                playerPhotos={playerPhotos}
               />
             </div>
           ) : (
@@ -191,6 +249,7 @@ const Match = () => {
                 goalCounts={goalScorerIds}
                 substitutions={awaySubs}
                 isFallback={usingFallback}
+                playerPhotos={playerPhotos}
               />
             </div>
           ) : (
@@ -200,33 +259,91 @@ const Match = () => {
 
         {homeTeam?.substitutes && awayTeam?.substitutes && (
           <div className="subs-wrapper">
-            <div className="subs-side home-subs">
-              <h3>Home Substitutes</h3>
-              {homeTeam.substitutes.map((sub) => (
-                <div
-                  key={sub.player.id}
-                  className="substitute-player"
-                  onClick={() => setSelectedPlayerId({ id: sub.player.id, number: sub.player.number })}
-                  style={{ cursor: "pointer" }}
-                >
-                  {sub.player.number}. {sub.player.name}
-                </div>
-              ))}
-            </div>
+           <div className="subs-side home-subs">
+  <h3>Home Substitutes</h3>
+  {homeTeam.substitutes.map((sub) => {
+  const isGoalscorer = goalScorerIds.has(sub.player.id);
+  const wasSubbedOn = subbedOnIds.has(sub.player.id);
 
-            <div className="subs-side away-subs">
-              <h3>Away Substitutes</h3>
-              {awayTeam.substitutes.map((sub) => (
-                <div
-                  key={sub.player.id}
-                  className="substitute-player"
-                  onClick={() => setSelectedPlayerId({ id: sub.player.id, number: sub.player.number })}
-                  style={{ cursor: "pointer" }}
-                >
-                  {sub.player.number}. {sub.player.name}
-                </div>
-              ))}
-            </div>
+  return (
+    <div
+      key={sub.player.id}
+      className="substitute-player"
+      onClick={() =>
+        setSelectedPlayerId({
+          id: sub.player.id,
+          number: sub.player.number,
+        })
+      }
+    >
+      {playerPhotos[sub.player.id] && (
+        <img
+          src={playerPhotos[sub.player.id]}
+          alt={sub.player.name}
+          className="player-photo-sub"
+        />
+      )}
+      {sub.player.number}. {sub.player.name}
+      {isGoalscorer && (
+        <SportsSoccerIcon
+          fontSize="small"
+          style={{ height: "14px", marginLeft: 4 }}
+        />
+      )}
+      {wasSubbedOn && (
+        <LoopIcon
+          fontSize="small"
+          style={{ height: "14px", marginLeft: 4 }}
+        />
+      )}
+    </div>
+  );
+})}
+
+</div>
+
+           <div className="subs-side away-subs">
+  <h3>Away Substitutes</h3>
+  {awayTeam.substitutes.map((sub) => {
+  const isGoalscorer = goalScorerIds.has(sub.player.id);
+  const wasSubbedOn = subbedOnIds.has(sub.player.id);
+
+  return (
+    <div
+      key={sub.player.id}
+      className="substitute-player"
+      onClick={() =>
+        setSelectedPlayerId({
+          id: sub.player.id,
+          number: sub.player.number,
+        })
+      }
+    >
+      {playerPhotos[sub.player.id] && (
+        <img
+          src={playerPhotos[sub.player.id]}
+          alt={sub.player.name}
+          className="player-photo-sub"
+        />
+      )}
+      {sub.player.number}. {sub.player.name}
+      {isGoalscorer && (
+        <SportsSoccerIcon
+          fontSize="small"
+          style={{ height: "14px", marginLeft: 4 }}
+        />
+      )}
+      {wasSubbedOn && (
+        <LoopIcon
+          fontSize="small"
+          style={{ height: "14px", marginLeft: 4 }}
+        />
+      )}
+    </div>
+  );
+})}
+
+</div>
           </div>
         )}
       </div>
