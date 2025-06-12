@@ -283,19 +283,21 @@ await fetchPlayerPhotos();
           className="player-photo-sub"
         />
       )}
+      <div className="sub-text">
       {sub.player.number}. {sub.player.name}
-      {isGoalscorer && (
-        <SportsSoccerIcon
-          fontSize="small"
-          style={{ height: "14px", marginLeft: 4 }}
-        />
-      )}
       {wasSubbedOn && (
         <LoopIcon
           fontSize="small"
           style={{ height: "14px", marginLeft: 4 }}
         />
       )}
+      {isGoalscorer && (
+        <SportsSoccerIcon
+          fontSize="small"
+          style={{ height: "14px", marginLeft: 4 }}
+        />
+      )}
+      </div>
     </div>
   );
 })}
@@ -326,19 +328,21 @@ await fetchPlayerPhotos();
           className="player-photo-sub"
         />
       )}
+      <div className="sub-text">
       {sub.player.number}. {sub.player.name}
-      {isGoalscorer && (
-        <SportsSoccerIcon
-          fontSize="small"
-          style={{ height: "14px", marginLeft: 4 }}
-        />
-      )}
       {wasSubbedOn && (
         <LoopIcon
           fontSize="small"
           style={{ height: "14px", marginLeft: 4 }}
         />
       )}
+      {isGoalscorer && (
+        <SportsSoccerIcon
+          fontSize="small"
+          style={{ height: "14px", marginLeft: 4 }}
+        />
+      )}
+      </div>
     </div>
   );
 })}
