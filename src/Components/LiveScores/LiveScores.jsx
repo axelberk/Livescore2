@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135, 88, 40, 114, 5, 10, 15];
+const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135, 88, 40, 114, 5, 10, 15, 38];
 
 const ScoreSkeleton = () => (
   <Box padding={2} className="league-display">

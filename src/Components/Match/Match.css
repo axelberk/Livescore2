@@ -79,6 +79,10 @@
   text-align: left;
 }
 
+.subs-wrapper h3 {
+  text-align: center;
+}
+
 .subs-side {
   flex: 1;
   max-width: 300px;
