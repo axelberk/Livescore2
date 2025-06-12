@@ -122,13 +122,13 @@ const bottomGoalkeeper = isAway ? goalkeeper : null;
             {goalCounts.has(player.id) && (
               <SportsSoccerIcon
                 fontSize="small"
-                style={{ height: "14px", marginLeft: 4 }}
+                style={{ height: "14px", marginLeft: 3 }}
               />
             )}
             {subbedOffIds.has(player.id) && (
               <LoopIcon
                 fontSize="small"
-                style={{ height: "14px", marginLeft: 4 }}
+                style={{ height: "14px", marginLeft: 0}}
               />
             )}
           </div>
