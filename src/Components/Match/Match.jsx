@@ -229,9 +229,9 @@ const fixtureRes = await fetchWithCache("https://v3.football.api-sports.io/fixtu
             <div>Home team lineup not available</div>
           )}
 
-          <div className="pitch-divider horizontal">
+          {/* <div className="pitch-divider horizontal">
             <div className="center-circle horizontal-circle"></div>
-          </div>
+          </div> */}
 
           {awayTeam ? (
             <div className="pitch-side">
