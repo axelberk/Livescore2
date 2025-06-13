@@ -68,41 +68,48 @@ const Match = () => {
 
         setLineups(lineupsRes.data.response);
 
+        const homeTeam = lineupsRes.data.response.find(
+          (team) => team.team.id === match.teams.home.id
+        );
+        const awayTeam = lineupsRes.data.response.find(
+          (team) => team.team.id === match.teams.away.id
+        );
+
         const allPlayers = [
-  ...(homeTeam?.startXI || []).map((p) => p.player),
-  ...(homeTeam?.substitutes || []).map((p) => p.player),
-  ...(awayTeam?.startXI || []).map((p) => p.player),
-  ...(awayTeam?.substitutes || []).map((p) => p.player),
-];
+          ...(homeTeam?.startXI || []).map((p) => p.player),
+          ...(homeTeam?.substitutes || []).map((p) => p.player),
+          ...(awayTeam?.startXI || []).map((p) => p.player),
+          ...(awayTeam?.substitutes || []).map((p) => p.player),
+        ];
 
-const fetchPlayerPhotos = async () => {
-  const photos = {};
-  for (const player of allPlayers) {
-    try {
-      const res = await axios.get(
-        "https://v3.football.api-sports.io/players",
-        {
-          headers: {
-            "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-          },
-          params: {
-            id: player.id,
-            season: "2024",
-          },
-        }
-      );
-      const data = res.data.response[0]?.player?.photo;
-      if (data) {
-        photos[player.id] = data;
-      }
-    } catch (e) {
-      console.warn("Photo not found for player", player.name);
-    }
-  }
-  setPlayerPhotos(photos);
-};
+        const fetchPlayerPhotos = async () => {
+          const photos = {};
+          for (const player of allPlayers) {
+            try {
+              const res = await axios.get(
+                "https://v3.football.api-sports.io/players",
+                {
+                  headers: {
+                    "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+                  },
+                  params: {
+                    id: player.id,
+                    season: "2024",
+                  },
+                }
+              );
+              const data = res.data.response[0]?.player?.photo;
+              if (data) {
+                photos[player.id] = data;
+              }
+            } catch (e) {
+              console.warn("Photo not found for player", player.name);
+            }
+          }
+          setPlayerPhotos(photos);
+        };
 
-await fetchPlayerPhotos();
+        await fetchPlayerPhotos();
 
         const allEvents = eventsRes.data.response;
 
@@ -135,9 +142,7 @@ await fetchPlayerPhotos();
   }, [matchId]);
 
   if (loading) return <MatchSkeleton />;
-
   if (!fixture) return <div>Error loading match data.</div>;
-
   if (!lineups || lineups.length === 0)
     return (
       <div className="Match">
@@ -146,23 +151,15 @@ await fetchPlayerPhotos();
       </div>
     );
 
-  const homeTeam = lineups.find(
-    (team) => team.team.id === fixture.teams.home.id
-  );
-  const awayTeam = lineups.find(
-    (team) => team.team.id === fixture.teams.away.id
-  );
+  const homeTeam = lineups.find((team) => team.team.id === fixture.teams.home.id);
+  const awayTeam = lineups.find((team) => team.team.id === fixture.teams.away.id);
 
-  const homeSubs = substitutions.filter(
-    (s) => s.team.id === fixture.teams.home.id
-  );
-  const awaySubs = substitutions.filter(
-    (s) => s.team.id === fixture.teams.away.id
-  );
+  const homeSubs = substitutions.filter((s) => s.team.id === fixture.teams.home.id);
+  const awaySubs = substitutions.filter((s) => s.team.id === fixture.teams.away.id);
 
   const subbedOnIds = new Set(
-  substitutions.map((s) => s.player_in?.id).filter(Boolean)
-);
+    substitutions.map((s) => s.player_in?.id).filter(Boolean)
+  );
 
   const getMatchStatus = () => {
     const { status, timestamp } = fixture.fixture;
@@ -259,95 +256,79 @@ await fetchPlayerPhotos();
 
         {homeTeam?.substitutes && awayTeam?.substitutes && (
           <div className="subs-wrapper">
-           <div className="subs-side home-subs">
-  <h3>Home Substitutes</h3>
-  {homeTeam.substitutes.map((sub) => {
-  const isGoalscorer = goalScorerIds.has(sub.player.id);
-  const wasSubbedOn = subbedOnIds.has(sub.player.id);
+            <div className="subs-side home-subs">
+              <h3>Home Substitutes</h3>
+              {homeTeam.substitutes.map((sub) => {
+                const isGoalscorer = goalScorerIds.has(sub.player.id);
+                const wasSubbedOn = subbedOnIds.has(sub.player.id);
+                return (
+                  <div
+                    key={sub.player.id}
+                    className="substitute-player"
+                    onClick={() =>
+                      setSelectedPlayerId({
+                        id: sub.player.id,
+                        number: sub.player.number,
+                      })
+                    }
+                  >
+                    {playerPhotos[sub.player.id] && (
+                      <img
+                        src={playerPhotos[sub.player.id]}
+                        alt={sub.player.name}
+                        className="player-photo-sub"
+                      />
+                    )}
+                    <div className="sub-text">
+                      {sub.player.number}. {sub.player.name}
+                      {wasSubbedOn && (
+                        <LoopIcon fontSize="small" style={{ height: "14px", marginLeft: 4 }} />
+                      )}
+                      {isGoalscorer && (
+                        <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 4 }} />
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
 
-  return (
-    <div
-      key={sub.player.id}
-      className="substitute-player"
-      onClick={() =>
-        setSelectedPlayerId({
-          id: sub.player.id,
-          number: sub.player.number,
-        })
-      }
-    >
-      {playerPhotos[sub.player.id] && (
-        <img
-          src={playerPhotos[sub.player.id]}
-          alt={sub.player.name}
-          className="player-photo-sub"
-        />
-      )}
-      <div className="sub-text">
-      {sub.player.number}. {sub.player.name}
-      {wasSubbedOn && (
-        <LoopIcon
-          fontSize="small"
-          style={{ height: "14px", marginLeft: 4 }}
-        />
-      )}
-      {isGoalscorer && (
-        <SportsSoccerIcon
-          fontSize="small"
-          style={{ height: "14px", marginLeft: 4 }}
-        />
-      )}
-      </div>
-    </div>
-  );
-})}
-
-</div>
-
-           <div className="subs-side away-subs">
-  <h3>Away Substitutes</h3>
-  {awayTeam.substitutes.map((sub) => {
-  const isGoalscorer = goalScorerIds.has(sub.player.id);
-  const wasSubbedOn = subbedOnIds.has(sub.player.id);
-
-  return (
-    <div
-      key={sub.player.id}
-      className="substitute-player"
-      onClick={() =>
-        setSelectedPlayerId({
-          id: sub.player.id,
-          number: sub.player.number,
-        })
-      }
-    >
-      {playerPhotos[sub.player.id] && (
-        <img
-          src={playerPhotos[sub.player.id]}
-          alt={sub.player.name}
-          className="player-photo-sub"
-        />
-      )}
-      <div className="sub-text">
-      {sub.player.number}. {sub.player.name}
-      {wasSubbedOn && (
-        <LoopIcon
-          fontSize="small"
-          style={{ height: "14px", marginLeft: 2 }}
-        />
-      )}
-      {isGoalscorer && (
-        <SportsSoccerIcon
-          fontSize="small"
-          style={{ height: "14px", marginLeft: 0 }}
-        />
-      )}
-      </div>
-    </div>
-  );
-})}
-
-</div>
+            <div className="subs-side away-subs">
+              <h3>Away Substitutes</h3>
+              {awayTeam.substitutes.map((sub) => {
+                const isGoalscorer = goalScorerIds.has(sub.player.id);
+                const wasSubbedOn = subbedOnIds.has(sub.player.id);
+                return (
+                  <div
+                    key={sub.player.id}
+                    className="substitute-player"
+                    onClick={() =>
+                      setSelectedPlayerId({
+                        id: sub.player.id,
+                        number: sub.player.number,
+                      })
+                    }
+                  >
+                    {playerPhotos[sub.player.id] && (
+                      <img
+                        src={playerPhotos[sub.player.id]}
+                        alt={sub.player.name}
+                        className="player-photo-sub"
+                      />
+                    )}
+                    <div className="sub-text">
+                      {sub.player.number}. {sub.player.name}
+                      {wasSubbedOn && (
+                        <LoopIcon fontSize="small" style={{ height: "14px", marginLeft: 2 }} />
+                      )}
+                      {isGoalscorer && (
+                        <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 0 }} />
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
       </div>

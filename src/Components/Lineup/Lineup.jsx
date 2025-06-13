@@ -12,11 +12,11 @@ const Lineup = ({
   goalCounts = new Map(),
   substitutions = [],
   isFallback = false,
-  
+    playerPhotos = {}, 
 }) => {
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
-  const [playerPhotos, setPlayerPhotos] = useState({});
-  const [loadingPhotos, setLoadingPhotos] = useState(false);
+  // // const [playerPhotos, setPlayerPhotos] = useState({});
+  // const [loadingPhotos, setLoadingPhotos] = useState(false);
 
   if (!team) {
     return <div>No team data available</div>;
@@ -31,7 +31,6 @@ const Lineup = ({
     ...(team.substitutes || []).map((s) => s.player),
   ];
 
-  // Track substituted players to show substitution icons
   const subbedOffIds = new Set(
     substitutions.map((subs) => subs.player_out?.id).filter(Boolean)
   );
@@ -60,43 +59,43 @@ const Lineup = ({
 const orderedRows = isAway ? [...rows].reverse() : rows;
 const bottomGoalkeeper = isAway ? goalkeeper : null;
 
-  useEffect(() => {
-    if (!allPlayers.length) return;
+  // useEffect(() => {
+  //   if (!allPlayers.length) return;
 
-    const fetchPlayerPhotos = async () => {
-      setLoadingPhotos(true);
+  //   const fetchPlayerPhotos = async () => {
+  //     setLoadingPhotos(true);
 
-      for (const player of allPlayers) {
-        if (playerPhotos[player.id]) continue; // skip if already loaded
-        try {
-          const res = await axios.get(
-            "https://v3.football.api-sports.io/players",
-            {
-              headers: {
-                "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-              },
-              params: {
-                id: player.id,
-                season: "2024",
-              },
-            }
-          );
-          if (res.data.response && res.data.response.length > 0) {
-            setPlayerPhotos((prev) => ({
-              ...prev,
-              [player.id]: res.data.response[0].player.photo,
-            }));
-          }
-        } catch (error) {
-          console.error(`Failed to fetch photo for player ${player.id}`, error);
-        }
-      }
+  //     for (const player of allPlayers) {
+  //       if (playerPhotos[player.id]) continue; 
+  //       try {
+  //         const res = await axios.get(
+  //           "https://v3.football.api-sports.io/players",
+  //           {
+  //             headers: {
+  //               "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+  //             },
+  //             params: {
+  //               id: player.id,
+  //               season: "2024",
+  //             },
+  //           }
+  //         );
+  //         if (res.data.response && res.data.response.length > 0) {
+  //           setPlayerPhotos((prev) => ({
+  //             ...prev,
+  //             [player.id]: res.data.response[0].player.photo,
+  //           }));
+  //         }
+  //       } catch (error) {
+  //         console.error(`Failed to fetch photo for player ${player.id}`, error);
+  //       }
+  //     }
 
-      setLoadingPhotos(false);
-    };
+  //     setLoadingPhotos(false);
+  //   };
 
-    fetchPlayerPhotos();
-  }, [allPlayers]);
+  //   fetchPlayerPhotos();
+  // }, [allPlayers]);
 
   const renderRow = (row, rowIndex) => (
     <div key={rowIndex} className="formation-row">
