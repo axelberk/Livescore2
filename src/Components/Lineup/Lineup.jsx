@@ -167,7 +167,8 @@ const bottomGoalkeeper = isAway ? goalkeeper : null;
   );
 
  return (
-  <div className="pitch">
+  <div className="pitch-container">
+  <div className="pitch-half">
     <div
             className={`formation-container ${
               isAway ? "away-corner" : "home-corner"
@@ -196,6 +197,7 @@ const bottomGoalkeeper = isAway ? goalkeeper : null;
       isOpen={!!selectedPlayerId}
       onClose={() => setSelectedPlayerId(null)}
     />
+  </div>
   </div>
   </div>
 );
