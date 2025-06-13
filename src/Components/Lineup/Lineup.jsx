@@ -15,7 +15,7 @@ const Lineup = ({
     playerPhotos = {}, 
 }) => {
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
-  // // const [playerPhotos, setPlayerPhotos] = useState({});
+  // const [playerPhotos, setPlayerPhotos] = useState({});
   // const [loadingPhotos, setLoadingPhotos] = useState(false);
 
   if (!team) {

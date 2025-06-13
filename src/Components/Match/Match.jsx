@@ -8,6 +8,7 @@ import Header from "../Header/Header";
 import PlayerModal from "../PlayerModal/PlayerModal";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import LoopIcon from "@mui/icons-material/Loop";
+import { fetchWithCache } from "../../../utils/apiCache";
 
 const MatchSkeleton = () => (
   <Box padding={2}>
@@ -35,20 +36,15 @@ const Match = () => {
       try {
         console.log("Fetching match data for ID:", matchId);
 
-        const fixtureRes = await axios.get(
-          "https://v3.football.api-sports.io/fixtures",
-          {
-            headers: {
-              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-            },
-            params: { id: matchId },
-          }
-        );
+const fixtureRes = await fetchWithCache("https://v3.football.api-sports.io/fixtures", {
+  headers: { "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY },
+  params: { id: matchId },
+});
         const match = fixtureRes.data.response[0];
         setFixture(match);
 
         const [lineupsRes, eventsRes] = await Promise.all([
-          axios.get(
+          fetchWithCache(
             `https://v3.football.api-sports.io/fixtures/lineups?fixture=${matchId}`,
             {
               headers: {
@@ -56,7 +52,7 @@ const Match = () => {
               },
             }
           ),
-          axios.get(
+          fetchWithCache(
             `https://v3.football.api-sports.io/fixtures/events?fixture=${matchId}`,
             {
               headers: {
@@ -86,7 +82,7 @@ const Match = () => {
           const photos = {};
           for (const player of allPlayers) {
             try {
-              const res = await axios.get(
+              const res = await fetchWithCache(
                 "https://v3.football.api-sports.io/players",
                 {
                   headers: {
