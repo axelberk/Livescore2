@@ -168,7 +168,15 @@ const bottomGoalkeeper = isAway ? goalkeeper : null;
 
  return (
   <div className="pitch-container">
+     <div className="pitch-markings">
+  <div className="penalty-area home-penalty"></div>
+  <div className="penalty-area away-penalty"></div>
+ 
+
+</div>
+    
   <div className="pitch-half">
+   
     <div
             className={`formation-container ${
               isAway ? "away-corner" : "home-corner"

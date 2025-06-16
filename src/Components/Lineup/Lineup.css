@@ -43,9 +43,9 @@
   justify-content: space-between;
   /* background: #4ca752; */
   width: 100%;
-  max-height: 100%;
+  height: 100%;
   
-  color: white;
+  color: black;
   font-size: 0.8rem;
   position: relative; 
  
@@ -56,14 +56,19 @@
   display: flex;
   justify-content: center;
   
-  gap: 3px;
+  gap: 1px;
+}
+
+.goalkeeper {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .player {
   /* background: rgba(255, 255, 255, 0.1); */
-  padding: 1rem 1rem;
+  padding: 0.6rem 1rem;
   border-radius: 20px;
-  /* margin: 0rem 1rem; */
+  margin: 0rem 1rem;
   text-align: center;
   display: flex;
   align-items: center;
@@ -71,6 +76,7 @@
   transition: 0.3s ease;
   display: flex;
   flex-direction: column;
+  z-index: 1;
 }
 
 .player-text {
@@ -87,6 +93,7 @@
 
 .player:hover {
   background-color: rgb(53, 121, 57);
+  color: white;
 }
 
 /* .substitutes-box {
@@ -145,4 +152,54 @@
     transform: scale(0.7);
     opacity: 0;
   }
+}
+
+.pitch-markings {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.center-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  margin-left: -40px;
+  margin-top: -40px;
+  border: 2px solid white;
+  border-radius: 50%;
+}
+
+.halfway-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: 100%;
+  background: white;
+}
+
+.penalty-area {
+  position: absolute;
+  width: 300px;  
+  height: 130px;  
+  border: 2px solid white;
+}
+
+.home-penalty {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.away-penalty {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }

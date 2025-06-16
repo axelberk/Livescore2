@@ -51,11 +51,12 @@
   align-items: center;
   position: relative;
   margin-bottom: 20px;
-  width: 100%;
+
  
 position: relative; /* important to position child elements absolutely if needed */
   overflow: hidden; /* optional: to avoid overflow issues */
-  background: url('/Football_field.svg.png') no-repeat center center;
+  /* background: url('/Football_field.svg.png') no-repeat center center; */
+  background-color: #B2FFB0;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;

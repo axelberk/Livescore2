@@ -9,7 +9,6 @@ import PlayerModal from "../PlayerModal/PlayerModal";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import LoopIcon from "@mui/icons-material/Loop";
 import { fetchWithCache } from "../../../utils/apiCache";
-import FootballPitch from "../FootballPitch";
 
 const MatchSkeleton = () => (
   <Box padding={2}>
@@ -185,7 +184,6 @@ const fixtureRes = await fetchWithCache("https://v3.football.api-sports.io/fixtu
   return (
     <div className="Match">
       <Header />
-      {/* <FootballPitch></FootballPitch> */}
       <div className="match-container">
         <div className="match-header">
           <div className="team-info">
@@ -231,9 +229,9 @@ const fixtureRes = await fetchWithCache("https://v3.football.api-sports.io/fixtu
             <div>Home team lineup not available</div>
           )}
 
-          {/* <div className="pitch-divider horizontal">
+          <div className="pitch-divider horizontal">
             <div className="center-circle horizontal-circle"></div>
-          </div> */}
+          </div>
 
           {awayTeam ? (
             <div className="pitch-side">
