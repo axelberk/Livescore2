@@ -34,8 +34,6 @@ const Match = () => {
   useEffect(() => {
     const fetchFixtureAndDetails = async () => {
       try {
-        console.log("Fetching match data for ID:", matchId);
-
         const fixtureRes = await fetchWithCache("https://v3.football.api-sports.io/fixtures", {
           headers: { "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY },
           params: { id: matchId },
@@ -278,10 +276,10 @@ const Match = () => {
                     <div className="sub-text">
                       {sub.player.number}. {sub.player.name}
                       {wasSubbedOn && (
-                        <LoopIcon className="sub-icon" />
+                        <LoopIcon fontSize="small" className="sub-icon" />
                       )}
                       {isGoalscorer && (
-                        <SportsSoccerIcon size={14} />
+                        <SportsSoccerIcon fontSize="small" className="goal-icon" />
                       )}
                     </div>
                   </div>
@@ -315,10 +313,10 @@ const Match = () => {
                     <div className="sub-text">
                       {sub.player.number}. {sub.player.name}
                       {wasSubbedOn && (
-                        <LoopIcon size={14} className="sub-icon"/>
+                        <LoopIcon fontSize="small" className="sub-icon"/>
                       )}
                       {isGoalscorer && (
-                        <SportsSoccerIcon size={14} className="ml-1 text-yellow-500" />
+                        <SportsSoccerIcon fontSize="small" className="goal-icon" />
                       )}
                     </div>
                   </div>

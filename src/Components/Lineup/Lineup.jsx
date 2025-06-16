@@ -80,7 +80,6 @@ const Lineup = ({
       <div className="pitch-markings">
         <div className="penalty-area home-penalty"></div>
         <div className="penalty-area away-penalty"></div>
-        <div className="center-circle"></div>
         <div className="halfway-line"></div>
       </div>
       

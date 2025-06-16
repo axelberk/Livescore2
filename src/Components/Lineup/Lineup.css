@@ -72,12 +72,13 @@
   z-index: 5;
   padding: 4px;
   border-radius: 8px;
+  
 }
 
 .positioned-player:hover {
   background-color: rgba(53, 121, 57, 0.8);
   color: white;
-  transform: translate(-50%, -50%) scale(1.1);
+  /* transform: translate(-50%, -50%) scale(1.1); */
 }
 
 .player-photo-positioned {
@@ -122,12 +123,13 @@ font-weight: 400;
 
 .player-icons {
   display: flex;
-  gap: 2px;
+
   margin-top: 2px;
 }
 
 .goal-icon {
  margin-left: 2px;
+ color: green;
 }
 
 .sub-icon {
