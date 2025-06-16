@@ -1,4 +1,3 @@
-
 import "./Lineup.css";
 import { useState } from "react";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
@@ -13,7 +12,7 @@ const Lineup = ({
   goalCounts = new Map(),
   substitutions = [],
   isFallback = false,
-  playerPhotos = {}, 
+  playerPhotos = {},
 }) => {
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
 
@@ -30,10 +29,11 @@ const Lineup = ({
   );
 
   const formation = team.formation || "4-4-2";
-  const positions = formationsPositions[formation] || formationsPositions["4-4-2"];
+  const positions =
+    formationsPositions[formation] || formationsPositions["4-4-2"];
 
   const renderPlayer = (player, position, index) => {
-    const adjustedPosition = !isAway 
+    const adjustedPosition = !isAway
       ? { x: position.x, y: 100 - position.y }
       : position;
 
@@ -59,12 +59,22 @@ const Lineup = ({
           <div className="player-photo-placeholder-positioned" />
         )}
         <div className="player-text-positioned">
-          <span className="player-number">{player.number}{". "}{player.name}</span>
-        
-         
+          <span className="player-number">
+            {player.number}
+            {". "}
+            {player.name}
+          </span>
+
           <div className="player-icons">
             {goalCounts.has(player.id) && (
-              <SportsSoccerIcon fontSize="small" className="goal-icon" />
+              <div className="goal-icon-wrapper">
+                <SportsSoccerIcon fontSize="small" className="goal-icon" />
+                {goalCounts.get(player.id) > 1 && (
+                  <span className="goal-count">
+                    {goalCounts.get(player.id)}
+                  </span>
+                )}
+              </div>
             )}
             {subbedOffIds.has(player.id) && (
               <LoopIcon fontSize="small" className="sub-icon" />
@@ -82,7 +92,7 @@ const Lineup = ({
         <div className="penalty-area away-penalty"></div>
         <div className="halfway-line"></div>
       </div>
-      
+
       <div className="pitch-half">
         <div
           className={`formation-container ${
@@ -102,7 +112,7 @@ const Lineup = ({
 
         <div className="lineup-container">
           <div className="formation-positioned" style={{ borderColor: color }}>
-            {team.startXI.map((playerObj, index) => 
+            {team.startXI.map((playerObj, index) =>
               renderPlayer(playerObj.player, positions[index], index)
             )}
           </div>

@@ -72,7 +72,7 @@
   z-index: 5;
   padding: 4px;
   border-radius: 8px;
-  
+ 
 }
 
 .positioned-player:hover {
@@ -241,4 +241,23 @@ font-weight: 400;
     transform: scale(0.7);
     opacity: 0;
   }
+}
+
+.goal-icon-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 4px;
+}
+
+.goal-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #000000;
+  color: white;
+  font-size: 0.6rem;
+  border-radius: 50%;
+  padding: 1px 4px;
+  line-height: 1;
 }
