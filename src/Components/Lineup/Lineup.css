@@ -13,6 +13,7 @@
   align-items: flex-start;
   font-size: 0.9rem;
   font-weight: 400;
+  z-index: 10;
 }
 
 .home-corner {
@@ -35,27 +36,153 @@
   text-align: left;
 }
 
+.pitch-container {
 
+  width: 100%;
+  height: 400px;
+
+
+}
 
 .pitch-half {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* background: #4ca752; */
-  width: 100%;
-  height: 100%;
-  
+  width: 600px;
+  height: 400px;
   color: black;
   font-size: 0.8rem;
   position: relative; 
+}
+
+.formation-positioned {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.positioned-player {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 5;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.positioned-player:hover {
+  background-color: rgba(53, 121, 57, 0.8);
+  color: white;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.player-photo-positioned {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid white;
  
+}
+
+.player-photo-placeholder-positioned {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border: 2px solid white;
+  margin-bottom: 4px;
+}
+
+.player-text-positioned {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.player-number {
+font-weight: 400;
+  font-size: 0.8rem;
+}
+
+.player-name {
+  font-size: 0.6rem;
+  white-space: nowrap;
+  max-width: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-icons {
+  display: flex;
+  gap: 2px;
+  margin-top: 2px;
+}
+
+.goal-icon {
+ margin-left: 2px;
+}
+
+.sub-icon {
+  color: #2196f3;
+}
+
+.pitch-markings {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.center-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  margin-left: -40px;
+  margin-top: -40px;
+  border: 2px solid white;
+  border-radius: 50%;
+}
+
+
+.penalty-area {
+  position: absolute;
+  width: 200px;  
+  height: 80px;  
+  border: 2px solid white;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.home-penalty {
+  top: 0;
+}
+
+.away-penalty {
+  bottom: 0;
+}
+
+.formation {
+  position: relative;
+  width: 100%;
 }
 
 .goalkeeper,
 .formation-row {
   display: flex;
   justify-content: center;
-  
   gap: 1px;
 }
 
@@ -65,16 +192,13 @@
 }
 
 .player {
-  /* background: rgba(255, 255, 255, 0.1); */
-  padding: 0.6rem 1rem;
+  padding: 0.6rem 1.1rem;
   border-radius: 20px;
-  margin: 0rem 1rem;
   text-align: center;
   display: flex;
   align-items: center;
   cursor: pointer;
   transition: 0.3s ease;
-  display: flex;
   flex-direction: column;
   z-index: 1;
 }
@@ -88,48 +212,12 @@
   width: 50px;
   border-radius: 50%;
   vertical-align: middle;
-  
 }
 
 .player:hover {
   background-color: rgb(53, 121, 57);
   color: white;
 }
-
-/* .substitutes-box {
-  margin-left: 0.8px;
-  width: 160px;
-  max-height: 100%;
-  padding: 0.4rem;
-  background-color: #1b5e20;
-  color: white;
-  font-size: inherit;
-  text-align: left;
-  overflow-y: auto;
-}
-
-.player-substitute {
-  cursor: pointer;
-  object-fit: contain;
-  font-size: 0.7rem;
-  font-family: inherit;
-  display: flex;
-  align-items: center;
- transition: 0.3s ease;
-  border-radius: 4px;
-}
-
-.player-substitute:hover {
-  background-color: rgb(73, 167, 78);
-}
-
-.substitutes-box h4 {
-  font-size: 1rem;
-  font-weight: 400;
-  margin-bottom: 0;
-  margin-top: 0;
-  text-decoration: underline;
-} */
 
 @keyframes popup {
   from {
@@ -147,59 +235,8 @@
     transform: scale(1);
     opacity: 1;
   }
-
   to {
     transform: scale(0.7);
     opacity: 0;
   }
-}
-
-.pitch-markings {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.center-circle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 80px;
-  height: 80px;
-  margin-left: -40px;
-  margin-top: -40px;
-  border: 2px solid white;
-  border-radius: 50%;
-}
-
-.halfway-line {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 2px;
-  height: 100%;
-  background: white;
-}
-
-.penalty-area {
-  position: absolute;
-  width: 300px;  
-  height: 130px;  
-  border: 2px solid white;
-}
-
-.home-penalty {
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.away-penalty {
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
 }

@@ -1,23 +1,23 @@
+
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import "./Match.css";
 import Lineup from "../Lineup/Lineup";
-import { Skeleton, Box } from "@mui/material";
-import Header from "../Header/Header";
-import PlayerModal from "../PlayerModal/PlayerModal";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import LoopIcon from "@mui/icons-material/Loop";
+import Header from "../Header/Header";
+import PlayerModal from "../PlayerModal/PlayerModal";
 import { fetchWithCache } from "../../../utils/apiCache";
 
 const MatchSkeleton = () => (
-  <Box padding={2}>
-    <div style={{ display: "flex", justifyContent: "center" }}>
-      <Skeleton variant="text" width="50%" height={30} />
+  <div className="p-4">
+    <div className="flex justify-center">
+      <div className="h-8 bg-gray-200 rounded w-1/2 animate-pulse"></div>
     </div>
-    <Skeleton variant="rectangular" height={220} sx={{ my: 2 }} />
-    <Skeleton variant="rectangular" height={220} sx={{ mt: 1 }} />
-  </Box>
+    <div className="h-56 bg-gray-200 rounded my-4 animate-pulse"></div>
+    <div className="h-56 bg-gray-200 rounded mt-2 animate-pulse"></div>
+  </div>
 );
 
 const Match = () => {
@@ -36,10 +36,10 @@ const Match = () => {
       try {
         console.log("Fetching match data for ID:", matchId);
 
-const fixtureRes = await fetchWithCache("https://v3.football.api-sports.io/fixtures", {
-  headers: { "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY },
-  params: { id: matchId },
-});
+        const fixtureRes = await fetchWithCache("https://v3.football.api-sports.io/fixtures", {
+          headers: { "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY },
+          params: { id: matchId },
+        });
         const match = fixtureRes.data.response[0];
         setFixture(match);
 
@@ -278,10 +278,10 @@ const fixtureRes = await fetchWithCache("https://v3.football.api-sports.io/fixtu
                     <div className="sub-text">
                       {sub.player.number}. {sub.player.name}
                       {wasSubbedOn && (
-                        <LoopIcon fontSize="small" style={{ height: "14px", marginLeft: 4 }} />
+                        <LoopIcon className="sub-icon" />
                       )}
                       {isGoalscorer && (
-                        <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 4 }} />
+                        <SportsSoccerIcon size={14} />
                       )}
                     </div>
                   </div>
@@ -315,10 +315,10 @@ const fixtureRes = await fetchWithCache("https://v3.football.api-sports.io/fixtu
                     <div className="sub-text">
                       {sub.player.number}. {sub.player.name}
                       {wasSubbedOn && (
-                        <LoopIcon fontSize="small" style={{ height: "14px", marginLeft: 2 }} />
+                        <LoopIcon size={14} className="sub-icon"/>
                       )}
                       {isGoalscorer && (
-                        <SportsSoccerIcon fontSize="small" style={{ height: "14px", marginLeft: 0 }} />
+                        <SportsSoccerIcon size={14} className="ml-1 text-yellow-500" />
                       )}
                     </div>
                   </div>
