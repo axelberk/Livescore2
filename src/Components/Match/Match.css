@@ -95,18 +95,18 @@ position: relative; /* important to position child elements absolutely if needed
 }
 
 .subs-side {
-  flex: 1;
-  max-width: 300px;
+  /* flex: 1; */
+  max-width: 400px;
  
 }
 
 .substitute-player {
   padding: 4px 0;
-  font-size: 14px;
+  font-size: 12px;
   cursor: pointer;
   transition: 0.3s ease;
   border-radius: 20px;
-  width: 110%;
+  width: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -136,4 +136,8 @@ position: relative; /* important to position child elements absolutely if needed
   justify-content: space-between;
   gap: 10px;
   border-radius: 8px;
+}
+
+.sub-on-icon {
+  color: #4ca752 ;
 }

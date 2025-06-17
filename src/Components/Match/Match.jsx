@@ -15,9 +15,8 @@ const MatchSkeleton = () => (
   <div>
     <Header/>
     <Box padding={0} display={"flex"} flexDirection="column" alignItems="center">
-    
     <Skeleton variant="text" width="40%" height={50} />
-    <Skeleton variant="rectangular" height={200} width={600} sx={{ my: 0.2 }} />
+    <Skeleton variant="rectangular" height={200} width={600} sx={{ my: 1 }} />
     <Skeleton variant="rectangular" height={200}  width={600} sx={{my: 2}} />
     <div className="subs-skeleton">
     <Skeleton variant="rectangular" height={200} width={250} />
@@ -264,32 +263,40 @@ const Match = () => {
                 const wasSubbedOn = subbedOnIds.has(sub.player.id);
                 return (
                   <div
-                    key={sub.player.id}
-                    className="substitute-player"
-                    onClick={() =>
-                      setSelectedPlayerId({
-                        id: sub.player.id,
-                        number: sub.player.number,
-                      })
-                    }
-                  >
-                    {playerPhotos[sub.player.id] && (
-                      <img
-                        src={playerPhotos[sub.player.id]}
-                        alt={sub.player.name}
-                        className="player-photo-sub"
-                      />
-                    )}
-                    <div className="sub-text">
-                      {sub.player.number}. {sub.player.name}
-                      {wasSubbedOn && (
-                        <LoopIcon fontSize="small" className="sub-icon" />
-                      )}
-                      {isGoalscorer && (
-                        <SportsSoccerIcon fontSize="small" className="goal-icon" />
-                      )}
-                    </div>
-                  </div>
+  key={sub.player.id}
+  className="substitute-player"
+  onClick={() =>
+    setSelectedPlayerId({
+      id: sub.player.id,
+      number: sub.player.number,
+    })
+  }
+>
+  <div className="player-photo-wrapper">
+    {playerPhotos[sub.player.id] && (
+      <img
+        src={playerPhotos[sub.player.id]}
+        alt={sub.player.name}
+        className="player-photo-positioned"
+      />
+    )}
+    {wasSubbedOn && (
+      <div className="sub-icon-wrapper">
+        <LoopIcon fontSize="small" className="sub-on-icon" />
+      </div>
+    )}
+    {isGoalscorer && (
+      <div className="goal-icon-wrapper">
+        <SportsSoccerIcon fontSize="small" className="goal-icon" />
+      </div>
+    )}
+  </div>
+
+  <div className="sub-text">
+    {sub.player.number}. {sub.player.name}
+  </div>
+</div>
+
                 );
               })}
             </div>
@@ -301,32 +308,40 @@ const Match = () => {
                 const wasSubbedOn = subbedOnIds.has(sub.player.id);
                 return (
                   <div
-                    key={sub.player.id}
-                    className="substitute-player"
-                    onClick={() =>
-                      setSelectedPlayerId({
-                        id: sub.player.id,
-                        number: sub.player.number,
-                      })
-                    }
-                  >
-                    {playerPhotos[sub.player.id] && (
-                      <img
-                        src={playerPhotos[sub.player.id]}
-                        alt={sub.player.name}
-                        className="player-photo-sub"
-                      />
-                    )}
-                    <div className="sub-text">
-                      {sub.player.number}. {sub.player.name}
-                      {wasSubbedOn && (
-                        <LoopIcon fontSize="small" className="sub-icon"/>
-                      )}
-                      {isGoalscorer && (
-                        <SportsSoccerIcon fontSize="small" className="goal-icon" />
-                      )}
-                    </div>
-                  </div>
+  key={sub.player.id}
+  className="substitute-player"
+  onClick={() =>
+    setSelectedPlayerId({
+      id: sub.player.id,
+      number: sub.player.number,
+    })
+  }
+>
+  <div className="player-photo-wrapper">
+    {playerPhotos[sub.player.id] && (
+      <img
+        src={playerPhotos[sub.player.id]}
+        alt={sub.player.name}
+        className="player-photo-positioned"
+      />
+    )}
+    {wasSubbedOn && (
+      <div className="sub-icon-wrapper">
+        <LoopIcon fontSize="small" className="sub-on-icon" />
+      </div>
+    )}
+    {isGoalscorer && (
+      <div className="goal-icon-wrapper">
+        <SportsSoccerIcon fontSize="small" className="goal-icon" />
+      </div>
+    )}
+  </div>
+
+  <div className="sub-text">
+    {sub.player.number}. {sub.player.name}
+  </div>
+</div>
+
                 );
               })}
             </div>

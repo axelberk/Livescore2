@@ -48,10 +48,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 600px;
+  width: 800px;
   height: 400px;
   color: black;
-  font-size: 0.8rem;
   position: relative; 
 }
 
@@ -110,7 +109,7 @@
 
 .player-number {
 font-weight: 400;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
 }
 
 .player-name {
@@ -129,11 +128,11 @@ font-weight: 400;
 
 .goal-icon {
  margin-left: 2px;
- color: green;
+ color: black;
 }
 
-.sub-icon {
-  color: #2196f3;
+.sub-off-icon {
+  color: red;
 }
 
 .pitch-markings {
@@ -260,4 +259,39 @@ font-weight: 400;
   border-radius: 50%;
   padding: 1px 4px;
   line-height: 1;
+}
+
+.player-photo-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.goal-icon-wrapper {
+  position: absolute;
+  top: 0;
+  left: 30px;
+  background: white;
+  border-radius: 50%;
+  padding: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.goal-count {
+  font-size: 10px;
+  margin-left: 2px;
+  color: black;
+}
+
+.sub-icon-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 30px ;
+  background: white;
+  border-radius: 50%;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

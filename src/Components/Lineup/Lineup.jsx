@@ -40,49 +40,51 @@ const Lineup = ({
 
     return (
       <div
-        key={player.id}
-        className="positioned-player"
-        style={{
-          left: `${adjustedPosition.x}%`,
-          top: `${adjustedPosition.y}%`,
-        }}
-        onClick={() =>
-          setSelectedPlayerId({ id: player.id, number: player.number })
-        }
-      >
-        {playerPhotos[player.id] ? (
-          <img
-            src={playerPhotos[player.id]}
-            alt={player.name}
-            className="player-photo-positioned"
-          />
-        ) : (
-          <div className="player-photo-placeholder-positioned" />
-        )}
-        <div className="player-text-positioned">
-          <span className="player-number">
-            {player.number}
-            {". "}
-            {player.name}
-          </span>
+  key={player.id}
+  className="positioned-player"
+  style={{
+    left: `${adjustedPosition.x}%`,
+    top: `${adjustedPosition.y}%`,
+  }}
+  onClick={() =>
+    setSelectedPlayerId({ id: player.id, number: player.number })
+  }
+>
+  <div className="player-photo-wrapper">
+    {playerPhotos[player.id] ? (
+      <img
+        src={playerPhotos[player.id]}
+        alt={player.name}
+        className="player-photo-positioned"
+      />
+    ) : (
+      <div className="player-photo-placeholder-positioned" />
+    )}
 
-          <div className="player-icons">
-            {goalCounts.has(player.id) && (
-              <div className="goal-icon-wrapper">
-                <SportsSoccerIcon fontSize="small" className="goal-icon" />
-                {goalCounts.get(player.id) > 1 && (
-                  <span className="goal-count">
-                    {goalCounts.get(player.id)}
-                  </span>
-                )}
-              </div>
-            )}
-            {subbedOffIds.has(player.id) && (
-              <LoopIcon fontSize="small" className="sub-icon" />
-            )}
-          </div>
-        </div>
+    {goalCounts.has(player.id) && (
+      <div className="goal-icon-wrapper">
+        <SportsSoccerIcon fontSize="small" className="goal-icon" />
+        {goalCounts.get(player.id) > 1 && (
+          <span className="goal-count">{goalCounts.get(player.id)}</span>
+        )}
       </div>
+    )}
+
+    {subbedOffIds.has(player.id) && (
+      <div className="sub-icon-wrapper">
+        <LoopIcon fontSize="small" className="sub-off-icon" />
+      </div>
+    )}
+  </div>
+
+  <div className="player-text-positioned">
+    <span className="player-number">
+      {player.number}
+      {". "}
+      {player.name}
+    </span>
+  </div>
+</div>
     );
   };
 
