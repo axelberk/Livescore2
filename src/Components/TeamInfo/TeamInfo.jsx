@@ -4,6 +4,7 @@ import "./TeamInfo.css";
 import axios from "axios";
 import Header from "../Header/Header";
 import PlayerModal from "../PlayerModal/PlayerModal";
+import { useNavigate } from "react-router-dom";
 
 const TeamInfo = () => {
   const { teamId } = useParams();
@@ -15,6 +16,7 @@ const TeamInfo = () => {
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [loading, setLoading] = useState(true);
  const [coach, setCoach] = useState(null);
+ const navigate = useNavigate()
 
   useEffect(() => {
     const fetchTeamData = async () => {
@@ -253,7 +255,7 @@ const TeamInfo = () => {
                       return (
                         <div key={fixture.fixture.id} className="result-item">
                           <strong>{matchDate}</strong>:{" "}
-                          <span className={resultClass}>
+                          <span className={resultClass} onClick={() => navigate(`/match/${fixture.fixture.id}`)}>
                             {fixture.teams.home.name} {fixture.goals.home} -{" "}
                             {fixture.goals.away} {fixture.teams.away.name}
                           </span>

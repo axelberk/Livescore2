@@ -51,9 +51,9 @@
   display: flex;
   align-items: center;
   margin: 2px 0;
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
-   border-radius: 14px;
+  border-radius: 14px;
 }
 
 .squad-list li:hover {
@@ -105,6 +105,10 @@
 .results-list {
   text-align: left;
   max-width: 50%;
+}
+
+.result-item:hover {
+  cursor: pointer;
 }
 
 .result-item .win {
