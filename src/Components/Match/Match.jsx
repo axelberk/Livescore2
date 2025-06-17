@@ -9,14 +9,21 @@ import LoopIcon from "@mui/icons-material/Loop";
 import Header from "../Header/Header";
 import PlayerModal from "../PlayerModal/PlayerModal";
 import { fetchWithCache } from "../../../utils/apiCache";
+import { Skeleton, Box } from "@mui/material";
 
 const MatchSkeleton = () => (
-  <div className="p-4">
-    <div className="flex justify-center">
-      <div className="h-8 bg-gray-200 rounded w-1/2 animate-pulse"></div>
+  <div>
+    <Header/>
+    <Box padding={0} display={"flex"} flexDirection="column" alignItems="center">
+    
+    <Skeleton variant="text" width="40%" height={50} />
+    <Skeleton variant="rectangular" height={200} width={600} sx={{ my: 0.2 }} />
+    <Skeleton variant="rectangular" height={200}  width={600} sx={{my: 2}} />
+    <div className="subs-skeleton">
+    <Skeleton variant="rectangular" height={200} width={250} />
+    <Skeleton variant="rectangular" height={200} width={250} />
     </div>
-    <div className="h-56 bg-gray-200 rounded my-4 animate-pulse"></div>
-    <div className="h-56 bg-gray-200 rounded mt-2 animate-pulse"></div>
+  </Box>
   </div>
 );
 

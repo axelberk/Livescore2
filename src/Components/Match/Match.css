@@ -128,3 +128,12 @@ position: relative; /* important to position child elements absolutely if needed
   display: flex;
   align-items: center ;
 }
+
+.subs-skeleton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-radius: 8px;
+}
