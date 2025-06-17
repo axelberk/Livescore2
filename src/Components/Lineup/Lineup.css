@@ -169,10 +169,12 @@ font-weight: 400;
 
 .home-penalty {
   top: 0;
+  border-top: none;
 }
 
 .away-penalty {
   bottom: 0;
+  border-bottom: none;
 }
 
 .formation {

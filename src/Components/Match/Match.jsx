@@ -36,6 +36,8 @@ const Match = () => {
   const [usingFallback, setUsingFallback] = useState(false);
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
   const [playerPhotos, setPlayerPhotos] = useState({});
+  const [goalEvents, setGoalEvents] = useState([]);
+
 
   useEffect(() => {
     const fetchFixtureAndDetails = async () => {
@@ -112,6 +114,13 @@ const Match = () => {
         await fetchPlayerPhotos();
 
         const allEvents = eventsRes.data.response;
+
+        const goalEvents = allEvents
+  .filter((e) => e.type === "Goal")
+  .sort((a, b) => a.time.elapsed - b.time.elapsed);
+
+setGoalEvents(goalEvents);
+
 
         const subs = allEvents
           .filter((e) => e.type === "subst")
@@ -216,6 +225,57 @@ const Match = () => {
         </div>
 
         <div className="match-status">{getMatchStatus()}</div>
+    <div className="match-goalscorers">
+  <div className="goal-timeline">
+  {goalEvents.map((goal, idx) => {
+    const isHomeGoal = goal.team.id === fixture.teams.home.id;
+    // const currentScore = `${goal.score?.home} - ${goal.score?.away}`;
+    return (
+      <div key={idx} className="goal-item">
+        {isHomeGoal ? (
+          <>
+            <div className="goal-left">
+              <span className="goal-minute">{goal.time.elapsed}'</span>
+              <span
+                className="goal-player"
+                onClick={() =>
+                  setSelectedPlayerId({
+                    id: goal.player.id,
+                    number: null,
+                  })
+                }
+              >
+                {goal.player.name}
+                
+              </span>
+            </div>
+            <div className="goal-right" />
+          </>
+        ) : (
+          <>
+            <div className="goal-left" />
+            <div className="goal-right">
+              <span
+                className="goal-player"
+                onClick={() =>
+                  setSelectedPlayerId({
+                    id: goal.player.id,
+                    number: null,
+                  })
+                }
+              >
+                {goal.player.name}
+              </span>
+              <span className="goal-minute">{goal.time.elapsed}'</span>
+            </div>
+          </>
+        )}
+      </div>
+    );
+  })}
+</div>
+
+</div>
 
         <div className="pitch-wrapper vertical">
           {homeTeam ? (

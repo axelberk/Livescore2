@@ -3,9 +3,6 @@
   flex-direction: column;
   align-items: center;
   margin-top: 10px;
- 
-
-
 }
 
 .match-header {
@@ -50,11 +47,7 @@
   flex-direction: column;
   align-items: center;
   position: relative;
-
- 
-position: relative; /* important to position child elements absolutely if needed */
-  overflow: hidden; /* optional: to avoid overflow issues */
-  /* background: url('/Football_field.svg.png') no-repeat center center; */
+  overflow: hidden;
   background-color: #B2FFB0;
   background-size: contain;
   background-position: center;
@@ -83,9 +76,7 @@ position: relative; /* important to position child elements absolutely if needed
 .subs-wrapper {
   display: flex;
   justify-content: center;
-
   gap: 100px;
-
   color: black;
   text-align: left;
 }
@@ -95,9 +86,7 @@ position: relative; /* important to position child elements absolutely if needed
 }
 
 .subs-side {
-  /* flex: 1; */
   max-width: 400px;
- 
 }
 
 .substitute-player {
@@ -118,7 +107,7 @@ position: relative; /* important to position child elements absolutely if needed
 }
 
 .player-photo-sub {
-   width: 50px;
+  width: 50px;
   border-radius: 20px;
   vertical-align: middle;
   margin-right: 10px;
@@ -126,7 +115,7 @@ position: relative; /* important to position child elements absolutely if needed
 
 .sub-text {
   display: flex;
-  align-items: center ;
+  align-items: center;
 }
 
 .subs-skeleton {
@@ -139,5 +128,64 @@ position: relative; /* important to position child elements absolutely if needed
 }
 
 .sub-on-icon {
-  color: #4ca752 ;
+  color: #4ca752;
+}
+
+.match-goalscorers {
+  width: 40%;
+}
+
+.goal-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.goal-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  font-size: 0.7rem;
+}
+
+.goal-left,
+.goal-right {
+  display: flex;
+  align-items: center;
+  /* gap: 6px; */
+  width: 200px;
+}
+
+.goal-left {
+  justify-content: flex-start;
+}
+
+.goal-right {
+  justify-content: flex-end;
+}
+
+.goal-score {
+  width: 20%;
+  font-weight: bold;
+  color: #222;
+}
+
+.goal-minute {
+  font-weight: bold;
+  color: #666;
+  white-space: nowrap;
+}
+
+.goal-player {
+  cursor: pointer;
+  font-weight: 400;
+  color: #333;
+  transition: color 0.2s;
+  width: 100px;
+}
+
+.goal-player:hover {
+  color: #1976d2;
 }
