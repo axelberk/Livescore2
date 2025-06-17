@@ -33,9 +33,10 @@ const Lineup = ({
     formationsPositions[formation] || formationsPositions["4-4-2"];
 
   const renderPlayer = (player, position, index) => {
-    const adjustedPosition = !isAway
-      ? { x: position.x, y: 100 - position.y }
-      : position;
+    const adjustedPosition = isAway
+  ? { x: 100 - position.x, y: position.y }
+  : { x: position.x, y: 100 - position.y };
+
 
     return (
       <div
