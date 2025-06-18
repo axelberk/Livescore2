@@ -384,6 +384,7 @@ const timelineEvents = [...goalEvents, ...redCards].sort(
                 substitutions={homeSubs}
                 isFallback={usingFallback}
                 playerPhotos={playerPhotos}
+                redCards={redCards}
               />
             </div>
           ) : (
@@ -404,6 +405,7 @@ const timelineEvents = [...goalEvents, ...redCards].sort(
                 substitutions={awaySubs}
                 isFallback={usingFallback}
                 playerPhotos={playerPhotos}
+                redCards={redCards}
               />
             </div>
           ) : (

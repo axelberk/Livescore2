@@ -13,8 +13,10 @@ const Lineup = ({
   substitutions = [],
   isFallback = false,
   playerPhotos = {},
+  redCards = [],
 }) => {
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
+  const redCardIds = new Set(redCards.map(card => card.player?.id));
 
   if (!team) {
     return <div>No team data available</div>;
@@ -36,7 +38,7 @@ const Lineup = ({
     const adjustedPosition = isAway
   ? { x: 100 - position.x, y: position.y }
   : { x: position.x, y: 100 - position.y };
-
+ const gotRedCard = redCardIds.has(player.id);
 
     return (
       <div
@@ -75,6 +77,11 @@ const Lineup = ({
         <LoopIcon fontSize="small" className="sub-off-icon" />
       </div>
     )}
+     {gotRedCard && (
+          <div className="red-card-icon-wrapper">
+            <img src="/Red_card.svg" alt="" className="individual-logo" />
+          </div>
+        )}
   </div>
 
   <div className="player-text-positioned">
@@ -106,7 +113,7 @@ const Lineup = ({
             <div className="fallback-lineup-label">Last lineup</div>
           )}
           <div className="formation-display">
-            {team.formation || "4-4-2 (formation unavailable)"}
+            {team.formation || "Formation unavailable"}
           </div>
           {isAway && isFallback && (
             <div className="fallback-lineup-label">Last lineup</div>

@@ -297,3 +297,17 @@ font-weight: 400;
   align-items: center;
   justify-content: center;
 }
+
+.red-card-icon-wrapper {
+  position: absolute;
+  top: -5px;
+  right: 30px;
+ 
+  border-radius: 50%;
+  padding: 2px;
+}
+
+.red-card-icon {
+  width: 14px;
+  height: 20px;
+}
