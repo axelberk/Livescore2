@@ -172,19 +172,19 @@ setGoalEvents(goalEvents);
     substitutions.map((s) => s.player_in?.id).filter(Boolean)
   );
 
-  const usedHomeSubs = homeTeam.substitutes.filter((sub) =>
-  subbedOnIds.has(sub.player.id)
-);
-const unusedHomeSubs = homeTeam.substitutes.filter(
-  (sub) => !subbedOnIds.has(sub.player.id)
-);
+//   const usedHomeSubs = homeTeam.substitutes.filter((sub) =>
+//   subbedOnIds.has(sub.player.id)
+// );
+// const unusedHomeSubs = homeTeam.substitutes.filter(
+//   (sub) => !subbedOnIds.has(sub.player.id)
+// );
 
-const usedAwaySubs = awayTeam.substitutes.filter((sub) =>
-  subbedOnIds.has(sub.player.id)
-);
-const unusedAwaySubs = awayTeam.substitutes.filter(
-  (sub) => !subbedOnIds.has(sub.player.id)
-);
+// const usedAwaySubs = awayTeam.substitutes.filter((sub) =>
+//   subbedOnIds.has(sub.player.id)
+// );
+// const unusedAwaySubs = awayTeam.substitutes.filter(
+//   (sub) => !subbedOnIds.has(sub.player.id)
+// );
 
 
   const getMatchStatus = () => {
@@ -211,9 +211,14 @@ const unusedAwaySubs = awayTeam.substitutes.filter(
     }
   };
 
+  const getSubInfo = (playerId) => {
+  return substitutions.find((s) => s.player_in?.id === playerId);
+};
+
   const renderSub = (sub) => {
   const isGoalscorer = goalScorerIds.has(sub.player.id);
   const wasSubbedOn = subbedOnIds.has(sub.player.id);
+  const subInfo = getSubInfo(sub.player.id);
 
   return (
     <div
@@ -246,9 +251,15 @@ const unusedAwaySubs = awayTeam.substitutes.filter(
         )}
       </div>
 
-      <div className="sub-text">
+     <div className="sub-text">
         {sub.player.number}. {sub.player.name}
       </div>
+        {subInfo?.player_out?.name && (
+          <small style={{ color: "#666", display: "block" }}>
+             {subInfo?.time ? `${subInfo.time}' ` : ""}
+            ({subInfo.player_out.name})
+          </small>
+        )}
     </div>
   );
 };

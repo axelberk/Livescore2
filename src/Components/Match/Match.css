@@ -9,16 +9,24 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
   flex-wrap: wrap;
+  gap: 20px;
   text-align: center;
 }
 
-.match-status {
+.match-status,
+.match-stadium,
+.match-referee {
+  font-size: 0.8rem;
+  color: #666;
+  display: flex;
+  align-items: center;
   text-align: center;
   margin-bottom: 6px;
-  font-size: 0.9rem;
-  color: #666;
+}
+
+.match-scores {
+  font-size: 20px;
 }
 
 .team-info {
@@ -33,31 +41,18 @@
   object-fit: contain;
 }
 
-.match-scores {
-  font-size: 20px;
-}
-
-.match-stadium {
-  font-size: 0.8rem;
-  color: #666;
-  align-items: center;
-  display: flex;
-}
-
-.match-referee {
-  font-size: 0.8rem;
-  color: #666;
-  align-items: center;
-  display: flex;
-}
-
 .Match h3 {
-  margin-bottom: 16px;
-  margin-top: 10px;
+  margin: 10px 0 16px;
+}
+
+/* Pitch styles */
+.pitch-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
 }
 
 .pitch-wrapper.vertical {
-  display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
@@ -81,22 +76,18 @@
   position: relative;
 }
 
-.pitch-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-}
-
+/* Substitutes */
 .subs-wrapper {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-width: 50%;
+  width: 50%;
   color: black;
   text-align: center;
-  flex-direction: column;
 }
 
-.subs-wrapper h4 {
+.subs-wrapper h4,
+.subs-side h4 {
   text-align: center;
 }
 
@@ -104,31 +95,26 @@ width: 50%;
   max-width: 400px;
 }
 
-.subs-side h4 {
-text-align: center;
-}
-
 .used-subs,
 .unused-subs {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   gap: 100px;
-  margin-bottom: 16px;
-text-align: center;
-margin: 0;
-justify-content: center;
+  margin: 0 0 16px;
+  text-align: center;
 }
 
 .substitute-player {
-  padding: 4px 0;
-  font-size: 12px;
-  cursor: pointer;
-  transition: 0.3s ease;
-  border-radius: 20px;
   width: 100%;
   display: flex;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
+  padding: 4px 0;
+  font-size: 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
 .substitute-player:hover {
@@ -148,6 +134,10 @@ justify-content: center;
   align-items: center;
 }
 
+.sub-on-icon {
+  color: #4ca752;
+}
+
 .subs-skeleton {
   display: flex;
   flex-direction: row;
@@ -157,10 +147,7 @@ justify-content: center;
   border-radius: 8px;
 }
 
-.sub-on-icon {
-  color: #4ca752;
-}
-
+/* Goalscorers */
 .match-goalscorers {
   width: 40%;
 }
@@ -176,15 +163,14 @@ justify-content: center;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  text-align: center;
   font-size: 0.7rem;
+  text-align: center;
 }
 
 .goal-left,
 .goal-right {
   display: flex;
   align-items: center;
-  /* gap: 6px; */
   width: 150px;
 }
 
@@ -211,13 +197,14 @@ justify-content: center;
 }
 
 .goal-player {
-  cursor: pointer;
+  width: 100px;
   font-weight: 400;
   color: #333;
+  cursor: pointer;
   transition: color 0.2s;
-  width: 100px;
 }
 
 .goal-player:hover {
   color: #1976d2;
 }
+
