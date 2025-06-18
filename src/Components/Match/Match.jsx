@@ -10,6 +10,7 @@ import Header from "../Header/Header";
 import PlayerModal from "../PlayerModal/PlayerModal";
 import { fetchWithCache } from "../../../utils/apiCache";
 import { Skeleton, Box } from "@mui/material";
+import StadiumIcon from '@mui/icons-material/Stadium';
 
 const MatchSkeleton = () => (
   <div>
@@ -276,7 +277,12 @@ setGoalEvents(goalEvents);
 </div>
 
 </div>
-
+<div className="match-stadium">
+  <StadiumIcon/>{fixture?.fixture?.venue?.name || "Stadium info unavailable"}{fixture?.fixture?.venue?.city ? `, ${fixture.fixture.venue.city}` : ""}
+</div>  
+<div className="match-referee">
+  Referee: {fixture?.fixture?.referee || "Referee info unavailable"}
+</div>
         <div className="pitch-wrapper vertical">
           {homeTeam ? (
             <div className="pitch-side">
