@@ -90,17 +90,33 @@
 .subs-wrapper {
   display: flex;
   justify-content: center;
-  gap: 100px;
+width: 50%;
   color: black;
-  text-align: left;
+  text-align: center;
+  flex-direction: column;
 }
 
-.subs-wrapper h3 {
+.subs-wrapper h4 {
   text-align: center;
 }
 
 .subs-side {
   max-width: 400px;
+}
+
+.subs-side h4 {
+text-align: center;
+}
+
+.used-subs,
+.unused-subs {
+  display: flex;
+  flex-direction: row;
+  gap: 100px;
+  margin-bottom: 16px;
+text-align: center;
+margin: 0;
+justify-content: center;
 }
 
 .substitute-player {
@@ -168,7 +184,7 @@
 .goal-right {
   display: flex;
   align-items: center;
-  gap: 6px;
+  /* gap: 6px; */
   width: 150px;
 }
 

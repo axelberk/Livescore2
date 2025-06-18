@@ -11,6 +11,7 @@ import PlayerModal from "../PlayerModal/PlayerModal";
 import { fetchWithCache } from "../../../utils/apiCache";
 import { Skeleton, Box } from "@mui/material";
 import StadiumIcon from '@mui/icons-material/Stadium';
+import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 
 const MatchSkeleton = () => (
   <div>
@@ -171,6 +172,21 @@ setGoalEvents(goalEvents);
     substitutions.map((s) => s.player_in?.id).filter(Boolean)
   );
 
+  const usedHomeSubs = homeTeam.substitutes.filter((sub) =>
+  subbedOnIds.has(sub.player.id)
+);
+const unusedHomeSubs = homeTeam.substitutes.filter(
+  (sub) => !subbedOnIds.has(sub.player.id)
+);
+
+const usedAwaySubs = awayTeam.substitutes.filter((sub) =>
+  subbedOnIds.has(sub.player.id)
+);
+const unusedAwaySubs = awayTeam.substitutes.filter(
+  (sub) => !subbedOnIds.has(sub.player.id)
+);
+
+
   const getMatchStatus = () => {
     const { status, timestamp } = fixture.fixture;
     switch (status.short) {
@@ -194,6 +210,49 @@ setGoalEvents(goalEvents);
         return status.long || "Status Unavailable";
     }
   };
+
+  const renderSub = (sub) => {
+  const isGoalscorer = goalScorerIds.has(sub.player.id);
+  const wasSubbedOn = subbedOnIds.has(sub.player.id);
+
+  return (
+    <div
+      key={sub.player.id}
+      className="substitute-player"
+      onClick={() =>
+        setSelectedPlayerId({
+          id: sub.player.id,
+          number: sub.player.number,
+        })
+      }
+    >
+      <div className="player-photo-wrapper">
+        {playerPhotos[sub.player.id] && (
+          <img
+            src={playerPhotos[sub.player.id]}
+            alt={sub.player.name}
+            className="player-photo-positioned"
+          />
+        )}
+        {wasSubbedOn && (
+          <div className="sub-icon-wrapper">
+            <LoopIcon fontSize="small" className="sub-on-icon" />
+          </div>
+        )}
+        {isGoalscorer && (
+          <div className="goal-icon-wrapper">
+            <SportsSoccerIcon fontSize="small" className="goal-icon" />
+          </div>
+        )}
+      </div>
+
+      <div className="sub-text">
+        {sub.player.number}. {sub.player.name}
+      </div>
+    </div>
+  );
+};
+
 
   return (
     <div className="Match">
@@ -278,7 +337,7 @@ setGoalEvents(goalEvents);
 
 </div>
 <div className="match-stadium">
-  <StadiumIcon/>{fixture?.fixture?.venue?.name || "Stadium info unavailable"}{fixture?.fixture?.venue?.city ? `, ${fixture.fixture.venue.city}` : ""}
+  <PlaceOutlinedIcon  />{fixture?.fixture?.venue?.name || "Stadium info unavailable"}{fixture?.fixture?.venue?.city ? `, ${fixture.fixture.venue.city}` : ""}
 </div>  
 <div className="match-referee">
   Referee: {fixture?.fixture?.referee || "Referee info unavailable"}
@@ -320,99 +379,40 @@ setGoalEvents(goalEvents);
           )}
         </div>
 
-        {homeTeam?.substitutes && awayTeam?.substitutes && (
-          <div className="subs-wrapper">
-            <div className="subs-side home-subs">
-              <h3>Home Substitutes</h3>
-              {homeTeam.substitutes.map((sub) => {
-                const isGoalscorer = goalScorerIds.has(sub.player.id);
-                const wasSubbedOn = subbedOnIds.has(sub.player.id);
-                return (
-                  <div
-  key={sub.player.id}
-  className="substitute-player"
-  onClick={() =>
-    setSelectedPlayerId({
-      id: sub.player.id,
-      number: sub.player.number,
-    })
-  }
->
-  <div className="player-photo-wrapper">
-    {playerPhotos[sub.player.id] && (
-      <img
-        src={playerPhotos[sub.player.id]}
-        alt={sub.player.name}
-        className="player-photo-positioned"
-      />
-    )}
-    {wasSubbedOn && (
-      <div className="sub-icon-wrapper">
-        <LoopIcon fontSize="small" className="sub-on-icon" />
+       {homeTeam?.substitutes && awayTeam?.substitutes && (
+  <div className="subs-wrapper">
+   
+      <h4>Used Substitutes</h4>
+      <div className="used-subs">
+        <div className="used-subs-home">
+{homeTeam.substitutes
+        .filter((sub) => subbedOnIds.has(sub.player.id))
+        .map(renderSub)}
+        </div>
+        <div className="used-subs-away">
+ {awayTeam.substitutes
+        .filter((sub) => subbedOnIds.has(sub.player.id))
+        .map(renderSub)}
+        </div>
       </div>
-    )}
-    {isGoalscorer && (
-      <div className="goal-icon-wrapper">
-        <SportsSoccerIcon fontSize="small" className="goal-icon" />
-      </div>
-    )}
+      
+      <h4>Unused Substitutes</h4>
+      <div className="unused-subs">
+        <div className="unused-subs-home">
+      {homeTeam.substitutes
+        .filter((sub) => !subbedOnIds.has(sub.player.id))
+        .map(renderSub)}
+        </div>
+        <div className="unused-subs-away">
+         {awayTeam.substitutes
+        .filter((sub) => !subbedOnIds.has(sub.player.id))
+        .map(renderSub)}
+        </div>
+        </div>
+    
   </div>
+)}
 
-  <div className="sub-text">
-    {sub.player.number}. {sub.player.name}
-  </div>
-</div>
-
-                );
-              })}
-            </div>
-
-            <div className="subs-side away-subs">
-              <h3>Away Substitutes</h3>
-              {awayTeam.substitutes.map((sub) => {
-                const isGoalscorer = goalScorerIds.has(sub.player.id);
-                const wasSubbedOn = subbedOnIds.has(sub.player.id);
-                return (
-                  <div
-  key={sub.player.id}
-  className="substitute-player"
-  onClick={() =>
-    setSelectedPlayerId({
-      id: sub.player.id,
-      number: sub.player.number,
-    })
-  }
->
-  <div className="player-photo-wrapper">
-    {playerPhotos[sub.player.id] && (
-      <img
-        src={playerPhotos[sub.player.id]}
-        alt={sub.player.name}
-        className="player-photo-positioned"
-      />
-    )}
-    {wasSubbedOn && (
-      <div className="sub-icon-wrapper">
-        <LoopIcon fontSize="small" className="sub-on-icon" />
-      </div>
-    )}
-    {isGoalscorer && (
-      <div className="goal-icon-wrapper">
-        <SportsSoccerIcon fontSize="small" className="goal-icon" />
-      </div>
-    )}
-  </div>
-
-  <div className="sub-text">
-    {sub.player.number}. {sub.player.name}
-  </div>
-</div>
-
-                );
-              })}
-            </div>
-          </div>
-        )}
       </div>
 
       <PlayerModal

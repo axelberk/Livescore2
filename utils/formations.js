@@ -14,16 +14,16 @@ const formationsPositions = {
   ],
   "3-5-2": [
     { x: 50, y: 90 }, // Goalkeeper
-    { x: 25, y: 75 }, // Left CB
-    { x: 50, y: 75 }, // Center CB
-    { x: 75, y: 75 }, // Right CB
-    { x: 15, y: 55 }, // Left midfielder
-    { x: 35, y: 55 }, // Left center midfielder
-    { x: 50, y: 55 }, // Center midfielder
-    { x: 65, y: 55 }, // Right center midfielder
-    { x: 85, y: 55 }, // Right winger
-    { x: 35, y: 30 }, // Left forward
-    { x: 65, y: 30 }, // Right winger
+    { x: 25, y: 70 }, // Left CB
+    { x: 50, y: 70 }, // Center CB
+    { x: 75, y: 70 }, // Right CB
+    { x: 15, y: 40 }, // Left midfielder
+    { x: 32, y: 40 }, // Left center midfielder
+    { x: 50, y: 40 }, // Center midfielder
+    { x: 68, y: 40 }, // Right center midfielder
+    { x: 85, y: 40 }, // Right winger
+    { x: 35, y: 10 }, // Left forward
+    { x: 65, y: 10 }, // Right winger
   ],
   "4-3-3": [
     { x: 50, y: 90 }, 
