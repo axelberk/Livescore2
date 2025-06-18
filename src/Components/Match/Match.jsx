@@ -39,6 +39,7 @@ const Match = () => {
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
   const [playerPhotos, setPlayerPhotos] = useState({});
   const [goalEvents, setGoalEvents] = useState([]);
+  const [redCards, setRedCards] = useState([]);
 
 
   useEffect(() => {
@@ -121,7 +122,12 @@ const Match = () => {
   .filter((e) => e.type === "Goal")
   .sort((a, b) => a.time.elapsed - b.time.elapsed);
 
+  const redCardEvents = allEvents
+  .filter((e) => e.detail === "Red Card")
+  .sort((a, b) => a.time.elapsed - b.time.elapsed);
+
 setGoalEvents(goalEvents);
+setRedCards(redCardEvents);
 
 
         const subs = allEvents
@@ -264,6 +270,9 @@ setGoalEvents(goalEvents);
   );
 };
 
+const timelineEvents = [...goalEvents, ...redCards].sort(
+  (a, b) => a.time.elapsed - b.time.elapsed
+);
 
   return (
     <div className="Match">
@@ -297,47 +306,58 @@ setGoalEvents(goalEvents);
 
         <div className="match-status">{getMatchStatus()}</div>
     <div className="match-goalscorers">
-  <div className="goal-timeline">
-  {goalEvents.map((goal, idx) => {
-    const isHomeGoal = goal.team.id === fixture.teams.home.id;
-    // const currentScore = `${goal.score?.home} - ${goal.score?.away}`;
+ <div className="goal-timeline">
+  {timelineEvents.map((event, idx) => {
+    const isHome = event.team.id === fixture.teams.home.id;
+    const isGoal = event.type === "Goal";
+    const isRedCard = event.detail === "Red Card";
+
     return (
       <div key={idx} className="goal-item">
-        {isHomeGoal ? (
+        {isHome ? (
           <>
             <div className="goal-left">
-              <span className="goal-minute">{goal.time.elapsed}'</span>
+              <span className="goal-minute">{event.time.elapsed}'</span>
               <span
-                className="goal-player"
+                className={`goal-player ${isRedCard ? "red-card-player" : ""}`}
                 onClick={() =>
                   setSelectedPlayerId({
-                    id: goal.player.id,
+                    id: event.player.id,
                     number: null,
                   })
                 }
               >
-                {goal.player.name}
+                {event.player.name}
                 
               </span>
+              
             </div>
+               {isGoal && <span className="goal-icon"><SportsSoccerIcon></SportsSoccerIcon></span>}
+
+            {isRedCard && <img src="/Red_card.svg" alt="" className="individual-logo" />}
             <div className="goal-right" />
           </>
         ) : (
           <>
             <div className="goal-left" />
+            {isRedCard && <img src="/Red_card.svg" alt="" className="individual-logo" />}
+             {isGoal && <span className="goal-icon"><SportsSoccerIcon></SportsSoccerIcon></span>}
             <div className="goal-right">
               <span
-                className="goal-player"
+                className={`goal-player ${isRedCard ? "red-card-player" : ""}`}
                 onClick={() =>
                   setSelectedPlayerId({
-                    id: goal.player.id,
+                    id: event.player.id,
                     number: null,
                   })
                 }
               >
-                {goal.player.name}
+                {event.player.name}
+               
+                
               </span>
-              <span className="goal-minute">{goal.time.elapsed}'</span>
+              <span className="goal-minute">{event.time.elapsed}'</span>
+              
             </div>
           </>
         )}
@@ -345,6 +365,7 @@ setGoalEvents(goalEvents);
     );
   })}
 </div>
+
 
 </div>
 <div className="match-stadium">

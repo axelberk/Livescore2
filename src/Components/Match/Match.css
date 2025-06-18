@@ -147,10 +147,10 @@
   border-radius: 8px;
 }
 
-/* Goalscorers */
-.match-goalscorers {
-  width: 40%;
-}
+/* .match-goalscorers {
+  
+ 
+} */
 
 .goal-timeline {
   display: flex;
@@ -165,23 +165,24 @@
   justify-content: space-between;
   font-size: 0.7rem;
   text-align: center;
+  width: 300px;
 }
 
 .goal-left,
 .goal-right {
   display: flex;
   align-items: center;
-  width: 150px;
+  width: 40%;
 }
 
 .goal-left {
   justify-content: flex-start;
-  text-align: right;
+  text-align: center;
 }
 
 .goal-right {
   justify-content: flex-end;
-  text-align: left;
+  text-align: center;
 }
 
 .goal-score {
@@ -205,6 +206,6 @@
 }
 
 .goal-player:hover {
-  color: #1976d2;
+color: rgb(53, 121, 57);
 }
 
