@@ -209,3 +209,9 @@
 color: rgb(53, 121, 57);
 }
 
+.red-card-sub-icon {
+  position: absolute;
+ top: -5px;
+  right: 30px;
+  
+}

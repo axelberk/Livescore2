@@ -225,6 +225,9 @@ setRedCards(redCardEvents);
   const isGoalscorer = goalScorerIds.has(sub.player.id);
   const wasSubbedOn = subbedOnIds.has(sub.player.id);
   const subInfo = getSubInfo(sub.player.id);
+  const hasRedCard = redCards.some(
+  (rc) => rc.player?.id === sub.player.id
+);
 
   return (
     <div
@@ -255,6 +258,13 @@ setRedCards(redCardEvents);
             <SportsSoccerIcon fontSize="small" className="goal-icon" />
           </div>
         )}
+        {hasRedCard && (
+  <img
+    src="/Red_card.svg"
+    alt="Red Card"
+    className="individual-logo red-card-sub-icon"
+  />
+)}
       </div>
 
      <div className="sub-text">
@@ -419,14 +429,18 @@ const timelineEvents = [...goalEvents, ...redCards].sort(
       <h4>Used Substitutes</h4>
       <div className="used-subs">
         <div className="used-subs-home">
+          
 {homeTeam.substitutes
         .filter((sub) => subbedOnIds.has(sub.player.id))
         .map(renderSub)}
+        
         </div>
+        
         <div className="used-subs-away">
  {awayTeam.substitutes
         .filter((sub) => subbedOnIds.has(sub.player.id))
         .map(renderSub)}
+        
         </div>
       </div>
       
