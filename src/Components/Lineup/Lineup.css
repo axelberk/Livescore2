@@ -129,6 +129,7 @@ font-weight: 400;
 .goal-icon {
  margin-left: 2px;
  color: black;
+ margin-bottom: -4px;
 }
 
 .sub-off-icon {
