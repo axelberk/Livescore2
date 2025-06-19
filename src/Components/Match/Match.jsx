@@ -132,14 +132,32 @@ setGoalEvents(goalEvents);
 setRedCards(redCardEvents);
 
 
-        const subs = allEvents
-          .filter((e) => e.type === "subst")
-          .map((e) => ({
-            player_in: e.assist,
-            player_out: e.player,
-            team: e.team,
-            time: e.time.elapsed,
-          }));
+      const subs = allEvents
+  .filter(e => e.type === "subst")
+  .map(e => {
+    // If assist player is in substitutes, treat as player_in (sub on)
+    const assistIsSubstitute = awayTeam.substitutes.some(sub => sub.player.id === e.assist?.id) ||
+                              homeTeam.substitutes.some(sub => sub.player.id === e.assist?.id);
+
+    if (assistIsSubstitute) {
+      return {
+        player_in: e.assist,
+        player_out: e.player,
+        team: e.team,
+        time: e.time.elapsed,
+      };
+    } else {
+      // fallback: switch
+      return {
+        player_in: e.player,
+        player_out: e.assist,
+        team: e.team,
+        time: e.time.elapsed,
+      };
+    }
+  });
+
+
         setSubstitutions(subs);
 
         const goalMap = new Map();
