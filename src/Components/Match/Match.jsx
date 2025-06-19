@@ -307,8 +307,12 @@ const timelineEvents = [...goalEvents, ...redCards].sort(
   return (
     <div className="Match">
       <Header />
+       
+
       <div className="match-container">
+        
         <div className="match-header">
+        
           <div className="team-info">
             <Link to={`/team/${fixture.teams.home.id}`}>
               <img
@@ -318,10 +322,16 @@ const timelineEvents = [...goalEvents, ...redCards].sort(
               />
             </Link>
             <span>{fixture.teams.home.name}</span>
+            
           </div>
-          <div className="match-scores">
-            {fixture.goals.home} - {fixture.goals.away}
-          </div>
+          
+         <div className="match-score-status">
+  <div className="match-scores">
+    {fixture.goals.home} - {fixture.goals.away}
+  </div>
+  <div className="match-status">{getMatchStatus()}</div>
+</div>
+          
           <div className="team-info">
             <span>{fixture.teams.away.name}</span>
             <Link to={`/team/${fixture.teams.away.id}`}>
@@ -332,9 +342,9 @@ const timelineEvents = [...goalEvents, ...redCards].sort(
               />
             </Link>
           </div>
+          
         </div>
-
-        <div className="match-status">{getMatchStatus()}</div>
+        
     <div className="match-goalscorers">
  <div className="goal-timeline">
   {timelineEvents.map((event, idx) => {
@@ -404,6 +414,7 @@ const timelineEvents = [...goalEvents, ...redCards].sort(
 <div className="match-referee">
   Referee: {fixture?.fixture?.referee || "Referee info unavailable"}
 </div>
+
         <div className="pitch-wrapper vertical">
           {homeTeam ? (
             <div className="pitch-side">
