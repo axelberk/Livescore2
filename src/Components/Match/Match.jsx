@@ -10,7 +10,6 @@ import Header from "../Header/Header";
 import PlayerModal from "../PlayerModal/PlayerModal";
 import { fetchWithCache } from "../../../utils/apiCache";
 import { Skeleton, Box } from "@mui/material";
-import StadiumIcon from '@mui/icons-material/Stadium';
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 
 const MatchSkeleton = () => (
@@ -49,7 +48,10 @@ const Match = () => {
           headers: { "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY },
           params: { id: matchId },
         });
-        const match = fixtureRes.data.response[0];
+        if (!fixtureRes?.response?.[0]) {
+  throw new Error("No fixture data found in response");
+}
+const match = fixtureRes.response[0];
         setFixture(match);
 
         const [lineupsRes, eventsRes] = await Promise.all([
@@ -71,12 +73,12 @@ const Match = () => {
           ),
         ]);
 
-        setLineups(lineupsRes.data.response);
+        setLineups(lineupsRes.response);
 
-        const homeTeam = lineupsRes.data.response.find(
+        const homeTeam = lineupsRes.response.find(
           (team) => team.team.id === match.teams.home.id
         );
-        const awayTeam = lineupsRes.data.response.find(
+        const awayTeam = lineupsRes.response.find(
           (team) => team.team.id === match.teams.away.id
         );
 
@@ -103,7 +105,7 @@ const Match = () => {
                   },
                 }
               );
-              const data = res.data.response[0]?.player?.photo;
+              const data = res.response[0]?.player?.photo;
               if (data) {
                 photos[player.id] = data;
               }
@@ -116,7 +118,7 @@ const Match = () => {
 
         await fetchPlayerPhotos();
 
-        const allEvents = eventsRes.data.response;
+        const allEvents = eventsRes.response;
 
         const goalEvents = allEvents
   .filter((e) => e.type === "Goal")
@@ -159,7 +161,7 @@ setRedCards(redCardEvents);
   }, [matchId]);
 
   if (loading) return <MatchSkeleton />;
-  if (!fixture) return <div>Error loading match data.</div>;
+  if (!fixture) return <div><Header></Header>Error loading match data.</div>;
   if (!lineups || lineups.length === 0)
     return (
       <div className="Match">

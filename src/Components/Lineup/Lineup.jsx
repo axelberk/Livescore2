@@ -67,8 +67,8 @@ const Lineup = ({
       <div className="goal-icon-wrapper">
         <SportsSoccerIcon fontSize="small" className="goal-icon" />
         {goalCounts.get(player.id) > 1 && (
-          <span className="goal-count">{goalCounts.get(player.id)}</span>
-        )}
+  <div className="goal-count">{goalCounts.get(player.id)}</div>
+)}
       </div>
     )}
 

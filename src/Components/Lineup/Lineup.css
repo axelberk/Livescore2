@@ -278,12 +278,12 @@ font-weight: 400;
   display: flex;
   align-items: center;
   justify-content: center;
+   z-index: 10;
 }
 
 .goal-count {
   font-size: 10px;
   margin-left: 2px;
-  color: black;
 }
 
 .sub-icon-wrapper {
