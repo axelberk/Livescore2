@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
 import "./Match.css";
 import Lineup from "../Lineup/Lineup";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
@@ -374,36 +373,38 @@ const Match = () => {
           </div>
         </div>
         <div className="match-header">
-          <div className="team-info">
-            <Link to={`/team/${fixture.teams.home.id}`}>
-              <img
-                src={fixture.teams.home.logo}
-                alt={fixture.teams.home.name}
-                className="match-team-logo"
-              />
-            </Link>
-            <span>{fixture.teams.home.name}</span>
-          </div>
+  <div className="team-info team-info-home">
+    <Link to={`/team/${fixture.teams.home.id}`}>
+      <img
+        src={fixture.teams.home.logo}
+        alt={fixture.teams.home.name}
+        className="match-team-logo"
+      />
+    </Link>
+    <span>{fixture.teams.home.name}</span>
+  </div>
 
-          <div className="match-score-status">
-            <div className="match-scores">
-              {fixture.goals.home} - {fixture.goals.away}
-            </div>
-            <div className="match-status">{getMatchStatus()}</div>
-          </div>
+  <div className="match-score-status">
+    <div className="match-scores">
+      {fixture.goals.home} - {fixture.goals.away}
+    </div>
+    
+  </div>
 
-          <div className="team-info">
-            <span>{fixture.teams.away.name}</span>
-            <Link to={`/team/${fixture.teams.away.id}`}>
-              <img
-                src={fixture.teams.away.logo}
-                alt={fixture.teams.away.name}
-                className="match-team-logo"
-              />
-            </Link>
-          </div>
-        </div>
-
+  <div className="team-info team-info-away">
+    <span>{fixture.teams.away.name}</span>
+    <Link to={`/team/${fixture.teams.away.id}`}>
+      <img
+        src={fixture.teams.away.logo}
+        alt={fixture.teams.away.name}
+        className="match-team-logo"
+      />
+    </Link>
+  </div>
+ 
+</div>
+ <div className="match-status">{getMatchStatus()}</div>
+       
         <div className="match-goalscorers">
           <div className="goal-timeline">
             {timelineEvents.map((event, idx) => {
@@ -435,7 +436,7 @@ const Match = () => {
                       </div>
                       {isGoal && (
                         <span className="goal-icon">
-                          <SportsSoccerIcon></SportsSoccerIcon>
+                          <SportsSoccerIcon fontSize="small"></SportsSoccerIcon>
                         </span>
                       )}
 
@@ -460,7 +461,7 @@ const Match = () => {
                       )}
                       {isGoal && (
                         <span className="goal-icon">
-                          <SportsSoccerIcon></SportsSoccerIcon>
+                          <SportsSoccerIcon fontSize="small"></SportsSoccerIcon>
                         </span>
                       )}
                       <div className="goal-right">

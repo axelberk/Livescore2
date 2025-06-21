@@ -8,16 +8,17 @@
 
 
 .match-header {
-  display: flex;
-  justify-content: space-between; 
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
+  width: 100%;
+  max-width: 600px;
+  
+  gap: 16px;
   text-align: center;
- 
 }
 
-.match-status,
+/* .match-status, */
 .match-stadium,
 .match-referee {
   font-size: 0.8rem;
@@ -28,15 +29,36 @@
  
 }
 
+.match-status {
+  font-size: 0.8rem;
+  color: #555;
+  text-align: center;
+}
+
 .match-scores {
   font-size: 20px;
+  display: flex;
+  flex-direction: column;
+ 
 }
+
+
 
 .team-info {
   display: flex;
   align-items: center;
   gap: 8px;
   font-weight: 600;
+}
+
+.team-info-home {
+  justify-content: flex-end;
+  
+}
+
+.team-info-away {
+  justify-content: flex-start;
+  text-align: right;
 }
 
 .match-team-logo {
@@ -189,12 +211,6 @@
   text-align: center;
 }
 
-.goal-score {
-  width: 20%;
-  font-weight: bold;
-  color: #222;
-}
-
 .goal-minute {
   font-weight: bold;
   color: #666;
@@ -226,8 +242,8 @@ color: rgb(53, 121, 57);
   align-items: center;
   justify-content: center;
   text-align: center;
-  flex: 1;
-  
+ 
+ 
 }
 
 .match-league {
