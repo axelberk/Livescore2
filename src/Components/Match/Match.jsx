@@ -22,7 +22,7 @@ const MatchSkeleton = () => (
     >
       <Skeleton variant="text" width="40%" height={50} />
       <Skeleton variant="rectangular" height={200} width={600} sx={{ my: 1 }} />
-      <Skeleton variant="rectangular" height={200} width={600} sx={{ my: 2 }} />
+      <Skeleton variant="rectangular" height={200} width={600} sx={{ my: 1 }} />
       <div className="subs-skeleton">
         <Skeleton variant="rectangular" height={200} width={250} />
         <Skeleton variant="rectangular" height={200} width={250} />
