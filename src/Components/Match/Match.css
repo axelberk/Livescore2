@@ -150,10 +150,11 @@
   border-radius: 8px;
 }
 
-/* .match-goalscorers {
+.match-goalscorers {
+
   
  
-} */
+}
 
 .goal-timeline {
   display: flex;
@@ -226,4 +227,50 @@ color: rgb(53, 121, 57);
   justify-content: center;
   text-align: center;
   flex: 1;
+  
+}
+
+.match-league {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+text-align: center;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #444;
+  align-self: flex-start;
+}
+
+.league-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.match-info {
+  display: flex;
+ flex-direction: row;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+}
+
+.match-time {
+  
+  display: flex;
+  align-items: center;
+  text-align: center;
+  
+  gap: 8px;
+  
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.match-date-time {
+  display: flex;
+  align-items: center;
+ text-align: center;
 }
