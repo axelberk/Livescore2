@@ -15,8 +15,8 @@ const TeamInfo = () => {
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [loading, setLoading] = useState(true);
- const [coach, setCoach] = useState(null);
- const navigate = useNavigate()
+  const [coach, setCoach] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTeamData = async () => {
@@ -86,19 +86,13 @@ const TeamInfo = () => {
                 league: leagueId,
               },
             }),
-            await axios.get(
-  "https://v3.football.api-sports.io/coachs",
-  {
-    headers: {
-      "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-    },
-    params: { team: teamId },
-  }
-)
-
+            await axios.get("https://v3.football.api-sports.io/coachs", {
+              headers: {
+                "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+              },
+              params: { team: teamId },
+            }),
           ]);
-
-         
 
         const standingsData =
           standingsRes.data.response[0]?.league?.standings[0] || [];
@@ -107,7 +101,18 @@ const TeamInfo = () => {
           (entry) => entry.team.id == teamId
         );
 
-        setCoach(coachRes.data.response[0] || null);
+        const currentCoach = coachRes.data.response.find((coach) => {
+          const currentTeam = coach.career.find(
+            (c) =>
+              c.team.id == teamId &&
+              (!c.end || new Date(c.end) >= new Date(today)) &&
+              new Date(c.start) <= new Date(today)
+          );
+          return !!currentTeam;
+        });
+
+        setCoach(currentCoach || null);
+
         setLeaguePosition(teamStanding?.rank || "N/A");
         setTeamPage(teamRes.data.response[0]);
         setSquad(squadRes.data.response[0].players);
@@ -186,7 +191,12 @@ const TeamInfo = () => {
                           {players.map((player) => (
                             <li
                               key={player.id}
-                             onClick={() => setSelectedPlayer({ id: player.id, number: player.number })}
+                              onClick={() =>
+                                setSelectedPlayer({
+                                  id: player.id,
+                                  number: player.number,
+                                })
+                              }
                             >
                               <img
                                 src={player.photo}
@@ -201,28 +211,30 @@ const TeamInfo = () => {
                       </div>
                     ))}
                   <PlayerModal
-  playerId={selectedPlayer?.id}
-  squadNumber={selectedPlayer?.number}
-  isOpen={!!selectedPlayer}
-  onClose={() => setSelectedPlayer(null)}
-/>
+                    playerId={selectedPlayer?.id}
+                    squadNumber={selectedPlayer?.number}
+                    isOpen={!!selectedPlayer}
+                    onClose={() => setSelectedPlayer(null)}
+                  />
                 </div>
                 {coach && (
-                  
-  <div className="coach-info">
-    <h4 className="squad-type-title">Manager</h4>
-    <div className="coachphoto-name">
-    
-    <img
-      src={coach.photo}
-      alt={coach.name}
-      className="coach-photo"
-      style={{ width: "60px", borderRadius: "50%", marginBottom: "0.5rem" }}
-    />
-    <p>{coach.name}</p>
-    </div>
-  </div>
-)}
+                  <div className="coach-info">
+                    <h4 className="squad-type-title">Manager</h4>
+                    <div className="coachphoto-name">
+                      <img
+                        src={coach.photo}
+                        alt={coach.name}
+                        className="coach-photo"
+                        style={{
+                          width: "60px",
+                          borderRadius: "50%",
+                          marginBottom: "0.5rem",
+                        }}
+                      />
+                      <p>{coach.name}</p>
+                    </div>
+                  </div>
+                )}
                 <div className="results">
                   <div className="results-list">
                     <h3>Results</h3>
@@ -255,7 +267,12 @@ const TeamInfo = () => {
                       return (
                         <div key={fixture.fixture.id} className="result-item">
                           <strong>{matchDate}</strong>:{" "}
-                          <span className={resultClass} onClick={() => navigate(`/match/${fixture.fixture.id}`)}>
+                          <span
+                            className={resultClass}
+                            onClick={() =>
+                              navigate(`/match/${fixture.fixture.id}`)
+                            }
+                          >
                             {fixture.teams.home.name} {fixture.goals.home} -{" "}
                             {fixture.goals.away} {fixture.teams.away.name}
                           </span>
@@ -293,5 +310,3 @@ const TeamInfo = () => {
 };
 
 export default TeamInfo;
-
-

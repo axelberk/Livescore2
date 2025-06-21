@@ -9,6 +9,7 @@ import PlayerModal from "../PlayerModal/PlayerModal";
 import { fetchWithCache } from "../../../utils/apiCache";
 import { Skeleton, Box } from "@mui/material";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
+import SportsTwoToneIcon from '@mui/icons-material/SportsTwoTone';
 
 const MatchSkeleton = () => (
   <div>
@@ -362,7 +363,10 @@ const Match = () => {
           />
           <div className="match-league-info">
             <span>
-              {fixture.league.name} - {fixture.league.round}
+              <Link
+      to={`/league/${fixture.league.id}`}
+      className="match-league-link"
+    >{fixture.league.name}</Link> - {fixture.league.round}
             </span>
             <div className="match-date-time">
               <br />
@@ -374,14 +378,15 @@ const Match = () => {
         </div>
         <div className="match-header">
   <div className="team-info team-info-home">
-    <Link to={`/team/${fixture.teams.home.id}`}>
+    <Link className="match-team-link" to={`/team/${fixture.teams.home.id}`}>
       <img
         src={fixture.teams.home.logo}
         alt={fixture.teams.home.name}
         className="match-team-logo"
       />
+      <span>{fixture.teams.home.name}</span>
     </Link>
-    <span>{fixture.teams.home.name}</span>
+    
   </div>
 
   <div className="match-score-status">
@@ -392,8 +397,9 @@ const Match = () => {
   </div>
 
   <div className="team-info team-info-away">
+     <Link className="match-team-link" to={`/team/${fixture.teams.away.id}`}>
     <span>{fixture.teams.away.name}</span>
-    <Link to={`/team/${fixture.teams.away.id}`}>
+   
       <img
         src={fixture.teams.away.logo}
         alt={fixture.teams.away.name}
@@ -489,6 +495,7 @@ const Match = () => {
             })}
           </div>
         </div>
+        <div className="stadium-referee">
         <div className="match-stadium">
           <PlaceOutlinedIcon />
           {fixture?.fixture?.venue?.name || "Stadium info unavailable"}
@@ -497,9 +504,9 @@ const Match = () => {
             : ""}
         </div>
         <div className="match-referee">
-          Referee: {fixture?.fixture?.referee || "Referee info unavailable"}
+          <SportsTwoToneIcon/> {fixture?.fixture?.referee || "Referee info unavailable"}
         </div>
-
+</div>
         <div className="pitch-wrapper vertical">
           {homeTeam ? (
             <div className="pitch-side">

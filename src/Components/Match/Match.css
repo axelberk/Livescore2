@@ -18,7 +18,6 @@
   text-align: center;
 }
 
-/* .match-status, */
 .match-stadium,
 .match-referee {
   font-size: 0.8rem;
@@ -26,6 +25,8 @@
   display: flex;
   align-items: center;
   text-align: center;
+
+ gap: 4px;
  
 }
 
@@ -172,11 +173,11 @@
   border-radius: 8px;
 }
 
-.match-goalscorers {
+/* .match-goalscorers {
 
   
  
-}
+} */
 
 .goal-timeline {
   display: flex;
@@ -256,6 +257,29 @@ text-align: center;
   font-weight: 500;
   color: #444;
   align-self: flex-start;
+}
+
+.match-league-link {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.match-league-link:hover {
+  color: rgb(53, 121, 57);
+}
+
+.match-team-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  gap: 10px;
+}
+
+.match-team-link:hover {
+  color: rgb(53, 121, 57);
 }
 
 .league-logo {
