@@ -21,6 +21,11 @@
   margin-bottom: 6px;
 }
 
+.team-info-logo {
+  width: 130px;
+  height: 130px;
+}
+
 
 .team-facts h2 {
   text-align: left;
