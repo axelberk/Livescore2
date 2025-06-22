@@ -110,13 +110,13 @@ const Lineup = ({
           }`}
         >
           {!isAway && isFallback && (
-            <div className="fallback-lineup-label">Last lineup</div>
+            <div className="fallback-lineup-label">Last used lineup</div>
           )}
           <div className="formation-display">
             {team.formation || "Formation unavailable"}
           </div>
           {isAway && isFallback && (
-            <div className="fallback-lineup-label">Last lineup</div>
+            <div className="fallback-lineup-label">Last used lineup</div>
           )}
         </div>
 
