@@ -8,6 +8,30 @@ import { Skeleton, Box } from "@mui/material";
 import Match from "../Match/Match";
 import { useNavigate } from "react-router-dom";
 
+const getMatchStatus = () => {
+    const { status, timestamp } = fixture.fixture;
+    switch (status.short) {
+      case "NS":
+        const kickoff = new Date(timestamp * 1000);
+        return `Kickoff: ${kickoff.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        })}`;
+      case "1H":
+      case "2H":
+      case "ET":
+        return `${fixture.fixture.status.elapsed}'`;
+      case "HT":
+        return "Half Time";
+      case "FT":
+        return "Full Time";
+      case "PST":
+        return "Postponed";
+      default:
+        return status.long || "Status Unavailable";
+    }
+  };
+
 
 
 const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135, 88, 40, 114, 5, 10, 15, 38];
