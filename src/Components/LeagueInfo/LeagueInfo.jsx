@@ -17,10 +17,13 @@ const LeagueInfo = () => {
   const [topAssists, setTopAssists] = useState([]);
   const [redCards, setRedCards] = useState([]);
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
+  const [viewMode, setViewMode] = useState("bracket");
+  const [bracketData, setBracketData] = useState([]);
+  const [qualificationFixtures, setQualificationFixtures] = useState([]);
 
   const handlePlayerClick = (player) => {
-  setSelectedPlayerId(player);
-};
+    setSelectedPlayerId(player);
+  };
 
   const getDescriptionColor = (description) => {
     if (!description) return "inherit";
@@ -61,6 +64,41 @@ const LeagueInfo = () => {
     fetchLeague();
   }, [leagueId]);
 
+ 
+
+  useEffect(() => {
+    if (!seasonYear) return;
+
+    const fetchFixtures = async () => {
+      try {
+        const res = await axios.get(
+          "https://v3.football.api-sports.io/fixtures",
+          {
+            headers: {
+              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+            },
+            params: {
+              league: leagueId,
+              season: seasonYear,
+            },
+          }
+        );
+
+        const knockoutMatches = res.data.response.filter(
+          (fixture) =>
+            fixture.league.round &&
+            fixture.league.round.toLowerCase().includes("round") // loose filter, you can improve this
+        );
+
+        setBracketData(knockoutMatches);
+      } catch (err) {
+        console.error("Failed to fetch fixtures for bracket", err);
+      }
+    };
+
+    fetchFixtures();
+  }, [seasonYear, leagueId]);
+
   useEffect(() => {
     if (!seasonYear) return;
 
@@ -94,7 +132,7 @@ const LeagueInfo = () => {
             }),
           ]);
 
-       setStandings(standingsRes.data.response[0]?.league?.standings || []);
+        setStandings(standingsRes.data.response[0]?.league?.standings || []);
         setTopScorers(scorersRes.data.response || []);
         setTopAssists(assistsRes.data.response || []);
         setRedCards(redCardsRes.data.response || []);
@@ -106,30 +144,124 @@ const LeagueInfo = () => {
     fetchDetails();
   }, [seasonYear, leagueId]);
 
-const hasLeagueEnded = () => {
-  if (!league || !league.seasons) return false; 
+  useEffect(() => {
+  if (viewMode !== "qualification" || !seasonYear) return;
 
-  const season = league.seasons.find((s) => s.year === seasonYear);
-  if (!season?.end) return false;
+  const europeanCups = [
+    { id: 2, name: "Champions League" },
+    { id: 3, name: "Europa League" },
+    { id: 848, name: "Conference League" },
+  ];
 
-  return new Date(season.end) < new Date(); 
-};
+  const fetchQualificationRounds = async () => {
+    try {
+      const promises = europeanCups.map(({ id }) =>
+        axios.get("https://v3.football.api-sports.io/fixtures", {
+          headers: {
+            "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+          },
+          params: {
+            league: id,
+            season: seasonYear,
+          },
+        })
+      );
 
-const formatSeasonLabel = (season) => {
-  if (!season?.start || !season?.end) return season?.year ?? "";
+      const results = await Promise.all(promises);
 
-  const startYear = new Date(season.start).getFullYear();  
-  const endYear   = new Date(season.end).getFullYear();     
+      const allFixtures = results.flatMap((res) => res.data.response);
 
-  if (startYear === endYear) return `${startYear}`;
+      const qualification = allFixtures.filter((fixture) =>
+        fixture.league.round?.toLowerCase().includes("qualifying") ||
+        fixture.league.round?.toLowerCase().includes("play-off")
+      );
 
-  const endYY = String(endYear).slice(-2);
-  return `${startYear}-${endYY}`;
-};
+      setQualificationFixtures(qualification);
+    } catch (err) {
+      console.error("Failed to fetch qualification rounds:", err);
+    }
+  };
 
-const currentSeasonObj = league?.seasons?.find(s => s.current);
-const seasonLabel = formatSeasonLabel(currentSeasonObj);
+  fetchQualificationRounds();
+}, [viewMode, seasonYear]);
+
+
+  const hasLeagueEnded = () => {
+    if (!league || !league.seasons) return false;
+
+    const season = league.seasons.find((s) => s.year === seasonYear);
+    if (!season?.end) return false;
+
+    return new Date(season.end) < new Date();
+  };
+
+  const formatSeasonLabel = (season) => {
+    if (!season?.start || !season?.end) return season?.year ?? "";
+
+    const startYear = new Date(season.start).getFullYear();
+    const endYear = new Date(season.end).getFullYear();
+
+    if (startYear === endYear) return `${startYear}`;
+
+    const endYY = String(endYear).slice(-2);
+    return `${startYear}-${endYY}`;
+  };
+
+  const currentSeasonObj = league?.seasons?.find((s) => s.current);
+  const seasonLabel = formatSeasonLabel(currentSeasonObj);
   if (!league) return <div>Loading league info...</div>;
+
+ const groupFixturesByRound = (fixtures) => {
+  const grouped = {};
+  fixtures.forEach((match) => {
+    const round = match.league.round || "Unknown Round";
+    if (!grouped[round]) grouped[round] = [];
+    grouped[round].push(match);
+  });
+  return grouped;
+};
+
+
+ const renderQualificationBracket = () => {
+  if (qualificationFixtures.length === 0)
+    return <p>No qualification fixtures available.</p>;
+
+  const grouped = groupFixturesByRound(qualificationFixtures);
+
+  return (
+    <div className="qualification-bracket">
+      {Object.entries(grouped).map(([round, matches]) => (
+        <div key={round} className="bracket-round">
+          <h4>{round}</h4>
+          {matches.map((match) => {
+            const { home, away } = match.teams;
+            const { fulltime } = match.score;
+            const date = new Date(match.fixture.date).toLocaleDateString();
+
+            return (
+              <div key={match.fixture.id} className="bracket-match">
+                <p className="bracket-date">{date}</p>
+                <div className="bracket-team">
+                  <img className="bracket-logo" src={home.logo} alt={home.name} />
+                  <span>{home.name}</span>
+                  <strong>{fulltime.home ?? "-"}</strong>
+                </div>
+                <div className="bracket-team">
+                  <img className="bracket-logo" src={away.logo} alt={away.name} />
+                  <span>{away.name}</span>
+                  <strong>{fulltime.away ?? "-"}</strong>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+
+
 
   return (
     <div className="league-info">
@@ -146,115 +278,193 @@ const seasonLabel = formatSeasonLabel(currentSeasonObj);
       <p className="league-season">Season: {seasonLabel}</p>
       <p className="league-season">Holders</p>
       <hr class="solid"></hr>
-    <div className="league-container">
-  {standings.length === 1 ? (
-    <>
-      <h3>League Table</h3>
-      <table className="league-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Team</th>
-            {["GP", "W", "D", "L", "GF", "GA", "GD", "PTS"].map((label) => (
-              <th key={label} className="individual-number">{label}</th>
-            ))}
-            <th>Qualification or relegation</th>
-          </tr>
-        </thead>
-        <tbody>
-          {standings[0].map((team) => {
-            const { id, name } = team.team;
-            const { played, win, draw, lose, goals } = team.all;
-            const { for: goalsFor, against: goalsAgainst } = goals;
+      <div className="view-switch">
+        <button
+    className={viewMode === "qualification" ? "active" : ""}
+    onClick={() => setViewMode("qualification")}
+  >
+    Qualification
+  </button>
+        <button
+          className={viewMode === "standings" ? "active" : ""}
+          onClick={() => setViewMode("standings")}
+        >
+          Standings
+        </button>
+        <button
+          className={viewMode === "bracket" ? "active" : ""}
+          onClick={() => setViewMode("bracket")}
+        >
+          Playoffs
+        </button>
+        
+      </div>
+      {viewMode === "standings" && (
+  <div className="league-container">
+    {standings.length === 1 ? (
+      <>
+        <table className="league-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Team</th>
+              {["GP", "W", "D", "L", "GF", "GA", "GD", "PTS"].map((label) => (
+                <th key={label} className="individual-number">
+                  {label}
+                </th>
+              ))}
+              <th>Qualification or relegation</th>
+            </tr>
+          </thead>
+          <tbody>
+            {standings[0].map((team) => {
+              const { id, name } = team.team;
+              const { played, win, draw, lose, goals } = team.all;
+              const { for: goalsFor, against: goalsAgainst } = goals;
 
-            return (
-              <tr
-                key={id}
-                style={{
-                  backgroundColor: getDescriptionColor(team.description),
-                }}
-              >
-                <td>{team.rank}</td>
-                <td className="first-place">
-                  <Link to={`/team/${id}`} className="table-team">
-                    {name}
-                  </Link>
-                  {hasLeagueEnded() && team.rank === 1 && <strong>(C)</strong>}
-                </td>
-                <td className="individual-number">{played}</td>
-                <td className="individual-number">{win}</td>
-                <td className="individual-number">{draw}</td>
-                <td className="individual-number">{lose}</td>
-                <td className="individual-number">{goalsFor}</td>
-                <td className="individual-number">{goalsAgainst}</td>
-                <td className="individual-number">{team.goalsDiff}</td>
-                <td className="team-points">{team.points}</td>
-                <td>{team.description }</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </>
-  ) : (
-   
-    standings.map((group, index) => {
-      const groupName = group[0]?.group || `Group ${index + 1}`;
+              return (
+                <tr
+                  key={id}
+                  style={{
+                    backgroundColor: getDescriptionColor(team.description),
+                  }}
+                >
+                  <td>{team.rank}</td>
+                  <td className="first-place">
+                    <Link to={`/team/${id}`} className="table-team">
+                      {name}
+                    </Link>
+                    {hasLeagueEnded() && team.rank === 1 && <strong>(C)</strong>}
+                  </td>
+                  <td className="individual-number">{played}</td>
+                  <td className="individual-number">{win}</td>
+                  <td className="individual-number">{draw}</td>
+                  <td className="individual-number">{lose}</td>
+                  <td className="individual-number">{goalsFor}</td>
+                  <td className="individual-number">{goalsAgainst}</td>
+                  <td className="individual-number">{team.goalsDiff}</td>
+                  <td className="team-points">{team.points}</td>
+                  <td>{team.description}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </>
+    ) : (
+      standings.map((group, index) => {
+        const groupName = group[0]?.group || `Group ${index + 1}`;
 
-      return (
-        <div key={groupName} className="group-standings">
-          <h3>{groupName}</h3>
-          <table className="league-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Team</th>
-                {["GP", "W", "D", "L", "GF", "GA", "GD", "PTS"].map((label) => (
-                  <th key={label} className="individual-number">{label}</th>
-                ))}
-                <th>Qualification or relegation</th>
-              </tr>
-            </thead>
-            <tbody>
-              {group.map((team) => {
-                const { id, name } = team.team;
-                const { played, win, draw, lose, goals } = team.all;
-                const { for: goalsFor, against: goalsAgainst } = goals;
+        return (
+          <div key={groupName} className="group-standings">
+            <h3>{groupName}</h3>
+            <table className="league-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Team</th>
+                  {["GP", "W", "D", "L", "GF", "GA", "GD", "PTS"].map(
+                    (label) => (
+                      <th key={label} className="individual-number">
+                        {label}
+                      </th>
+                    )
+                  )}
+                  <th>Qualification or relegation</th>
+                </tr>
+              </thead>
+              <tbody>
+                {group.map((team) => {
+                  const { id, name } = team.team;
+                  const { played, win, draw, lose, goals } = team.all;
+                  const { for: goalsFor, against: goalsAgainst } = goals;
 
-                return (
-                  <tr
-                    key={id}
-                    style={{
-                      backgroundColor: getDescriptionColor(team.description),
-                    }}
-                  >
-                    <td>{team.rank}</td>
-                    <td>
-                      <Link to={`/team/${id}`} className="table-team">
-                        {name}
-                      </Link>
-                      {hasLeagueEnded() && team.rank === 1 && <strong className="champion-mark">(C)</strong>}
-                    </td>
-                    <td className="individual-number">{played}</td>
-                    <td className="individual-number">{win}</td>
-                    <td className="individual-number">{draw}</td>
-                    <td className="individual-number">{lose}</td>
-                    <td className="individual-number">{goalsFor}</td>
-                    <td className="individual-number">{goalsAgainst}</td>
-                    <td className="individual-number">{team.goalsDiff}</td>
-                    <td className="team-points">{team.points}</td>
-                    <td>{team.description}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      );
-    })
-  )}
-</div>
+                  return (
+                    <tr
+                      key={id}
+                      style={{
+                        backgroundColor: getDescriptionColor(team.description),
+                      }}
+                    >
+                      <td>{team.rank}</td>
+                      <td>
+                        <Link to={`/team/${id}`} className="table-team">
+                          {name}
+                        </Link>
+                        {hasLeagueEnded() && team.rank === 1 && (
+                          <strong className="champion-mark">(C)</strong>
+                        )}
+                      </td>
+                      <td className="individual-number">{played}</td>
+                      <td className="individual-number">{win}</td>
+                      <td className="individual-number">{draw}</td>
+                      <td className="individual-number">{lose}</td>
+                      <td className="individual-number">{goalsFor}</td>
+                      <td className="individual-number">{goalsAgainst}</td>
+                      <td className="individual-number">{team.goalsDiff}</td>
+                      <td className="team-points">{team.points}</td>
+                      <td>{team.description}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        );
+      })
+    )}
+    </div>
+)}
 
+{viewMode === "bracket" && (
+  <div className="bracket-view">
+    {bracketData.length === 0 ? (
+      <p>No bracket data available.</p>
+    ) : (
+   Object.entries(
+  groupFixturesByRound(
+    bracketData.filter(
+      (match) =>
+        !match.league.round?.toLowerCase().includes("qualifying")
+    )
+  )
+).map(
+        ([round, matches]) => (
+          <div key={round} className="bracket-round">
+            <h4>{round}</h4>
+            {matches.map((match) => {
+              const { home, away } = match.teams;
+              const { fulltime } = match.score;
+              const date = new Date(match.fixture.date).toLocaleDateString();
+
+              return (
+                <div key={match.fixture.id} className="bracket-match">
+                  <p className="bracket-date">{date}</p>
+                  <div className="bracket-team">
+                    <img className="bracket-logo" src={home.logo} alt={home.name} />
+                    <span>{home.name}</span>
+                    <strong>{fulltime.home ?? "-"}</strong>
+                  </div>
+                  <div className="bracket-team">
+                    <img className="bracket-logo" src={away.logo} alt={away.name} />
+                    <span>{away.name}</span>
+                    <strong>{fulltime.away ?? "-"}</strong>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )
+      )
+    )}
+  </div>
+)}
+
+{viewMode === "qualification" && (
+  <div className="qualification-view">
+    {renderQualificationBracket()}
+  </div>
+)}
 
       <hr class="solid"></hr>
       <div className="goals-assists">
@@ -294,10 +504,13 @@ const seasonLabel = formatSeasonLabel(currentSeasonObj);
                       <tr key={player.player.id}>
                         <td>{displayRank}</td>
                         <td>
-  <a className="player-link" onClick={() => handlePlayerClick(player.player)}>
-    {player.player.name}
-  </a>
-</td>
+                          <a
+                            className="player-link"
+                            onClick={() => handlePlayerClick(player.player)}
+                          >
+                            {player.player.name}
+                          </a>
+                        </td>
                         <td>{player.statistics[0].team.name}</td>
                         <td className="individual-number">{goals}</td>
                       </tr>
@@ -343,11 +556,14 @@ const seasonLabel = formatSeasonLabel(currentSeasonObj);
                     return (
                       <tr key={player.player.id}>
                         <td>{displayRank}</td>
-                       <td>
-  <a className="player-link" onClick={() => handlePlayerClick(player.player)}>
-    {player.player.name}
-  </a>
-</td>
+                        <td>
+                          <a
+                            className="player-link"
+                            onClick={() => handlePlayerClick(player.player)}
+                          >
+                            {player.player.name}
+                          </a>
+                        </td>
                         <td>{player.statistics[0].team.name}</td>
                         <td className="individual-number">{assists}</td>
                       </tr>
@@ -397,11 +613,14 @@ const seasonLabel = formatSeasonLabel(currentSeasonObj);
                     return (
                       <tr key={player.player.id}>
                         <td>{displayRank}</td>
-                       <td>
-  <a className="player-link" onClick={() => handlePlayerClick(player.player)}>
-    {player.player.name}
-  </a>
-</td>
+                        <td>
+                          <a
+                            className="player-link"
+                            onClick={() => handlePlayerClick(player.player)}
+                          >
+                            {player.player.name}
+                          </a>
+                        </td>
                         <td>{player.statistics[0].team.name}</td>
                         <td className="individual-number">{red}</td>
                       </tr>
@@ -412,12 +631,12 @@ const seasonLabel = formatSeasonLabel(currentSeasonObj);
           </table>
         </div>
       </div>
-     <PlayerModal
-  playerId={selectedPlayerId?.id}
-  squadNumber={selectedPlayerId?.number}
-  isOpen={!!selectedPlayerId}
-  onClose={() => setSelectedPlayerId(null)}
-/>
+      <PlayerModal
+        playerId={selectedPlayerId?.id}
+        squadNumber={selectedPlayerId?.number}
+        isOpen={!!selectedPlayerId}
+        onClose={() => setSelectedPlayerId(null)}
+      />
     </div>
   );
 };
