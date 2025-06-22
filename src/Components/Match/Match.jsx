@@ -45,7 +45,7 @@ const fetchPhotosForLineups = async (lineupsArray, setPlayerPhotos) => {
         },
       });
       const data = res.response[0]?.player?.photo;
-      console.log(`Photo for ${player.name} (ID: ${player.id}):`, data);
+      // console.log(`Photo for ${player.name} (ID: ${player.id}):`, data);
       if (data) {
         photos[player.id] = data;
       }
@@ -291,16 +291,15 @@ const Match = () => {
     const subInfo = getSubInfo(sub.player.id);
     const hasRedCard = redCards.some((rc) => rc.player?.id === sub.player.id);
 
+    // console.log("MODAL", selectedPlayerId, typeof selectedPlayerId);
+
     return (
       <div
         key={sub.player.id}
         className="substitute-player"
-        onClick={() =>
-          setSelectedPlayerId({
-            id: sub.player.id,
-            number: sub.player.number,
-          })
-        }
+     onClick={() => {
+  setSelectedPlayerId({ id: sub.player.id, number: sub.player.number });
+}}
       >
         <div className="player-photo-wrapper">
           <img
@@ -408,12 +407,9 @@ const Match = () => {
                         <span className="goal-minute">{event.time.elapsed}'</span>
                         <span
                           className={`goal-player ${isRedCard ? "red-card-player" : ""}`}
-                          onClick={() =>
-                            setSelectedPlayerId({
-                              id: event.player.id,
-                              number: null,
-                            })
-                          }
+                       onClick={() => {
+  setSelectedPlayerId({ id: event.player.id, number: null });
+}}
                         >
                           {event.player.name}
                         </span>
@@ -443,12 +439,9 @@ const Match = () => {
                       <div className="goal-right">
                         <span
                           className={`goal-player ${isRedCard ? "red-card-player" : ""}`}
-                          onClick={() =>
-                            setSelectedPlayerId({
-                              id: event.player.id,
-                              number: null,
-                            })
-                          }
+                         onClick={() => {
+  setSelectedPlayerId({ id: event.player.id, number: null });
+}}
                         >
                           {event.player.name}
                         </span>
@@ -510,28 +503,97 @@ const Match = () => {
           )}
         </div>
 
-        {homeTeam?.substitutes && awayTeam?.substitutes && (
-          <div className="subs-wrapper">
-            <h4>Used Substitutes</h4>
-            <div className="subs-sides">
-              <div className="subs-side">
-                {homeTeam.substitutes.map(renderSub)}
+        {!usingFallback && homeTeam?.substitutes && awayTeam?.substitutes && (
+  <div className="subs-wrapper">
+    <h4>Used Substitutes</h4>
+    <div className="used-subs">
+      <div className="used-subs-home">
+        {homeTeam.substitutes
+          .filter((sub) => subbedOnIds.has(sub.player.id))
+          .map(renderSub)}
+      </div>
+
+      <div className="used-subs-away">
+        {awayTeam.substitutes
+          .filter((sub) => subbedOnIds.has(sub.player.id))
+          .map(renderSub)}
+      </div>
+    </div>
+
+    <h4>Unused Substitutes</h4>
+    <div className="unused-subs">
+      <div className="unused-subs-home">
+        {homeTeam.substitutes
+          .filter((sub) => !subbedOnIds.has(sub.player.id))
+          .map((sub) => (
+            <div
+              key={sub.player.id}
+              className="substitute-player"
+             onClick={() =>
+          setSelectedPlayerId({
+            id: sub.player.id,
+            number: sub.player.number,
+          })
+        }
+            >
+              <div className="player-photo-wrapper">
+                <img
+                  src={playerPhotos[sub.player.id] || "/placeholder-player.png"}
+                  alt={sub.player.name}
+                  className="player-photo-positioned"
+                />
               </div>
-              <div className="subs-side">
-                {awayTeam.substitutes.map(renderSub)}
+              <div className="sub-text">
+                {sub.player.number}. {sub.player.name}
               </div>
             </div>
-          </div>
-        )}
+          ))}
+      </div>
 
-        {selectedPlayerId && (
-          <PlayerModal
-            playerId={selectedPlayerId.id}
-            number={selectedPlayerId.number}
-            open={!!selectedPlayerId}
-            onClose={() => setSelectedPlayerId(null)}
-          />
-        )}
+      <div className="unused-subs-away">
+        {awayTeam.substitutes
+          .filter((sub) => !subbedOnIds.has(sub.player.id))
+          .map((sub) => (
+            <div
+              key={sub.player.id}
+              className="substitute-player"
+              onClick={() =>
+                setSelectedPlayerId({
+                  id: sub.player.id,
+                  number: sub.player.number,
+                })
+              }
+            >
+              <div className="player-photo-wrapper">
+                <img
+                  src={playerPhotos[sub.player.id] || "/placeholder-player.png"}
+                  alt={sub.player.name}
+                  className="player-photo-positioned"
+                />
+              </div>
+              <div className="sub-text">
+                {sub.player.number}. {sub.player.name}
+              </div>
+            </div>
+          ))}
+      </div>
+    </div>
+  </div>
+)}
+
+
+   {selectedPlayerId && (
+  <>
+    <div>Modal should be showing for {selectedPlayerId.id}</div>
+    <PlayerModal
+      playerId={selectedPlayerId.id}
+      number={selectedPlayerId.number}
+      isOpen={true}
+      onClose={() => setSelectedPlayerId(null)}
+    />
+  </>
+)}
+
       </div>
     </div>
   );
