@@ -26,7 +26,6 @@ const MatchSkeleton = () => (
   </div>
 );
 
-// Moved here, before usage:
 const fetchPhotosForLineups = async (lineupsArray, setPlayerPhotos) => {
   const allPlayers = lineupsArray.flatMap((lineup) => [
     ...(lineup.startXI || []).map((p) => p.player),
@@ -45,7 +44,6 @@ const fetchPhotosForLineups = async (lineupsArray, setPlayerPhotos) => {
         },
       });
       const data = res.response[0]?.player?.photo;
-      // console.log(`Photo for ${player.name} (ID: ${player.id}):`, data);
       if (data) {
         photos[player.id] = data;
       }
@@ -174,10 +172,9 @@ const Match = () => {
 
         setLineups(lineupsData);
 
-        // Fetch photos once lineupsData is ready
+  
         await fetchPhotosForLineups(lineupsData, setPlayerPhotos);
 
-        // Process events
         const allEvents = eventsRes.response;
 
         const goalEvents = allEvents
@@ -290,8 +287,6 @@ const Match = () => {
     const wasSubbedOn = subbedOnIds.has(sub.player.id);
     const subInfo = getSubInfo(sub.player.id);
     const hasRedCard = redCards.some((rc) => rc.player?.id === sub.player.id);
-
-    // console.log("MODAL", selectedPlayerId, typeof selectedPlayerId);
 
     return (
       <div
