@@ -280,6 +280,7 @@ useEffect(() => {
         </div>
       ))}
     </div>
+    
   );
 };
 
@@ -461,8 +462,9 @@ useEffect(() => {
           acc[round].push(tie);
           return acc;
         }, {})
-      ).map(([round, ties]) => (
+      ).map(([round, ties], index, arr) => (
         <div key={round} className="bracket-round-group">
+          {/* <hr className="round-separator"/> */}
           <h3 className="bracket-round-title">{round}</h3>
           <div className="bracket-row">
             {ties.map(({ fixtures, homeTeam, awayTeam }) => {
@@ -488,6 +490,7 @@ useEffect(() => {
 
                     return (
                       <div key={match.fixture.id} className="bracket-match">
+                        
                         <p className="bracket-date">{date}</p>
                         <div className="bracket-team">
                           <img className="bracket-logo" src={home.logo} alt={home.name} />
@@ -502,10 +505,13 @@ useEffect(() => {
                       </div>
                     );
                   })}
+                  
                 </div>
               );
             })}
+            
           </div>
+           {index < arr.length - 1 && <hr className="round-separator" />}
         </div>
       ))
     )}
