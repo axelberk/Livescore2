@@ -1,4 +1,3 @@
-
 .blurred {
   filter: blur(4px);
   pointer-events: none;
@@ -36,11 +35,8 @@
 }
 
 .pitch-container {
-
   width: 100%;
   height: 400px;
-
-
 }
 
 .pitch-half {
@@ -50,7 +46,7 @@
   width: 800px;
   height: 400px;
   color: black;
-  position: relative; 
+  position: relative;
 }
 
 .formation-positioned {
@@ -70,7 +66,6 @@
   z-index: 5;
   padding: 4px;
   border-radius: 8px;
- 
 }
 
 .positioned-player:hover {
@@ -84,7 +79,6 @@
   height: 40px;
   border-radius: 50%;
   border: 2px solid white;
- 
 }
 
 .player-photo-placeholder-positioned {
@@ -107,7 +101,7 @@
 }
 
 .player-number {
-font-weight: 400;
+  font-weight: 400;
   font-size: 0.7rem;
 }
 
@@ -126,13 +120,19 @@ font-weight: 400;
 }
 
 .goal-icon {
- margin-left: 2px;
- color: black;
- margin-bottom: -4px;
+  margin-left: 2px;
+  color: black;
+  margin-bottom: -4px;
+}
+
+.own-goal-icon {
+  color: red;
+  margin-left: 2px;
+  margin-bottom: -4px;
 }
 
 .sub-off-icon {
-  color: red;
+  color: #EE4B2B;
 }
 
 .pitch-markings {
@@ -157,11 +157,10 @@ font-weight: 400;
   border-radius: 50%;
 }
 
-
 .penalty-area {
   position: absolute;
-  width: 200px;  
-  height: 80px;  
+  width: 200px;
+  height: 80px;
   border: 2px solid white;
   left: 50%;
   transform: translateX(-50%);
@@ -244,13 +243,6 @@ font-weight: 400;
   }
 }
 
-.goal-icon-wrapper {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  margin-right: 4px;
-}
-
 .goal-count {
   position: absolute;
   top: -4px;
@@ -268,17 +260,16 @@ font-weight: 400;
   display: inline-block;
 }
 
-.goal-icon-wrapper {
+.goal-icon-wrapper,
+.own-goal-icon-wrapper {
   position: absolute;
   top: 0;
   left: 30px;
   background: white;
   border-radius: 50%;
-  padding: 1px;
-  display: flex;
   align-items: center;
   justify-content: center;
-   z-index: 10;
+  z-index: 10;
 }
 
 .goal-count {
@@ -289,7 +280,7 @@ font-weight: 400;
 .sub-icon-wrapper {
   position: absolute;
   bottom: 0;
-  left: 30px ;
+  left: 30px;
   background: white;
   border-radius: 50%;
   padding: 2px;
@@ -302,7 +293,7 @@ font-weight: 400;
   position: absolute;
   top: -5px;
   right: 30px;
- 
+
   border-radius: 50%;
   padding: 2px;
 }

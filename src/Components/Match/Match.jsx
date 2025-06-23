@@ -240,14 +240,26 @@ const Match = () => {
 
         setSubstitutions(subs);
 
-        const goalMap = new Map();
-        allEvents.forEach((e) => {
-          if (e.type === "Goal" && e.player?.id) {
-            const id = e.player.id;
-            goalMap.set(id, (goalMap.get(id) || 0) + 1);
-          }
-        });
-        setGoalScorerIds(goalMap);
+       const goalMap = new Map();
+allEvents.forEach((e) => {
+  if (e.type === "Goal" && e.player?.id) {
+    const id = e.player.id;
+    const isOwnGoal = e.detail === "Own Goal";
+
+    if (!goalMap.has(id)) {
+      goalMap.set(id, { goals: 0, ownGoals: 0 });
+    }
+
+    const entry = goalMap.get(id);
+    if (isOwnGoal) {
+      entry.ownGoals += 1;
+    } else {
+      entry.goals += 1;
+    }
+  }
+});
+setGoalScorerIds(goalMap);
+
       } catch (err) {
         console.error("Error fetching match data:", err);
       } finally {
@@ -447,6 +459,7 @@ const Match = () => {
             {timelineEvents.map((event, idx) => {
               const isHome = event.team.id === fixture.teams.home.id;
               const isGoal = event.type === "Goal";
+              const isOwnGoal = event.detail === "Own Goal";
               const isRedCard = event.detail === "Red Card";
 
               return (
@@ -472,10 +485,13 @@ const Match = () => {
                         </span>
                       </div>
                       {isGoal && (
-                        <span className="goal-icon">
-                          <SportsSoccerIcon fontSize="small"></SportsSoccerIcon>
-                        </span>
-                      )}
+  <span
+    className={`goal-icon ${isOwnGoal ? "own-goal" : ""}`}
+    title={isOwnGoal ? "Own Goal" : "Goal"}
+  >
+    <SportsSoccerIcon fontSize="small" />
+  </span>
+)}
 
                       {isRedCard && (
                         <img

@@ -40,6 +40,10 @@ const Lineup = ({
   : { x: position.x, y: 100 - position.y };
  const gotRedCard = redCardIds.has(player.id);
 
+ const goalData = goalCounts.get(player.id) || {};
+const goals = goalData.goals || 0;
+const ownGoals = goalData.ownGoals || 0;
+
     return (
       <div
   key={player.id}
@@ -62,15 +66,20 @@ const Lineup = ({
     ) : (
       <div className="player-photo-placeholder-positioned" />
     )}
-
-    {goalCounts.has(player.id) && (
-      <div className="goal-icon-wrapper">
-        <SportsSoccerIcon fontSize="small" className="goal-icon" />
-        {goalCounts.get(player.id) > 1 && (
-  <div className="goal-count">{goalCounts.get(player.id)}</div>
+    
+{goals > 0 && (
+  <div className="goal-icon-wrapper">
+    <SportsSoccerIcon fontSize="small" className="goal-icon" />
+    {goals > 1 && <div className="goal-count">{goals}</div>}
+  </div>
 )}
-      </div>
-    )}
+
+{ownGoals > 0 && (
+  <div className="own-goal-icon-wrapper">
+    <SportsSoccerIcon fontSize="small" className="own-goal-icon" />
+    {ownGoals > 1 && <div className="goal-count">{ownGoals}</div>}
+  </div>
+)}
 
     {subbedOffIds.has(player.id) && (
       <div className="sub-icon-wrapper">
