@@ -162,9 +162,10 @@
 }
 
 .bracket-date {
-  text-align: center;
+  text-align: left;
   font-size: 0.8rem;
   color: #777;
+  margin: 0;
 }
 
 .bracket-logo {

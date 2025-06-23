@@ -87,7 +87,8 @@ const LeagueInfo = () => {
         const knockoutMatches = res.data.response.filter(
           (fixture) =>
             fixture.league.round &&
-            fixture.league.round.toLowerCase().includes("round") // loose filter, you can improve this
+            fixture.league.round.toLowerCase().includes("round") ||
+            fixture.league.round.toLowerCase().includes("final")
         );
 
         setBracketData(knockoutMatches);
@@ -147,40 +148,35 @@ const LeagueInfo = () => {
   useEffect(() => {
   if (viewMode !== "qualification" || !seasonYear) return;
 
-  const europeanCups = [
-    { id: 2, name: "Champions League" },
-    { id: 3, name: "Europa League" },
-    { id: 848, name: "Conference League" },
-  ];
-
   const fetchQualificationRounds = async () => {
-    try {
-      const promises = europeanCups.map(({ id }) =>
-        axios.get("https://v3.football.api-sports.io/fixtures", {
-          headers: {
-            "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-          },
-          params: {
-            league: id,
-            season: seasonYear,
-          },
-        })
-      );
+  try {
+    // Only fetch fixtures for the current league (which should be a cup like UCL, UEL, etc.)
+    const res = await axios.get("https://v3.football.api-sports.io/fixtures", {
+      headers: {
+        "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+      },
+      params: {
+        league: leagueId,
+        season: seasonYear,
+      },
+    });
 
-      const results = await Promise.all(promises);
+    const fixtures = res.data.response;
 
-      const allFixtures = results.flatMap((res) => res.data.response);
+   const qualification = fixtures.filter((fixture) => {
+  const round = fixture.league.round?.toLowerCase() || "";
+  return (
+    (round.includes("qualifying") || round.includes("play-off")) &&
+    !round.includes("knockout")
+  );
+});
 
-      const qualification = allFixtures.filter((fixture) =>
-        fixture.league.round?.toLowerCase().includes("qualifying") ||
-        fixture.league.round?.toLowerCase().includes("play-off")
-      );
+    setQualificationFixtures(qualification);
+  } catch (err) {
+    console.error("Failed to fetch qualification rounds:", err);
+  }
+};
 
-      setQualificationFixtures(qualification);
-    } catch (err) {
-      console.error("Failed to fetch qualification rounds:", err);
-    }
-  };
 
   fetchQualificationRounds();
 }, [viewMode, seasonYear]);
