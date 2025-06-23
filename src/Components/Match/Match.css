@@ -199,7 +199,7 @@
   justify-content: space-between;
   font-size: 0.7rem;
   text-align: center;
-  width: 350px;
+  width: 450px;
 }
 
 .goal-left,
@@ -211,12 +211,12 @@
 
 .goal-left {
   justify-content: flex-start;
-  text-align: center;
+  text-align: right;
 }
 
 .goal-right {
   justify-content: flex-end;
-  text-align: center;
+  text-align: left;
 }
 
 .goal-minute {
@@ -226,7 +226,7 @@
 }
 
 .goal-player {
-  width: 100px;
+  width: 100%;
   font-weight: 400;
   color: #333;
   cursor: pointer;

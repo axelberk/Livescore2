@@ -482,16 +482,14 @@ setGoalScorerIds(goalMap);
                           }}
                         >
                           {event.player.name}
+                          {isOwnGoal ? " (OG)" : ""}
                         </span>
                       </div>
                       {isGoal && (
-  <span
-    className={`goal-icon ${isOwnGoal ? "own-goal" : ""}`}
-    title={isOwnGoal ? "Own Goal" : "Goal"}
-  >
-    <SportsSoccerIcon fontSize="small" />
-  </span>
-)}
+                        <span className="goal-icon">
+                          <SportsSoccerIcon fontSize="small"></SportsSoccerIcon>
+                        </span>
+                      )}
 
                       {isRedCard && (
                         <img
@@ -530,6 +528,7 @@ setGoalScorerIds(goalMap);
                           }}
                         >
                           {event.player.name}
+                          {isOwnGoal ? " (OG)" : ""}
                         </span>
                         <span className="goal-minute">
                           {event.time.elapsed}'
