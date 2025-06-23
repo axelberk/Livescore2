@@ -19,11 +19,12 @@
   border-radius: 8px;
   margin-top: 10px;
   margin-bottom: 6px;
+  font-size: 0.8rem;
 }
 
 .team-info-logo {
-  width: 130px;
-  height: 130px;
+  max-width: 120px;
+  max-height: 120px;
 }
 
 
@@ -77,13 +78,13 @@
 .coach-info {
   display: flex;
   flex-direction: column;
-  
+
 }
 
 .coachphoto-name {
   display: flex;
   flex-direction: row;
-  font-size: 18px;
+  font-size: 16px;
  
 }
 

@@ -5,6 +5,8 @@ import axios from "axios";
 import Header from "../Header/Header";
 import PlayerModal from "../PlayerModal/PlayerModal";
 import { useNavigate } from "react-router-dom";
+import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
+import StadiumOutlinedIcon from '@mui/icons-material/StadiumOutlined';
 
 const TeamInfo = () => {
   const { teamId } = useParams();
@@ -163,14 +165,14 @@ const TeamInfo = () => {
                     {venue.city}, {team.country}
                   </p>
                   <p>
-                    {venue.name} - {venue.capacity}
+                    {/* <StadiumOutlinedIcon/>{venue.name} - {venue.capacity} */}
                   </p>
                   <p>League position: {leaguePosition}</p>
                 </div>
                 <div className="team-facts">
-                  <p>League titles: </p>
+                  {/* <p>League titles: </p>
                   <p>European titles: </p>
-                  <p>Domestic titles: </p>
+                  <p>Domestic titles: </p> */}
                 </div>
               </div>
 
