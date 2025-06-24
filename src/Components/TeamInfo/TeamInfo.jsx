@@ -165,7 +165,7 @@ const TeamInfo = () => {
                     {venue.city}, {team.country}
                   </p>
                   <p>
-                    {/* <StadiumOutlinedIcon/>{venue.name} - {venue.capacity} */}
+                    {venue.name} -  {venue.capacity}
                   </p>
                   <p>League position: {leaguePosition}</p>
                 </div>

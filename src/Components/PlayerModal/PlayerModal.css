@@ -30,13 +30,18 @@
 }
 
 .button-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-header {
   margin-bottom: 0;
   display: flex;
   justify-content: space-between;
   padding: 6px 0px;
 }
 
-.button-header button {
+.close-button {
   background-color: inherit;
   color: inherit;
   border: none;
@@ -47,14 +52,15 @@
   height: 100%;
 }
 
-.button-header button:hover {
+.close-button:hover {
   background-color: black;
 }
 
 .modal-name {
   margin: 2px 0px;
-  text-align: left;
-  font-size: 18px;
+  text-align: center;
+  font-size: 14px;
+  padding: 1px;
 }
 
 .modal-content {
@@ -68,6 +74,7 @@
 .modal-facts-container {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   gap: 10px;
 }
 
@@ -75,18 +82,25 @@
   font-size: 13px;
   margin: 0;
   text-align: left;
-   white-space: normal;
+  white-space: normal;
+   font-size: 12px;
 }
 
 .fact-span {
-  font-weight: 700;
+  font-weight: 600;
+ 
 }
 
 .modal-club {
   text-decoration: none;
   color: inherit;
-  font-weight: 700;
+  font-weight: 600;
   transition: 0.3s ease;
+}
+
+.modal-club-logo {
+   width: 80px;
+  height: 80px;
 }
 
 .modal-club:hover {
@@ -94,8 +108,8 @@
 }
 
 .player-photo-lg {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 8px;
 }
 

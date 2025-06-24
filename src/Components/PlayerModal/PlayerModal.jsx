@@ -64,14 +64,34 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
     }, 200);
   };
 
- 
-  if (!isOpen) return null;
+ if (!isOpen || !playerId) return null;
+
+if (!loading && !player) {
+  return (
+    <>
+      <div className="modal-overlay" onClick={onClose} />
+      <div className="player-modal">
+        <div className="button-header">
+          <h2 className="modal-name">Player data not available.</h2>
+          <button onClick={onClose}>
+            <CloseIcon fontSize="small" />
+          </button>
+        </div>
+      </div>
+    </>
+  );
+}
 
   return (
   <>
     <div className="modal-overlay" onClick={handleClose} />
     <div className={`player-modal${closing ? " closing" : ""}`}>
       <div className="button-header">
+        <button onClick={handleClose} className="close-button">
+          <CloseIcon fontSize="small" />
+        </button>
+        </div>
+      <div className="modal-header">
         {player?.player?.photo && !loading && (
           <img
             src={player.player.photo}
@@ -79,9 +99,41 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
             className="player-photo-lg"
           />
         )}
-        <button onClick={handleClose}>
-          <CloseIcon fontSize="small" />
-        </button>
+       <h2 className="modal-name">
+  {player?.player ? (
+    (() => {
+      const number =
+        player?.statistics?.[0]?.games?.number ??
+        player?.player?.number ??
+        numberFromLineup;
+
+      return `${number ? number + ". " : ""}${player.player.firstname} ${player.player.lastname}`;
+    })()
+  ) : (
+    "Loading..."
+  )}
+</h2>
+            <div className="modal-club-info">
+ {player?.statistics?.[0]?.team ? (
+    <Link
+      to={`/team/${player.statistics[0].team.id}`}
+      className="modal-club"
+      onClick={handleClose}
+    >
+      <img
+        src={player.statistics[0].team.logo}
+        alt={player.statistics[0].team.name}
+        className="modal-club-logo"
+        title={player.statistics[0].team.name}
+      />
+      {/* {player.statistics[0].team.name} */}
+    </Link>
+  ) : (
+    <span className="fact-span">N/A</span>
+  )}
+</div>
+
+      
       </div>
       <div className="modal-content">
         {loading ? (
@@ -90,18 +142,7 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
           <p>Player data not available.</p>
         ) : (
           <>
-            <h2 className="modal-name">
-              {(() => {
-                const number =
-                  player?.statistics?.[0]?.games?.number ??
-                  player?.player?.number ??
-                  numberFromLineup;
-
-                return `${
-                  number ? number + ". " : ""
-                }${player.player.firstname} ${player.player.lastname}`;
-              })()}
-            </h2>
+            
             <div className="modal-facts-container">
               <div className="modal-facts">
                 <p>
@@ -128,20 +169,7 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
                     {player.player.weight || "N/A"}
                   </span>
                 </p>
-                <p>
-                  Club:{" "}
-                  {player.statistics?.[0]?.team ? (
-                    <Link
-                      to={`/team/${player.statistics[0].team.id}`}
-                      className="modal-club"
-                      onClick={handleClose}
-                    >
-                      {player.statistics[0].team.name}
-                    </Link>
-                  ) : (
-                    <span className="fact-span">N/A</span>
-                  )}
-                </p>
+                
                 <p>
                   Nationality:{" "}
                   <span className="fact-span">

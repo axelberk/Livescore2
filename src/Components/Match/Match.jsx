@@ -350,6 +350,7 @@ setGoalScorerIds(goalMap);
             src={playerPhotos[sub.player.id] || "/placeholder-player.png"}
             alt={sub.player.name}
             className="player-photo-positioned"
+            loading="lazy"
           />
           {wasSubbedOn && (
             <div className="sub-icon-wrapper">
@@ -366,6 +367,7 @@ setGoalScorerIds(goalMap);
               src="/Red_card.svg"
               alt="Red Card"
               className="individual-logo red-card-sub-icon"
+              loading="lazy"
             />
           )}
         </div>
@@ -397,6 +399,7 @@ setGoalScorerIds(goalMap);
             src={fixture.league.logo}
             alt={fixture.league.name}
             className="league-logo"
+            loading="lazy"
           />
           <div className="match-league-info">
             <span>
@@ -426,6 +429,7 @@ setGoalScorerIds(goalMap);
                 src={fixture.teams.home.logo}
                 alt={fixture.teams.home.name}
                 className="match-team-logo"
+                loading="lazy"
               />
               <span>{fixture.teams.home.name}</span>
             </Link>
@@ -448,6 +452,7 @@ setGoalScorerIds(goalMap);
                 src={fixture.teams.away.logo}
                 alt={fixture.teams.away.name}
                 className="match-team-logo"
+                loading="lazy"
               />
             </Link>
           </div>
@@ -496,6 +501,7 @@ setGoalScorerIds(goalMap);
                           src="/Red_card.svg"
                           alt=""
                           className="individual-logo"
+                          loading="lazy"
                         />
                       )}
                       <div className="goal-right" />
@@ -508,6 +514,7 @@ setGoalScorerIds(goalMap);
                           src="/Red_card.svg"
                           alt=""
                           className="individual-logo"
+                          loading="lazy"
                         />
                       )}
                       {isGoal && (
@@ -634,6 +641,7 @@ setGoalScorerIds(goalMap);
                           }
                           alt={sub.player.name}
                           className="player-photo-positioned"
+                          loading="lazy"
                         />
                       </div>
                       <div className="sub-text">
@@ -665,6 +673,7 @@ setGoalScorerIds(goalMap);
                           }
                           alt={sub.player.name}
                           className="player-photo-positioned"
+                          loading="lazy"
                         />
                       </div>
                       <div className="sub-text">
