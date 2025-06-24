@@ -142,6 +142,19 @@ const formationsPositions = {
     { x: 35, y: 10 },
     { x: 65, y: 10 },
   ],
+  "4-1-3-2": [
+    { x: 50, y: 90 },
+    { x: 18, y: 75 },
+    { x: 40, y: 75 },
+    { x: 60, y: 75 },
+    { x: 82, y: 75 },
+    { x: 50, y: 55 },
+    { x: 75, y: 35 },
+    { x: 50, y: 35 },
+    { x: 25, y: 35 },
+    { x: 35, y: 10 },
+    { x: 65, y: 10 },
+  ],
 };
 
 export default formationsPositions;

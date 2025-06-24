@@ -62,6 +62,7 @@ const ownGoals = goalData.ownGoals || 0;
         src={playerPhotos[player.id]}
         alt={player.name}
         className="player-photo-positioned"
+        loading="lazy"
       />
     ) : (
       <div className="player-photo-placeholder-positioned" />

@@ -140,48 +140,46 @@ const Match = () => {
         if (!lineupsRes.response || lineupsRes.response.length === 0) {
           setUsingFallback(true);
 
-          const getLastLineup = async (teamId) => {
-            try {
-              const teamFixturesRes = await fetchWithCache(
-                `https://v3.football.api-sports.io/fixtures`,
-                {
-                  headers: {
-                    "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-                  },
-                  params: {
-                    team: teamId,
-                    season: "2024",
-                    status: "FT",
-                    last: 5,
-                  },
-                }
-              );
+        const getLastLineup = async (teamId) => {
+  try {
+    const teamFixturesRes = await fetchWithCache(
+      `https://v3.football.api-sports.io/fixtures`,
+      {
+        headers: {
+          "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+        },
+        params: {
+          team: teamId,
+          season: "2025",
+          status: "FT",
+          last: 10,
+        },
+      }
+    );
 
-              for (const prevMatch of teamFixturesRes.response) {
-                const prevLineupRes = await fetchWithCache(
-                  `https://v3.football.api-sports.io/fixtures/lineups?fixture=${prevMatch.fixture.id}`,
-                  {
-                    headers: {
-                      "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-                    },
-                  }
-                );
+    for (const fixture of teamFixturesRes.response) {
+      const lineupRes = await fetchWithCache(
+        `https://v3.football.api-sports.io/fixtures/lineups?fixture=${fixture.fixture.id}`,
+        {
+          headers: {
+            "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+          },
+        }
+      );
 
-                if (
-                  prevLineupRes.response &&
-                  prevLineupRes.response.length > 0
-                ) {
-                  const teamLineup = prevLineupRes.response.find(
-                    (t) => t.team.id === teamId
-                  );
-                  if (teamLineup) return teamLineup;
-                }
-              }
-            } catch (err) {
-              console.warn("Error getting last lineup for team", teamId, err);
-            }
-            return null;
-          };
+      const teamLineup = lineupRes.response?.find(
+        (entry) => entry.team.id === teamId
+      );
+
+      if (teamLineup) return teamLineup;
+    }
+  } catch (err) {
+    console.warn("Error getting last lineup for team", teamId, err);
+  }
+
+  return null;
+};
+
 
           const [fallbackHome, fallbackAway] = await Promise.all([
             getLastLineup(match.teams.home.id),

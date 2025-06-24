@@ -56,6 +56,12 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
     fetchPlayer();
   }, [playerId, isOpen]);
 
+  const bestStats = player?.statistics?.reduce((best, current) => {
+  const bestApps = best?.games?.appearences ?? 0;
+  const currentApps = current?.games?.appearences ?? 0;
+  return currentApps > bestApps ? current : best;
+}, null);
+
   const handleClose = () => {
     setClosing(true);
     setTimeout(() => {
@@ -71,9 +77,9 @@ if (!loading && !player) {
     <>
       <div className="modal-overlay" onClick={onClose} />
       <div className="player-modal">
-        <div className="button-header">
+        <div className="modal-header">
           <h2 className="modal-name">Player data not available.</h2>
-          <button onClick={onClose}>
+          <button onClick={onClose} className="close-button">
             <CloseIcon fontSize="small" />
           </button>
         </div>
@@ -87,19 +93,7 @@ if (!loading && !player) {
     <div className="modal-overlay" onClick={handleClose} />
     <div className={`player-modal${closing ? " closing" : ""}`}>
       <div className="button-header">
-        <button onClick={handleClose} className="close-button">
-          <CloseIcon fontSize="small" />
-        </button>
-        </div>
-      <div className="modal-header">
-        {player?.player?.photo && !loading && (
-          <img
-            src={player.player.photo}
-            alt={player.player.name}
-            className="player-photo-lg"
-          />
-        )}
-       <h2 className="modal-name">
+         <h2 className="modal-name">
   {player?.player ? (
     (() => {
       const number =
@@ -113,18 +107,31 @@ if (!loading && !player) {
     "Loading..."
   )}
 </h2>
+        <button onClick={handleClose} className="close-button">
+          <CloseIcon fontSize="small" />
+        </button>
+        </div>
+      <div className="modal-header">
+        {player?.player?.photo && !loading && (
+          <img
+            src={player.player.photo}
+            alt={player.player.name}
+            className="player-photo-lg"
+          />
+        )}
+      
             <div className="modal-club-info">
  {player?.statistics?.[0]?.team ? (
     <Link
-      to={`/team/${player.statistics[0].team.id}`}
+      to={`/team/${bestStats?.team?.name}`}
       className="modal-club"
       onClick={handleClose}
     >
       <img
-        src={player.statistics[0].team.logo}
-        alt={player.statistics[0].team.name}
+        src={bestStats?.team?.logo}
+        alt={bestStats?.team?.name}
         className="modal-club-logo"
-        title={player.statistics[0].team.name}
+        title={bestStats?.team?.name}
       />
       {/* {player.statistics[0].team.name} */}
     </Link>
@@ -154,7 +161,7 @@ if (!loading && !player) {
                 <p>
                   Position:{" "}
                   <span className="fact-span">
-                    {player.statistics?.[0]?.games?.position || "Unknown"}
+                    {bestStats?.games?.position || "Unknown"}
                   </span>
                 </p>
                 <p>
@@ -182,14 +189,14 @@ if (!loading && !player) {
                 <p>
                   Appearances:{" "}
                   <span className="fact-span">
-                    {player.statistics?.[0]?.games?.appearences ?? 0}
+                    {bestStats?.games?.appearences ?? 0}
                   </span>
                 </p>
-                {player.statistics?.[0]?.games?.position === "Goalkeeper" ? (
+                {bestStats?.games?.position === "Goalkeeper" ? (
                   <p>
                     Goals Conceded:{" "}
                     <span className="fact-span">
-                      {player.statistics?.[0]?.goals?.conceded ?? 0}
+                      {bestStats?.goals?.conceded ?? 0}
                     </span>
                   </p>
                 ) : (
@@ -197,13 +204,13 @@ if (!loading && !player) {
                     <p>
                       Goals:{" "}
                       <span className="fact-span">
-                        {player.statistics?.[0]?.goals?.total ?? 0}
+                        {bestStats?.goals?.total ?? 0}
                       </span>
                     </p>
                     <p>
                       Assists:{" "}
                       <span className="fact-span">
-                        {player.statistics?.[0]?.goals?.assists ?? 0}
+                        {bestStats?.goals?.assists ?? 0}
                       </span>
                     </p>
                   </>
@@ -211,13 +218,13 @@ if (!loading && !player) {
                 <p>
                   Yellow Cards:{" "}
                   <span className="fact-span">
-                    {player.statistics?.[0]?.cards?.yellow ?? 0}
+                    {bestStats?.cards?.yellow ?? 0}
                   </span>
                 </p>
                 <p>
                   Red Cards:{" "}
                   <span className="fact-span">
-                    {player.statistics?.[0]?.cards?.red ?? 0}
+                    {bestStats?.cards?.red ?? 0}
                   </span>
                 </p>
               </div>
