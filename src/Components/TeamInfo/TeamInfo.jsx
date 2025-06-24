@@ -217,6 +217,7 @@ const TeamInfo = () => {
                     squadNumber={selectedPlayer?.number}
                     isOpen={!!selectedPlayer}
                     onClose={() => setSelectedPlayer(null)}
+                    team={teamPage.team}
                   />
                 </div>
                 {coach && (
