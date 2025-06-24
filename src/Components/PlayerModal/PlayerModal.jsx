@@ -57,10 +57,10 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
   }, [playerId, isOpen]);
 
   const bestStats = player?.statistics?.reduce((best, current) => {
-  const bestApps = best?.games?.appearences ?? 0;
-  const currentApps = current?.games?.appearences ?? 0;
-  return currentApps > bestApps ? current : best;
-}, null);
+    const bestApps = best?.games?.appearences ?? 0;
+    const currentApps = current?.games?.appearences ?? 0;
+    return currentApps > bestApps ? current : best;
+  }, null);
 
   const handleClose = () => {
     setClosing(true);
@@ -70,171 +70,167 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
     }, 200);
   };
 
- if (!isOpen || !playerId) return null;
+  if (!isOpen || !playerId) return null;
 
-if (!loading && !player) {
+  if (!loading && !player) {
+    return (
+      <>
+        <div className="modal-overlay" onClick={onClose} />
+        <div className="player-modal">
+          <div className="modal-header">
+            <h2 className="modal-name">Player data not available.</h2>
+            <button onClick={onClose} className="close-button">
+              <CloseIcon fontSize="small" />
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
-      <div className="modal-overlay" onClick={onClose} />
-      <div className="player-modal">
-        <div className="modal-header">
-          <h2 className="modal-name">Player data not available.</h2>
-          <button onClick={onClose} className="close-button">
+      <div className="modal-overlay" onClick={handleClose} />
+      <div className={`player-modal${closing ? " closing" : ""}`}>
+        <div className="button-header">
+          <h2 className="modal-name">
+            {player?.player
+              ? (() => {
+                  const number =
+                    player?.statistics?.[0]?.games?.number ??
+                    player?.player?.number ??
+                    numberFromLineup;
+
+                  return `${number ? number + ". " : ""}${
+                    player.player.firstname
+                  } ${player.player.lastname}`;
+                })()
+              : "Loading..."}
+          </h2>
+          <button onClick={handleClose} className="close-button">
             <CloseIcon fontSize="small" />
           </button>
+        </div>
+        <div className="modal-header">
+          {player?.player?.photo && !loading && (
+            <img
+              src={player.player.photo}
+              alt={player.player.name}
+              className="player-photo-lg"
+            />
+          )}
+
+          <div className="modal-club-info">
+            {player?.statistics?.[0]?.team ? (
+              <Link
+                to={`/team/${bestStats?.team?.name}`}
+                className="modal-club"
+                onClick={handleClose}
+              >
+                <img
+                  src={bestStats?.team?.logo}
+                  alt={bestStats?.team?.name}
+                  className="modal-club-logo"
+                  title={bestStats?.team?.name}
+                />
+              </Link>
+            ) : (
+              <span className="fact-span">N/A</span>
+            )}
+          </div>
+        </div>
+        <div className="modal-content">
+          {loading ? (
+            <ModalSkeleton />
+          ) : !player || !player.player ? (
+            <p>Player data not available.</p>
+          ) : (
+            <>
+              <div className="modal-facts-container">
+                <div className="modal-facts">
+                  <p>
+                    Date of birth:{" "}
+                    <span className="fact-span">
+                      {player.player.birth.date} ({player.player.age} years)
+                    </span>
+                  </p>
+                  <p>
+                    Position:{" "}
+                    <span className="fact-span">
+                      {bestStats?.games?.position || "Unknown"}
+                    </span>
+                  </p>
+                  <p>
+                    Height:{" "}
+                    <span className="fact-span">
+                      {player.player.height || "N/A"}
+                    </span>
+                  </p>
+                  <p>
+                    Weight:{" "}
+                    <span className="fact-span">
+                      {player.player.weight || "N/A"}
+                    </span>
+                  </p>
+
+                  <p>
+                    Nationality:{" "}
+                    <span className="fact-span">
+                      {player.player.nationality || "N/A"}
+                    </span>
+                  </p>
+                </div>
+
+                <div className="modal-facts">
+                  <p>
+                    Appearances:{" "}
+                    <span className="fact-span">
+                      {bestStats?.games?.appearences ?? 0}
+                    </span>
+                  </p>
+                  {bestStats?.games?.position === "Goalkeeper" ? (
+                    <p>
+                      Goals Conceded:{" "}
+                      <span className="fact-span">
+                        {bestStats?.goals?.conceded ?? 0}
+                      </span>
+                    </p>
+                  ) : (
+                    <>
+                      <p>
+                        Goals:{" "}
+                        <span className="fact-span">
+                          {bestStats?.goals?.total ?? 0}
+                        </span>
+                      </p>
+                      <p>
+                        Assists:{" "}
+                        <span className="fact-span">
+                          {bestStats?.goals?.assists ?? 0}
+                        </span>
+                      </p>
+                    </>
+                  )}
+                  <p>
+                    Yellow Cards:{" "}
+                    <span className="fact-span">
+                      {bestStats?.cards?.yellow ?? 0}
+                    </span>
+                  </p>
+                  <p>
+                    Red Cards:{" "}
+                    <span className="fact-span">
+                      {bestStats?.cards?.red ?? 0}
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>
   );
-}
-
-  return (
-  <>
-    <div className="modal-overlay" onClick={handleClose} />
-    <div className={`player-modal${closing ? " closing" : ""}`}>
-      <div className="button-header">
-         <h2 className="modal-name">
-  {player?.player ? (
-    (() => {
-      const number =
-        player?.statistics?.[0]?.games?.number ??
-        player?.player?.number ??
-        numberFromLineup;
-
-      return `${number ? number + ". " : ""}${player.player.firstname} ${player.player.lastname}`;
-    })()
-  ) : (
-    "Loading..."
-  )}
-</h2>
-        <button onClick={handleClose} className="close-button">
-          <CloseIcon fontSize="small" />
-        </button>
-        </div>
-      <div className="modal-header">
-        {player?.player?.photo && !loading && (
-          <img
-            src={player.player.photo}
-            alt={player.player.name}
-            className="player-photo-lg"
-          />
-        )}
-      
-            <div className="modal-club-info">
- {player?.statistics?.[0]?.team ? (
-    <Link
-      to={`/team/${bestStats?.team?.name}`}
-      className="modal-club"
-      onClick={handleClose}
-    >
-      <img
-        src={bestStats?.team?.logo}
-        alt={bestStats?.team?.name}
-        className="modal-club-logo"
-        title={bestStats?.team?.name}
-      />
-      {/* {player.statistics[0].team.name} */}
-    </Link>
-  ) : (
-    <span className="fact-span">N/A</span>
-  )}
-</div>
-
-      
-      </div>
-      <div className="modal-content">
-        {loading ? (
-          <ModalSkeleton />
-        ) : !player || !player.player ? (
-          <p>Player data not available.</p>
-        ) : (
-          <>
-            
-            <div className="modal-facts-container">
-              <div className="modal-facts">
-                <p>
-                  Date of birth:{" "}
-                  <span className="fact-span">
-                    {player.player.birth.date} ({player.player.age} years)
-                  </span>
-                </p>
-                <p>
-                  Position:{" "}
-                  <span className="fact-span">
-                    {bestStats?.games?.position || "Unknown"}
-                  </span>
-                </p>
-                <p>
-                  Height:{" "}
-                  <span className="fact-span">
-                    {player.player.height || "N/A"}
-                  </span>
-                </p>
-                <p>
-                  Weight:{" "}
-                  <span className="fact-span">
-                    {player.player.weight || "N/A"}
-                  </span>
-                </p>
-                
-                <p>
-                  Nationality:{" "}
-                  <span className="fact-span">
-                    {player.player.nationality || "N/A"}
-                  </span>
-                </p>
-              </div>
-
-              <div className="modal-facts">
-                <p>
-                  Appearances:{" "}
-                  <span className="fact-span">
-                    {bestStats?.games?.appearences ?? 0}
-                  </span>
-                </p>
-                {bestStats?.games?.position === "Goalkeeper" ? (
-                  <p>
-                    Goals Conceded:{" "}
-                    <span className="fact-span">
-                      {bestStats?.goals?.conceded ?? 0}
-                    </span>
-                  </p>
-                ) : (
-                  <>
-                    <p>
-                      Goals:{" "}
-                      <span className="fact-span">
-                        {bestStats?.goals?.total ?? 0}
-                      </span>
-                    </p>
-                    <p>
-                      Assists:{" "}
-                      <span className="fact-span">
-                        {bestStats?.goals?.assists ?? 0}
-                      </span>
-                    </p>
-                  </>
-                )}
-                <p>
-                  Yellow Cards:{" "}
-                  <span className="fact-span">
-                    {bestStats?.cards?.yellow ?? 0}
-                  </span>
-                </p>
-                <p>
-                  Red Cards:{" "}
-                  <span className="fact-span">
-                    {bestStats?.cards?.red ?? 0}
-                  </span>
-                </p>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  </>
-);
 };
 
 export default PlayerModal;

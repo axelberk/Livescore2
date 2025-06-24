@@ -140,46 +140,45 @@ const Match = () => {
         if (!lineupsRes.response || lineupsRes.response.length === 0) {
           setUsingFallback(true);
 
-        const getLastLineup = async (teamId) => {
-  try {
-    const teamFixturesRes = await fetchWithCache(
-      `https://v3.football.api-sports.io/fixtures`,
-      {
-        headers: {
-          "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-        },
-        params: {
-          team: teamId,
-          season: "2025",
-          status: "FT",
-          last: 10,
-        },
-      }
-    );
+          const getLastLineup = async (teamId) => {
+            try {
+              const teamFixturesRes = await fetchWithCache(
+                `https://v3.football.api-sports.io/fixtures`,
+                {
+                  headers: {
+                    "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+                  },
+                  params: {
+                    team: teamId,
+                    season: "2025",
+                    status: "FT",
+                    last: 10,
+                  },
+                }
+              );
 
-    for (const fixture of teamFixturesRes.response) {
-      const lineupRes = await fetchWithCache(
-        `https://v3.football.api-sports.io/fixtures/lineups?fixture=${fixture.fixture.id}`,
-        {
-          headers: {
-            "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-          },
-        }
-      );
+              for (const fixture of teamFixturesRes.response) {
+                const lineupRes = await fetchWithCache(
+                  `https://v3.football.api-sports.io/fixtures/lineups?fixture=${fixture.fixture.id}`,
+                  {
+                    headers: {
+                      "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+                    },
+                  }
+                );
 
-      const teamLineup = lineupRes.response?.find(
-        (entry) => entry.team.id === teamId
-      );
+                const teamLineup = lineupRes.response?.find(
+                  (entry) => entry.team.id === teamId
+                );
 
-      if (teamLineup) return teamLineup;
-    }
-  } catch (err) {
-    console.warn("Error getting last lineup for team", teamId, err);
-  }
+                if (teamLineup) return teamLineup;
+              }
+            } catch (err) {
+              console.warn("Error getting last lineup for team", teamId, err);
+            }
 
-  return null;
-};
-
+            return null;
+          };
 
           const [fallbackHome, fallbackAway] = await Promise.all([
             getLastLineup(match.teams.home.id),
@@ -238,26 +237,25 @@ const Match = () => {
 
         setSubstitutions(subs);
 
-       const goalMap = new Map();
-allEvents.forEach((e) => {
-  if (e.type === "Goal" && e.player?.id) {
-    const id = e.player.id;
-    const isOwnGoal = e.detail === "Own Goal";
+        const goalMap = new Map();
+        allEvents.forEach((e) => {
+          if (e.type === "Goal" && e.player?.id) {
+            const id = e.player.id;
+            const isOwnGoal = e.detail === "Own Goal";
 
-    if (!goalMap.has(id)) {
-      goalMap.set(id, { goals: 0, ownGoals: 0 });
-    }
+            if (!goalMap.has(id)) {
+              goalMap.set(id, { goals: 0, ownGoals: 0 });
+            }
 
-    const entry = goalMap.get(id);
-    if (isOwnGoal) {
-      entry.ownGoals += 1;
-    } else {
-      entry.goals += 1;
-    }
-  }
-});
-setGoalScorerIds(goalMap);
-
+            const entry = goalMap.get(id);
+            if (isOwnGoal) {
+              entry.ownGoals += 1;
+            } else {
+              entry.goals += 1;
+            }
+          }
+        });
+        setGoalScorerIds(goalMap);
       } catch (err) {
         console.error("Error fetching match data:", err);
       } finally {

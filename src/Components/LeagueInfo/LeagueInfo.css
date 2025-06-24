@@ -5,25 +5,21 @@
 .league-container {
   display: flex;
   flex-direction: column;
-  
 }
 
 .group-standings-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 2rem;
-
 }
 
 .group-standings-card {
   /* border: 1px solid #ccc;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   border-radius: 10px; */
- 
-  background: #fff;
-  
-}
 
+  background: #fff;
+}
 
 .leagueinfo-header {
   display: flex;
@@ -66,7 +62,7 @@
   padding: 0.3rem;
   border: 1px dotted #eee;
   overflow: hidden;
-  
+
   font-size: 0.8rem;
 }
 
@@ -87,7 +83,7 @@
 .table-team {
   text-decoration: none;
   color: inherit;
- 
+
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -238,7 +234,6 @@
   flex-direction: row;
   gap: 1rem;
   flex-wrap: wrap;
-  
 }
 
 .bracket-round-title {
@@ -286,9 +281,7 @@
   object-fit: contain;
 }
 
-
-
- /* for smaller screens
+/* for smaller screens
 .bracket-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));

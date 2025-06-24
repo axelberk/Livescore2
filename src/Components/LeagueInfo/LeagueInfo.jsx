@@ -21,7 +21,8 @@ const LeagueInfo = () => {
   const [bracketData, setBracketData] = useState([]);
   const [qualificationFixtures, setQualificationFixtures] = useState([]);
 
-  const hasQualification = viewMode === "qualification" || qualificationFixtures.length > 0;
+  const hasQualification =
+    viewMode === "qualification" || qualificationFixtures.length > 0;
   const hasBracket = bracketData.length > 0;
 
   const handlePlayerClick = (player) => {
@@ -87,8 +88,8 @@ const LeagueInfo = () => {
 
         const knockoutMatches = res.data.response.filter(
           (fixture) =>
-            fixture.league.round &&
-            fixture.league.round.toLowerCase().includes("round") ||
+            (fixture.league.round &&
+              fixture.league.round.toLowerCase().includes("round")) ||
             fixture.league.round.toLowerCase().includes("final")
         );
 
@@ -151,15 +152,18 @@ const LeagueInfo = () => {
 
     const fetchQualificationRounds = async () => {
       try {
-        const res = await axios.get("https://v3.football.api-sports.io/fixtures", {
-          headers: {
-            "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-          },
-          params: {
-            league: leagueId,
-            season: seasonYear,
-          },
-        });
+        const res = await axios.get(
+          "https://v3.football.api-sports.io/fixtures",
+          {
+            headers: {
+              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+            },
+            params: {
+              league: leagueId,
+              season: seasonYear,
+            },
+          }
+        );
 
         const fixtures = res.data.response;
 
@@ -189,11 +193,7 @@ const LeagueInfo = () => {
       setViewMode("standings");
     }
 
-    if (
-      viewMode === "bracket" &&
-      seasonYear &&
-      bracketData.length === 0
-    ) {
+    if (viewMode === "bracket" && seasonYear && bracketData.length === 0) {
       setViewMode("standings");
     }
   }, [viewMode, qualificationFixtures, bracketData, seasonYear]);
@@ -221,7 +221,12 @@ const LeagueInfo = () => {
 
   const currentSeasonObj = league?.seasons?.find((s) => s.current);
   const seasonLabel = formatSeasonLabel(currentSeasonObj);
-  if (!league) return <div><Header></Header>Loading league info...</div>;
+  if (!league)
+    return (
+      <div>
+        <Header></Header>Loading league info...
+      </div>
+    );
 
   const groupFixturesByRound = (fixtures) => {
     const grouped = {};
@@ -257,15 +262,27 @@ const LeagueInfo = () => {
               const date = new Date(match.fixture.date).toLocaleDateString();
 
               return (
-                <div key={match.fixture.id} className="bracket-match" id={`match-${match.fixture.id}`}>
+                <div
+                  key={match.fixture.id}
+                  className="bracket-match"
+                  id={`match-${match.fixture.id}`}
+                >
                   <p className="bracket-date">{date}</p>
                   <div className="bracket-team">
-                    <img className="bracket-logo" src={home.logo} alt={home.name} />
+                    <img
+                      className="bracket-logo"
+                      src={home.logo}
+                      alt={home.name}
+                    />
                     <span>{home.name}</span>
                     <strong>{fulltime.home ?? "-"}</strong>
                   </div>
                   <div className="bracket-team">
-                    <img className="bracket-logo" src={away.logo} alt={away.name} />
+                    <img
+                      className="bracket-logo"
+                      src={away.logo}
+                      alt={away.name}
+                    />
                     <span>{away.name}</span>
                     <strong>{fulltime.away ?? "-"}</strong>
                   </div>
@@ -287,7 +304,9 @@ const LeagueInfo = () => {
           alt="League logo"
           style={{ height: 40 }}
         />
-        <h2>{league.league.name}{" "}{seasonLabel}</h2>
+        <h2>
+          {league.league.name} {seasonLabel}
+        </h2>
       </div>
 
       <hr className="solid"></hr>
@@ -327,11 +346,13 @@ const LeagueInfo = () => {
                   <tr>
                     <th>#</th>
                     <th>Team</th>
-                    {["GP", "W", "D", "L", "GF", "GA", "GD", "PTS"].map((label) => (
-                      <th key={label} className="individual-number">
-                        {label}
-                      </th>
-                    ))}
+                    {["GP", "W", "D", "L", "GF", "GA", "GD", "PTS"].map(
+                      (label) => (
+                        <th key={label} className="individual-number">
+                          {label}
+                        </th>
+                      )
+                    )}
                     <th>Qualification or relegation</th>
                   </tr>
                 </thead>
@@ -345,7 +366,9 @@ const LeagueInfo = () => {
                       <tr
                         key={id}
                         style={{
-                          backgroundColor: getDescriptionColor(team.description),
+                          backgroundColor: getDescriptionColor(
+                            team.description
+                          ),
                         }}
                       >
                         <td>{team.rank}</td>
@@ -353,7 +376,9 @@ const LeagueInfo = () => {
                           <Link to={`/team/${id}`} className="table-team">
                             {name}
                           </Link>
-                          {hasLeagueEnded() && team.rank === 1 && <strong>(C)</strong>}
+                          {hasLeagueEnded() && team.rank === 1 && (
+                            <strong>(C)</strong>
+                          )}
                         </td>
                         <td className="individual-number">{played}</td>
                         <td className="individual-number">{win}</td>
@@ -383,11 +408,13 @@ const LeagueInfo = () => {
                         <tr>
                           <th>#</th>
                           <th>Team</th>
-                          {["GP", "W", "D", "L", "GF", "GA", "GD", "PTS"].map((label) => (
-                            <th key={label} className="individual-number">
-                              {label}
-                            </th>
-                          ))}
+                          {["GP", "W", "D", "L", "GF", "GA", "GD", "PTS"].map(
+                            (label) => (
+                              <th key={label} className="individual-number">
+                                {label}
+                              </th>
+                            )
+                          )}
                           <th>Qualification or relegation</th>
                         </tr>
                       </thead>
@@ -395,13 +422,16 @@ const LeagueInfo = () => {
                         {group.map((team) => {
                           const { id, name } = team.team;
                           const { played, win, draw, lose, goals } = team.all;
-                          const { for: goalsFor, against: goalsAgainst } = goals;
+                          const { for: goalsFor, against: goalsAgainst } =
+                            goals;
 
                           return (
                             <tr
                               key={id}
                               style={{
-                                backgroundColor: getDescriptionColor(team.description),
+                                backgroundColor: getDescriptionColor(
+                                  team.description
+                                ),
                               }}
                             >
                               <td>{team.rank}</td>
@@ -418,8 +448,12 @@ const LeagueInfo = () => {
                               <td className="individual-number">{draw}</td>
                               <td className="individual-number">{lose}</td>
                               <td className="individual-number">{goalsFor}</td>
-                              <td className="individual-number">{goalsAgainst}</td>
-                              <td className="individual-number">{team.goalsDiff}</td>
+                              <td className="individual-number">
+                                {goalsAgainst}
+                              </td>
+                              <td className="individual-number">
+                                {team.goalsDiff}
+                              </td>
                               <td className="team-points">{team.points}</td>
                               <td>{team.description}</td>
                             </tr>
@@ -467,26 +501,44 @@ const LeagueInfo = () => {
                     );
 
                     return (
-                      <div key={homeTeam.id + awayTeam.id + round} className="bracket-match-card">
+                      <div
+                        key={homeTeam.id + awayTeam.id + round}
+                        className="bracket-match-card"
+                      >
                         <p className="bracket-aggregate">
                           {homeTeam.name} vs {awayTeam.name}{" "}
-                          <p>({aggregate.home}–{aggregate.away} agg.)</p>
+                          <p>
+                            ({aggregate.home}–{aggregate.away} agg.)
+                          </p>
                         </p>
                         {fixtures.map((match) => {
                           const { fulltime } = match.score;
-                          const date = new Date(match.fixture.date).toLocaleDateString();
+                          const date = new Date(
+                            match.fixture.date
+                          ).toLocaleDateString();
                           const { home, away } = match.teams;
 
                           return (
-                            <div key={match.fixture.id} className="bracket-match">
+                            <div
+                              key={match.fixture.id}
+                              className="bracket-match"
+                            >
                               <p className="bracket-date">{date}</p>
                               <div className="bracket-team">
-                                <img className="bracket-logo" src={home.logo} alt={home.name} />
+                                <img
+                                  className="bracket-logo"
+                                  src={home.logo}
+                                  alt={home.name}
+                                />
                                 <span>{home.name}</span>
                                 <strong>{fulltime.home ?? "-"}</strong>
                               </div>
                               <div className="bracket-team">
-                                <img className="bracket-logo" src={away.logo} alt={away.name} />
+                                <img
+                                  className="bracket-logo"
+                                  src={away.logo}
+                                  alt={away.name}
+                                />
                                 <span>{away.name}</span>
                                 <strong>{fulltime.away ?? "-"}</strong>
                               </div>
@@ -505,9 +557,7 @@ const LeagueInfo = () => {
       )}
 
       {viewMode === "qualification" && (
-        <div className="qualification-view">
-          {renderQualificationBracket()}
-        </div>
+        <div className="qualification-view">{renderQualificationBracket()}</div>
       )}
 
       <hr className="solid"></hr>

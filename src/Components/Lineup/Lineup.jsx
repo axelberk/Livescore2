@@ -16,7 +16,7 @@ const Lineup = ({
   redCards = [],
 }) => {
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
-  const redCardIds = new Set(redCards.map(card => card.player?.id));
+  const redCardIds = new Set(redCards.map((card) => card.player?.id));
 
   if (!team) {
     return <div>No team data available</div>;
@@ -36,72 +36,72 @@ const Lineup = ({
 
   const renderPlayer = (player, position, index) => {
     const adjustedPosition = isAway
-  ? { x: 100 - position.x, y: position.y }
-  : { x: position.x, y: 100 - position.y };
- const gotRedCard = redCardIds.has(player.id);
+      ? { x: 100 - position.x, y: position.y }
+      : { x: position.x, y: 100 - position.y };
+    const gotRedCard = redCardIds.has(player.id);
 
- const goalData = goalCounts.get(player.id) || {};
-const goals = goalData.goals || 0;
-const ownGoals = goalData.ownGoals || 0;
+    const goalData = goalCounts.get(player.id) || {};
+    const goals = goalData.goals || 0;
+    const ownGoals = goalData.ownGoals || 0;
 
     return (
       <div
-  key={player.id}
-  className="positioned-player"
-  style={{
-    left: `${adjustedPosition.x}%`,
-    top: `${adjustedPosition.y}%`,
-  }}
-  onClick={() =>
-    setSelectedPlayerId({ id: player.id, number: player.number })
-  }
->
-  <div className="player-photo-wrapper">
-    {playerPhotos[player.id] ? (
-      <img
-        src={playerPhotos[player.id]}
-        alt={player.name}
-        className="player-photo-positioned"
-        loading="lazy"
-      />
-    ) : (
-      <div className="player-photo-placeholder-positioned" />
-    )}
-    
-{goals > 0 && (
-  <div className="goal-icon-wrapper">
-    <SportsSoccerIcon fontSize="small" className="goal-icon" />
-    {goals > 1 && <div className="goal-count">{goals}</div>}
-  </div>
-)}
+        key={player.id}
+        className="positioned-player"
+        style={{
+          left: `${adjustedPosition.x}%`,
+          top: `${adjustedPosition.y}%`,
+        }}
+        onClick={() =>
+          setSelectedPlayerId({ id: player.id, number: player.number })
+        }
+      >
+        <div className="player-photo-wrapper">
+          {playerPhotos[player.id] ? (
+            <img
+              src={playerPhotos[player.id]}
+              alt={player.name}
+              className="player-photo-positioned"
+              loading="lazy"
+            />
+          ) : (
+            <div className="player-photo-placeholder-positioned" />
+          )}
 
-{ownGoals > 0 && (
-  <div className="own-goal-icon-wrapper">
-    <SportsSoccerIcon fontSize="small" className="own-goal-icon" />
-    {ownGoals > 1 && <div className="goal-count">{ownGoals}</div>}
-  </div>
-)}
+          {goals > 0 && (
+            <div className="goal-icon-wrapper">
+              <SportsSoccerIcon fontSize="small" className="goal-icon" />
+              {goals > 1 && <div className="goal-count">{goals}</div>}
+            </div>
+          )}
 
-    {subbedOffIds.has(player.id) && (
-      <div className="sub-icon-wrapper">
-        <LoopIcon fontSize="small" className="sub-off-icon" />
+          {ownGoals > 0 && (
+            <div className="own-goal-icon-wrapper">
+              <SportsSoccerIcon fontSize="small" className="own-goal-icon" />
+              {ownGoals > 1 && <div className="goal-count">{ownGoals}</div>}
+            </div>
+          )}
+
+          {subbedOffIds.has(player.id) && (
+            <div className="sub-icon-wrapper">
+              <LoopIcon fontSize="small" className="sub-off-icon" />
+            </div>
+          )}
+          {gotRedCard && (
+            <div className="red-card-icon-wrapper">
+              <img src="/Red_card.svg" alt="" className="individual-logo" />
+            </div>
+          )}
+        </div>
+
+        <div className="player-text-positioned">
+          <span className="player-number">
+            {player.number}
+            {". "}
+            {player.name}
+          </span>
+        </div>
       </div>
-    )}
-     {gotRedCard && (
-          <div className="red-card-icon-wrapper">
-            <img src="/Red_card.svg" alt="" className="individual-logo" />
-          </div>
-        )}
-  </div>
-
-  <div className="player-text-positioned">
-    <span className="player-number">
-      {player.number}
-      {". "}
-      {player.name}
-    </span>
-  </div>
-</div>
     );
   };
 

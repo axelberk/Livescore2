@@ -69,7 +69,6 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  
 }
 
 .modal-facts-container {
@@ -84,12 +83,11 @@
   margin: 0;
   text-align: left;
   white-space: normal;
-   font-size: 12px;
+  font-size: 12px;
 }
 
 .fact-span {
   font-weight: 600;
- 
 }
 
 .modal-club {
@@ -100,7 +98,7 @@
 }
 
 .modal-club-logo {
-   width: 80px;
+  width: 80px;
   height: 80px;
 }
 
@@ -113,4 +111,3 @@
   height: 80px;
   border-radius: 8px;
 }
-

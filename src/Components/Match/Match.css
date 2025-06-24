@@ -6,14 +6,13 @@
   width: 100%;
 }
 
-
 .match-header {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   width: 100%;
   max-width: 600px;
-  
+
   gap: 16px;
   text-align: center;
 }
@@ -26,8 +25,7 @@
   align-items: center;
   text-align: center;
 
- gap: 4px;
- 
+  gap: 4px;
 }
 
 .match-status {
@@ -40,10 +38,7 @@
   font-size: 20px;
   display: flex;
   flex-direction: column;
- 
 }
-
-
 
 .team-info {
   display: flex;
@@ -54,7 +49,6 @@
 
 .team-info-home {
   justify-content: flex-end;
-  
 }
 
 .team-info-away {
@@ -83,7 +77,7 @@
   align-items: center;
   position: relative;
   overflow: hidden;
-  background-color: #B2FFB0;
+  background-color: #b2ffb0;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -102,7 +96,6 @@
   position: relative;
 }
 
-
 .subs-wrapper {
   display: flex;
   flex-direction: column;
@@ -119,7 +112,7 @@
 
 .subs-sides {
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
   justify-content: center;
   gap: 100px;
 }
@@ -228,18 +221,16 @@
 }
 
 .goal-player:hover {
-color: rgb(53, 121, 57);
+  color: rgb(53, 121, 57);
 }
 
 .red-card-sub-icon {
   position: absolute;
- top: -5px;
+  top: -5px;
   right: 30px;
-  
 }
 
 .goal-icon.own-goal {
-
   color: red;
 }
 
@@ -249,8 +240,6 @@ color: rgb(53, 121, 57);
   align-items: center;
   justify-content: center;
   text-align: center;
- 
- 
 }
 
 .match-league {
@@ -258,7 +247,7 @@ color: rgb(53, 121, 57);
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-text-align: center;
+  text-align: center;
   font-size: 0.7rem;
   font-weight: 500;
   color: #444;
@@ -296,20 +285,19 @@ text-align: center;
 
 .match-info {
   display: flex;
- flex-direction: row;
+  flex-direction: row;
   align-items: center;
   text-align: center;
   gap: 4px;
 }
 
 .match-time {
-  
   display: flex;
   align-items: center;
   text-align: center;
-  
+
   gap: 8px;
-  
+
   font-size: 0.7rem;
   font-weight: 500;
   color: #444;
@@ -318,5 +306,5 @@ text-align: center;
 .match-date-time {
   display: flex;
   align-items: center;
- text-align: center;
+  text-align: center;
 }
