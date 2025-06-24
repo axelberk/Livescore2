@@ -9,7 +9,7 @@
 
 .group-standings-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(410px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(50%, 1fr));
   gap: 1.3rem;
 }
 
