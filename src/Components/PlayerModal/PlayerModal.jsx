@@ -134,7 +134,7 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
           ) : (
             <>
             <h2 className="modal-name">
-            {player?.player
+            {/* {player?.player
               ? (() => {
                   const number =
                     player?.statistics?.[0]?.games?.number ??
@@ -145,7 +145,8 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
                     player.player.firstname
                   } ${player.player.lastname}`;
                 })()
-              : "Loading..."}
+              : "Loading..."} */}
+              {player.player.firstname} {player.player.lastname}
           </h2>
               <div className="modal-facts-container">
                 
