@@ -93,20 +93,7 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
       <div className="modal-overlay" onClick={handleClose} />
       <div className={`player-modal${closing ? " closing" : ""}`}>
         <div className="button-header">
-          <h2 className="modal-name">
-            {player?.player
-              ? (() => {
-                  const number =
-                    player?.statistics?.[0]?.games?.number ??
-                    player?.player?.number ??
-                    numberFromLineup;
-
-                  return `${number ? number + ". " : ""}${
-                    player.player.firstname
-                  } ${player.player.lastname}`;
-                })()
-              : "Loading..."}
-          </h2>
+         <div className="hidden">Invisible</div>
           <button onClick={handleClose} className="close-button">
             <CloseIcon fontSize="small" />
           </button>
@@ -146,8 +133,24 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
             <p>Player data not available.</p>
           ) : (
             <>
+            <h2 className="modal-name">
+            {player?.player
+              ? (() => {
+                  const number =
+                    player?.statistics?.[0]?.games?.number ??
+                    player?.player?.number ??
+                    numberFromLineup;
+
+                  return `${number ? number + ". " : ""}${
+                    player.player.firstname
+                  } ${player.player.lastname}`;
+                })()
+              : "Loading..."}
+          </h2>
               <div className="modal-facts-container">
+                
                 <div className="modal-facts">
+                   
                   <p>
                     Date of birth:{" "}
                     <span className="fact-span">

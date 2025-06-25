@@ -546,14 +546,14 @@ const Match = () => {
         </div>
         <div className="stadium-referee">
           <div className="match-stadium">
-            <PlaceOutlinedIcon />
+            <PlaceOutlinedIcon  title="Location"/>
             {fixture?.fixture?.venue?.name || "Stadium info unavailable"}
             {fixture?.fixture?.venue?.city
               ? `, ${fixture.fixture.venue.city}`
               : ""}
           </div>
-          <div className="match-referee">
-            <SportsTwoToneIcon />{" "}
+          <div className="match-referee" title="Referee">
+            <SportsTwoToneIcon title="Referee"/>{" "}
             {fixture?.fixture?.referee || "Referee info unavailable"}
           </div>
         </div>
@@ -684,10 +684,9 @@ const Match = () => {
 
         {selectedPlayerId && (
           <>
-            <div>Modal should be showing for {selectedPlayerId.id}</div>
             <PlayerModal
               playerId={selectedPlayerId.id}
-              number={selectedPlayerId.number}
+              squadNumber={selectedPlayerId.number}
               isOpen={true}
               onClose={() => setSelectedPlayerId(null)}
             />
