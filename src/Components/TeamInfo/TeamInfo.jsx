@@ -156,62 +156,128 @@ const TeamInfo = () => {
 
           return (
             <>
-              <div className="facts-container">
-                <img src={team.logo} alt="logo" className="team-info-logo" />
-                <div className="team-facts">
-                  <h2>{team.name}</h2>
-                  <p>Established {team.founded}</p>
-                  <p>
-                    {venue.city}, {team.country}
-                  </p>
-                  <p>
-                    {venue.name} - {venue.capacity}
-                  </p>
-                  <p>League position: {leaguePosition}</p>
-                </div>
-                <div className="team-facts">
-                  {/* <p>League titles: </p>
-                  <p>European titles: </p>
-                  <p>Domestic titles: </p> */}
+              <div className="teaminfo-header">
+                <div className="facts-container">
+                  <img src={team.logo} alt="logo" className="team-info-logo" />
+                  <div className="team-facts">
+                    <h2>{team.name}</h2>
+                    <p>Established {team.founded}</p>
+                    <p>
+                      {venue.city}, {team.country}
+                    </p>
+                    <p>
+                      {venue.name} - {venue.capacity}
+                    </p>
+                    <p>League position: {leaguePosition}</p>
+                  </div>
+                  <div className="team-facts">
+                    {coach && (
+                      <div className="coach-info">
+                        <h4 className="squad-type-title">Manager</h4>
+                        <div className="coachphoto-name">
+                          <img
+                            src={coach.photo}
+                            alt={coach.name}
+                            className="coach-photo"
+                            style={{
+                              width: "60px",
+                              borderRadius: "50%",
+                              marginBottom: "0.5rem",
+                            }}
+                          />
+                          <p>{coach.name}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-
               <div className="teaminfo-container">
                 <div className="squad">
-                  {squad &&
-                    Object.entries(
-                      squad.reduce((acc, player) => {
-                        const position = player.position || "Unknown";
-                        if (!acc[position]) acc[position] = [];
-                        acc[position].push(player);
-                        return acc;
-                      }, {})
-                    ).map(([position, players]) => (
-                      <div key={position} className="squad-group">
-                        <h4 className="squad-type-title">{position}s</h4>
-                        <ul className="squad-list">
-                          {players.map((player) => (
-                            <li
-                              key={player.id}
-                              onClick={() =>
-                                setSelectedPlayer({
-                                  id: player.id,
-                                  number: player.number,
-                                })
-                              }
-                            >
-                              <img
-                                src={player.photo}
-                                alt={player.name}
-                                className="player-photo"
-                                loading="lazy"
-                              />
-                              {player.name} ({player.age} years)
-                            </li>
+                  <div className="squad-columns">
+                    <div className="squad-column">
+                      {squad &&
+                        Object.entries(
+                          squad.reduce((acc, player) => {
+                            const position = player.position || "Unknown";
+                            if (!acc[position]) acc[position] = [];
+                            acc[position].push(player);
+                            return acc;
+                          }, {})
+                        )
+                          .filter(([position]) =>
+                            ["Goalkeeper", "Defender"].includes(position)
+                          )
+                          .map(([position, players]) => (
+                            <div key={position} className="squad-group">
+                              <h4 className="squad-type-title">{position}s</h4>
+                              <ul className="squad-list">
+                                {players.map((player) => (
+                                  <li
+                                    key={player.id}
+                                    onClick={() =>
+                                      setSelectedPlayer({
+                                        id: player.id,
+                                        number: player.number,
+                                      })
+                                    }
+                                  >
+                                    <img
+                                      src={player.photo}
+                                      alt={player.name}
+                                      className="player-photo"
+                                      loading="lazy"
+                                    />
+                                    {player.name} ({player.age} years)
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
                           ))}
-                        </ul>
-                      </div>
-                    ))}
+                    </div>
+                    <div className="squad-column">
+                      {squad &&
+                        Object.entries(
+                          squad.reduce((acc, player) => {
+                            const position = player.position || "Unknown";
+                            if (!acc[position]) acc[position] = [];
+                            acc[position].push(player);
+                            return acc;
+                          }, {})
+                        )
+                          .filter(
+                            ([position]) =>
+                              !["Goalkeeper", "Defender"].includes(position)
+                          )
+                          .map(([position, players]) => (
+                            <div key={position} className="squad-group">
+                              <h4 className="squad-type-title">{position}s</h4>
+                              <ul className="squad-list">
+                                {players.map((player) => (
+                                  <li
+                                    key={player.id}
+                                    onClick={() =>
+                                      setSelectedPlayer({
+                                        id: player.id,
+                                        number: player.number,
+                                      })
+                                    }
+                                  >
+                                    <img
+                                      src={player.photo}
+                                      alt={player.name}
+                                      className="player-photo"
+                                      loading="lazy"
+                                    />
+                                    {player.name} ({player.age} years)
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                    </div>
+                  </div>
+
                   <PlayerModal
                     playerId={selectedPlayer?.id}
                     squadNumber={selectedPlayer?.number}
@@ -220,24 +286,7 @@ const TeamInfo = () => {
                     team={teamPage.team}
                   />
                 </div>
-                {coach && (
-                  <div className="coach-info">
-                    <h4 className="squad-type-title">Manager</h4>
-                    <div className="coachphoto-name">
-                      <img
-                        src={coach.photo}
-                        alt={coach.name}
-                        className="coach-photo"
-                        style={{
-                          width: "60px",
-                          borderRadius: "50%",
-                          marginBottom: "0.5rem",
-                        }}
-                      />
-                      <p>{coach.name}</p>
-                    </div>
-                  </div>
-                )}
+
                 <div className="results">
                   <div className="results-list">
                     <h3>Results</h3>
@@ -285,7 +334,7 @@ const TeamInfo = () => {
                   </div>
 
                   <div className="results-list">
-                    <h3>Upcoming Fixtures</h3>
+                    <h3>Upcoming</h3>
                     {upcomingFixtures.map((fixture) => {
                       const matchDate = new Date(
                         fixture.fixture.date

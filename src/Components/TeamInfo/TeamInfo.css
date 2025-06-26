@@ -1,3 +1,8 @@
+.teaminfo-header {
+  display: flex;
+  justify-content: center;
+}
+
 .teaminfo-container {
   display: flex;
   flex-direction: row;
@@ -14,12 +19,15 @@
   flex-direction: row;
   justify-content: flex-start;
   gap: 100px;
+  width: 50%;
   padding: 20px;
   border: 1px solid black;
   border-radius: 8px;
   margin-top: 10px;
   margin-bottom: 6px;
   font-size: 0.8rem;
+  box-shadow: 0px 2px 2px gray;
+ 
 }
 
 .team-info-logo {
@@ -67,6 +75,29 @@
  
 }
 
+.squad-columns {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.squad-column {
+  flex: 1 1 250px;
+  min-width: 260px;
+}
+
+.squad-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.squad-group {
+  margin-bottom: 16px;
+}
+
 .player-photo {
   width: 32px;
   height: 32px;
@@ -106,6 +137,7 @@
 
 .results h3 {
   margin: 0px 0px 6px 0px;
+  text-decoration: none;
 }
 
 .results-list {
@@ -167,4 +199,81 @@
 .legend-item.draw {
   background-color: #fff3cd;
   color: #856404;
+}
+
+@media (max-width: 768px) {
+ .team-info-logo {
+  width: 60px;
+  height: 60px;
+ }
+
+ .teaminfo-container {
+
+ }
+
+ .facts-container {
+  width: 100%;
+  padding: 4px;
+  justify-content: space-evenly;
+  gap: 0;
+ }
+
+ .team-facts {
+  font-size: 10px;
+ }
+
+ .team-facts p {
+  margin: 0;
+ }
+ 
+ .squad-type-title {
+  font-size: 12px;
+  margin: 0;
+ }
+
+ .squad-group li {
+  font-size: 8px;
+  text-align: left;
+ }
+
+ .player-photo {
+  width: 26px;
+  height: 26px;
+ }
+
+ .results {
+  justify-content: space-between;
+  
+ }
+
+ .results h3 {
+  font-size: 10px;
+  text-decoration: none;
+ }
+
+ .result-legend {
+  gap: 2px;
+ }
+
+ .legend-item {
+  font-size: 4px;
+ }
+
+ .results-list {
+  width: 50%;
+ }
+
+ .result-item {
+  font-size: 6px;
+ }
+
+ .coach-photo {
+  height: 50px;
+  width: 50px;
+ }
+
+ .coachphoto-name {
+  height: 20px;
+ }
+ 
 }
