@@ -99,8 +99,6 @@
 .subs-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 50%;
   color: black;
   text-align: center;
 }

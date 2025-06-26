@@ -40,12 +40,18 @@
 
 @media (max-width: 768px) {
 
-  .search-input {
-    width: 25%;
+  .home-button {
+    font-size: 14px;
+    padding: 0;
   }
 
-  .search-input::placeholder {
-  opacity: 0;
-}
+  .search-input {
+    width: 25%;
+    height: 30%;
+  }
+
+  /* .search-input::placeholder {
+  content: ;
+} */
 
 }

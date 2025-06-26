@@ -298,7 +298,7 @@
 .red-card-icon-wrapper {
   position: absolute;
   top: -5px;
-  right: 30px;
+  right: 25px;
 
   border-radius: 50%;
   padding: 2px;
@@ -331,17 +331,30 @@
   }
 
   .formation-positioned {
-   width: 45%;
+   width: 100%;
   }
 
   .goal-icon-wrapper,
   .own-goal-icon-wrapper {
-    bottom: 20px;
-    left: 30px;
+    bottom: 17px;
+    left: 28px;
   }
 
   .sub-icon-wrapper {
     top: 20px;
     left: 30px;
   }
+
+  .pitch-half {
+  width: 100%;
+  height: 100%;
+  max-width: 1000px;
+  margin: auto;
+  position: relative;
+  color: black;
+}
+
+.formation-container {
+   font-size: 10px;
+}
 }
