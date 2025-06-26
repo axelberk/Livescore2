@@ -110,10 +110,10 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
           <div className="modal-club-info">
             {player?.statistics?.[0]?.team ? (
               <Link
-                to={`/team/${bestStats?.team?.name}`}
-                className="modal-club"
-                onClick={handleClose}
-              >
+  to={`/team/${bestStats?.team?.id}`}
+  className="modal-club"
+  onClick={handleClose}
+>
                 <img
                   src={bestStats?.team?.logo}
                   alt={bestStats?.team?.name}
