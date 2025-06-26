@@ -96,10 +96,12 @@ const Lineup = ({
 
         <div className="player-text-positioned">
           <span className="player-number">
-            {player.number}
-            {". "}
-            {player.name}
-          </span>
+  {player.number}.{" "}
+  <span className="full-name">{player.name}</span>
+  <span className="last-name-only">
+    {player.name.split(" ").slice(-1).join(" ")}
+  </span>
+</span>
         </div>
       </div>
     );

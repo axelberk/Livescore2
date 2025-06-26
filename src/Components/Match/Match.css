@@ -308,3 +308,29 @@
   align-items: center;
   text-align: center;
 }
+
+@media (max-width: 768px) {
+
+  .match {
+    width: 100%;
+  }
+
+  .pitch-wrapper.vertical {
+    width: 100%;
+  }
+
+.match-league {
+  font-size: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.league-logo {
+  display: none;
+}
+
+.goal-item {
+  width: 300px;
+}
+
+}

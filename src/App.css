@@ -7,17 +7,24 @@
 }
 
 .content-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    width: 100%;
-   padding: 1rem 0rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  padding: 1rem 0rem;
 }
 
 .league-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
+@media (max-width: 768px) {
+  #root {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
 
+}
