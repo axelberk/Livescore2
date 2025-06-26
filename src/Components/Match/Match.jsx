@@ -545,8 +545,8 @@ const Match = () => {
           </div>
         </div>
         <div className="stadium-referee">
-          <div className="match-stadium">
-            <PlaceOutlinedIcon  title="Location"/>
+          <div className="match-stadium" title="Location">
+            <PlaceOutlinedIcon/>
             {fixture?.fixture?.venue?.name || "Stadium info unavailable"}
             {fixture?.fixture?.venue?.city
               ? `, ${fixture.fixture.venue.city}`
