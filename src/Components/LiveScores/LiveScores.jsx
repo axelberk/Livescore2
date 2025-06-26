@@ -153,14 +153,14 @@ const LiveScores = ({ selectedDate, setSelectedMatch }) => {
                   <img
                     src={match.teams.home.logo}
                     alt={`${match.teams.home.name} logo`}
-                    className="team-logo"
+                    className="liveteam-logo"
                     loading="lazy"
                   />
                   {match.teams.home.name} - {match.teams.away.name}
                   <img
                     src={match.teams.away.logo}
                     alt={`${match.teams.away.name} logo`}
-                    className="team-logo"
+                    className="liveteam-logo"
                     loading="lazy"
                   />
                 </div>{" "}

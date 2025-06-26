@@ -1,51 +1,64 @@
 .footer {
-    position:static;
-    
-   display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 48px;
-    background-color: rgb(218, 213, 213);
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    border-radius: 10px;
-    margin-top: 10px;
-    padding: 0px 8px;
+  position: static;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 48px;
+  background-color: rgb(218, 213, 213);
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  border-radius: 10px;
+  margin-top: 10px;
+  padding: 0px 8px;
 }
 
 .footer h4 {
-    font-weight: 500;
-    margin: 0;
+  font-weight: 500;
+  margin: 0;
 }
 
-
 .ext-links {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    padding: 4px;
-    margin-right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+  margin-right: 0;
 }
 
 .ext-links img {
-    max-height: 30px;
-    transition: all 0.2s ease-in-out;
+  max-height: 30px;
+  transition: all 0.2s ease-in-out;
 }
 
 .ext-links img:hover {
-    transform: scale(1.2);
+  transform: scale(1.2);
 }
 
 @media (max-width: 768px) {
-    .footer {
-        width: 85%;
-    }
+  .footer {
+    width: 85%;
+    height: 20px;
+  }
 
-    .footer h4 {
+  .footer h4 {
     font-weight: 400;
     margin: 0;
-    font-size: 10px;
-}
+    font-size: 8px;
+  }
+
+  .ext-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    padding: 1px;
+    margin-right: 0;
+  }
+
+  .ext-links img {
+    width: 14px;
+  }
 }

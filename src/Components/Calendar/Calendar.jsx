@@ -69,7 +69,7 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
 
 const CustomInput = forwardRef(({ value, onClick }, ref) => (
   <div className="calendar-date" onClick={onClick} ref={ref}>
-    <CalendarMonthIcon />
+    <CalendarMonthIcon className="calendar-icon"/>
     {value}
   </div>
 ));

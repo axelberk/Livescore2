@@ -99,6 +99,10 @@ h2 {
    padding: 0;
   }
 
+  .league-header {
+    padding: 0px 4px 0px 4px;
+  }
+
   .league-header,
   .match-teams,
   .match-result,
@@ -106,12 +110,19 @@ h2 {
     font-size: 10px;
   }
 
-  .team-logo {
-    width: 10px;
-  
+  .match-teams {
+    height: 15px;
+    gap: 6px;
+  }
+
+  .liveteam-logo {
+    width: 16px;
+    height: 16px;
+   
   }
 
   .match-card {
     height: 20px;
+    padding: 4px;
   }
 }

@@ -44,4 +44,8 @@
     width: 25%;
   }
 
+  .search-input::placeholder {
+  opacity: 0;
+}
+
 }
