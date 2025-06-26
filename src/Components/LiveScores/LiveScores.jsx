@@ -141,7 +141,7 @@ const LiveScores = ({ selectedDate, setSelectedMatch }) => {
     className="match-card"
     onClick={() => navigate(`/match/${match.fixture.id}`)}
   >
-                <div className="match-time">
+                <div className="livescore-time">
                   {new Date(match.fixture.date).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",

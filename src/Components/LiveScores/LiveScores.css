@@ -92,3 +92,26 @@ h2 {
   border-radius: 8px;
   transition: 0.5s ease;
 } */
+
+@media (max-width: 768px) {
+  .Livescores {
+    width: 85%;
+   padding: 0;
+  }
+
+  .league-header,
+  .match-teams,
+  .match-result,
+  .livescore-time {
+    font-size: 10px;
+  }
+
+  .team-logo {
+    width: 10px;
+  
+  }
+
+  .match-card {
+    height: 20px;
+  }
+}

@@ -27,4 +27,10 @@
     margin: 0;
   }
 
+  .content-container {
+    padding: 0rem 0rem;
+    display: flex;
+    justify-content: center;
+  }
+
 }

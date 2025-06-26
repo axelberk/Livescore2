@@ -56,3 +56,27 @@
   font-family: inherit;
   background-color: rgb(218, 213, 213);
 }
+
+@media (max-width: 768px) {
+
+  .Calendar {
+   padding: 0;
+  margin: 0;
+  }
+
+  .calendar-date {
+    font-size: 12px;
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 5px 0px 5px 0px;
+  }
+
+  .calendar-arrow {
+    margin: 0;
+  }
+
+  .search-input {
+    width: 25%;
+  }
+}
