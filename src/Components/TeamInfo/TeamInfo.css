@@ -275,5 +275,18 @@
  .coachphoto-name {
   height: 20px;
  }
+
+.squad-list {
+  width: 140px;
+}
+
+.squad-column {
+  flex: 1 1 250px;
+  min-width: 100px;
+}
+
+.squad-group {
+  width: 50%;
+}
  
 }
