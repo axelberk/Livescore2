@@ -160,6 +160,11 @@
   align-items: center;
 }
 
+.sub-out-player {
+  display: block;
+  color: #666;
+}
+
 .sub-on-icon {
   color: #4ca752;
 }
@@ -350,6 +355,25 @@
 .match-stadium,
 .match-referee {
   font-size: 10px;
+}
+
+.subs-wrapper h4 {
+  font-size: 12px;
+  margin: 2px;
+}
+
+.substitute-player {
+  font-size: 8px;
+}
+
+.used-subs,
+.unused-subs {
+ gap: 50px;
+}
+
+.used-subs-home,
+.used-subs-away {
+  width: 50%;
 }
 
 }

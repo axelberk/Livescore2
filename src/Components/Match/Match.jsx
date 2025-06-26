@@ -369,14 +369,26 @@ const Match = () => {
         </div>
 
         <div className="sub-text">
-          {sub.player.number}. {sub.player.name}
+       <span className="player-numbered-name">
+  {sub.player.number}.{" "}
+  <span className="full-name">{sub.player.name}</span>
+  <span className="last-name-only">
+    {sub.player.name.split(" ").slice(-1).join(" ")}
+  </span>
+</span>
+          
         </div>
-        {subInfo?.player_out?.name && (
-          <small style={{ color: "#666", display: "block" }}>
-            {subInfo?.time ? `${subInfo.time}' ` : ""}({subInfo.player_out.name}
-            )
-          </small>
-        )}
+       {subInfo?.player_out?.name && (
+  <small className="sub-out-player">
+    {subInfo?.time ? `${subInfo.time}' ` : ""}
+    (
+    <span className="full-name">{subInfo.player_out.name}</span>
+    <span className="last-name-only">
+      {subInfo.player_out.name.split(" ").slice(-1).join(" ")}
+    </span>
+    )
+  </small>
+)}
       </div>
     );
   };
@@ -641,7 +653,13 @@ const Match = () => {
                         />
                       </div>
                       <div className="sub-text">
-                        {sub.player.number}. {sub.player.name}
+                       <span className="player-numbered-name">
+  {sub.player.number}.{" "}
+  <span className="full-name">{sub.player.name}</span>
+  <span className="last-name-only">
+    {sub.player.name.split(" ").slice(-1).join(" ")}
+  </span>
+</span>
                       </div>
                     </div>
                   ))}
@@ -673,7 +691,13 @@ const Match = () => {
                         />
                       </div>
                       <div className="sub-text">
-                        {sub.player.number}. {sub.player.name}
+                       <span className="player-numbered-name">
+  {sub.player.number}.{" "}
+  <span className="full-name">{sub.player.name}</span>
+  <span className="last-name-only">
+    {sub.player.name.split(" ").slice(-1).join(" ")}
+  </span>
+</span>
                       </div>
                     </div>
                   ))}

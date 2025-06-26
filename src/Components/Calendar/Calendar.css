@@ -60,13 +60,13 @@
 @media (max-width: 768px) {
 
   .Calendar {
-   padding: 0;
+   padding: 0px 6px 0px 6px;
   margin: 0;
   width: 100%;
   }
 
   .calendar-date {
-    font-size: 12px;
+    font-size: 10px;
     display: flex;
     justify-content: flex-start;
     width: 100%;
@@ -79,7 +79,9 @@
   }
 
   .search-input {
-    width: 30px;
+    width: 15%;
+    padding: 5px;
+    font-size: 8px;
   }
 
   .calendar-icon {

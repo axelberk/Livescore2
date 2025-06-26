@@ -1,7 +1,7 @@
 #root {
   max-width: 85%;
   margin: 0 auto;
-  padding: 1rem;
+  /* padding: 1rem; */
   text-align: center;
   color: black;
 }
@@ -9,7 +9,7 @@
 .content-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
   width: 100%;
   padding: 1rem 0rem;
 }
@@ -28,9 +28,8 @@
   }
 
   .content-container {
-    padding: 0rem 0rem;
-    display: flex;
-    justify-content: center;
+   display: flex;
+   justify-content: center;
   }
 
 }
