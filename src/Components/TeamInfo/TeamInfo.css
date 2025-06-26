@@ -232,7 +232,7 @@
  }
 
  .squad-group li {
-  font-size: 8px;
+  font-size: 10px;
   text-align: left;
  }
 
@@ -277,7 +277,11 @@
  }
 
 .squad-list {
-  width: 140px;
+  width: 180px;
+}
+
+.player-photo {
+  margin-right: 1px;
 }
 
 .squad-column {
