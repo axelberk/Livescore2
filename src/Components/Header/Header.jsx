@@ -26,18 +26,35 @@ const Header = () => {
             sx={{backgroundColor:"white"}}
              size="small"
              InputProps={{
-               sx: {
-                 fontFamily: "inherit",
-               
-                 "& input::placeholder": {
-                   fontSize: "0.85rem",
-                   fontFamily: "inherit",
-                 },
-                 "& fieldset": {
-        borderRadius: "inherit",  
+    sx: {
+      backgroundColor:"transparent",
+      fontFamily: "inherit",
+      "& input::placeholder": {
+        fontSize: "0.8rem",
+        fontFamily: "inherit",
       },
-               },
-             }}
+      "& fieldset": {
+      
+      },
+      width: {
+        xs: "100px",  
+        sm: "140px",  
+        md: "200px",  
+      },
+      height: {
+        xs: "28px",  
+        sm: "32px",  
+        md: "40px"
+      },
+
+      fontSize: {
+      xs:"0.7rem",
+      sm:"0.8rem",
+      md:"0.9rem"
+      },
+      boxSizing: "border-box",
+    },
+  }}
            />
         </div>
     )

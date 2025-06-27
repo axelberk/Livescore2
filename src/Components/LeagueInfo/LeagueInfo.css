@@ -105,6 +105,10 @@
   text-align: center;
 }
 
+.table-description {
+  margin: 0;
+}
+
 .goals-assists {
   display: flex;
   justify-content: space-between;
@@ -297,6 +301,12 @@
   margin-right: auto;
 }
 
+.league-table td:last-child {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media (max-width: 768px) {
   .league-info {
     width: 100%;
@@ -355,6 +365,21 @@ font-size: 12px;
 .view-switch button {
   margin: 0;
   font-size: 10px;
+}
+
+.group-standings-card h3 {
+  margin-top: 4px;
+}
+
+.group-standings-card td {
+  font-size: 8px;
+}
+
+.group-standings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  font-size: 0.6rem;
 }
 
 }

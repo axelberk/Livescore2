@@ -455,7 +455,7 @@ const LeagueInfo = () => {
                                 {team.goalsDiff}
                               </td>
                               <td className="team-points">{team.points}</td>
-                              <td>{team.description}</td>
+                              <td className="table-description"><p className="table-description">{team.description}</p></td>
                             </tr>
                           );
                         })}

@@ -65,18 +65,29 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
             sx={{backgroundColor:"white"}}
              size="small"
              InputProps={{
-               sx: {
-                 fontFamily: "inherit",
-               
-                 "& input::placeholder": {
-                   fontSize: "0.85rem",
-                   fontFamily: "inherit",
-                 },
-                 "& fieldset": {
-        borderRadius: "inherit",  
+    sx: {
+      fontFamily: "inherit",
+      backgroundColor:"transparent",
+      "& input::placeholder": {
+        fontSize: "0.8rem",
+        fontFamily: "inherit",
       },
-               },
-             }}
+      "& fieldset": {
+        borderRadius: "12px",
+      },
+      width: {
+        xs: "100px", 
+        sm: "140px",  
+        md: "200px",  
+      },
+      fontSize: {
+      xs:"0.7rem",
+      sm:"0.8rem",
+      md:"0.9rem"
+      },
+      boxSizing: "border-box",
+    },
+  }}
            />
     </div>
   );
