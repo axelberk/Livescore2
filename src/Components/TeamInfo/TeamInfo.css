@@ -129,7 +129,7 @@
 
 .results {
   display: flex;
-
+flex-direction: column;
   width: 50%;
   font-size: 13px;
   gap: 16px;
@@ -199,6 +199,26 @@
 .legend-item.draw {
   background-color: #fff3cd;
   color: #856404;
+}
+
+.results-toggle-buttons {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.results-toggle-buttons button {
+   padding: 0.5rem 1rem;
+  cursor: pointer;
+  background: #eee;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.results-toggle-buttons button.active {
+  background: #45b65e;
+  color: white;
 }
 
 @media (max-width: 768px) {
@@ -287,6 +307,40 @@
 
 .squad-group {
   width: 50%;
+}
+
+.results {
+  justify-content: flex-start;
+}
+
+.results-list {
+  width: 100%;
+}
+
+.results-list strong {
+  font-size: 6px;
+}
+
+.result-item {
+  font-size: 8px;
+  width: 180px;
+}
+
+.results-toggle-buttons {
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+
+}
+
+.results-toggle-buttons button {
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  background: #eee;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 6px;
 }
  
 }

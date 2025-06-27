@@ -19,6 +19,7 @@ const TeamInfo = () => {
   const [loading, setLoading] = useState(true);
   const [coach, setCoach] = useState(null);
   const navigate = useNavigate();
+  const [activeView, setActiveView] = useState("results");
 
   useEffect(() => {
     const fetchTeamData = async () => {
@@ -288,69 +289,89 @@ const TeamInfo = () => {
                 </div>
 
                 <div className="results">
-                  <div className="results-list">
-                    <h3>Results</h3>
-                    <div className="result-legend">
-                      <span className="legend-item win">Win</span>
-                      <span className="legend-item draw">Draw</span>
-                      <span className="legend-item loss">Loss</span>
+                  <div className="results-toggle-buttons">
+                    <button
+                      onClick={() => setActiveView("results")}
+                      className={activeView === "results" ? "active" : ""}
+                    >
+                     Results
+                    </button>
+                    <button
+                      onClick={() => setActiveView("upcoming")}
+                      className={activeView === "upcoming" ? "active" : ""}
+                    >
+                      Upcoming Fixtures
+                    </button>
+                  </div>
+
+                  {activeView === "results" && (
+                    <div className="results-list">
+                      <div className="result-legend">
+                        <span className="legend-item win">Win</span>
+                        <span className="legend-item draw">Draw</span>
+                        <span className="legend-item loss">Loss</span>
+                      </div>
+
+                      {pastFixtures.map((fixture) => {
+                        const matchDate = new Date(
+                          fixture.fixture.date
+                        ).toLocaleDateString("en-GB", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        });
+
+                        const isHome = fixture.teams.home.id == team.id;
+                        const goalsFor = isHome
+                          ? fixture.goals.home
+                          : fixture.goals.away;
+                        const goalsAgainst = isHome
+                          ? fixture.goals.away
+                          : fixture.goals.home;
+
+                        let resultClass = "draw";
+                        if (goalsFor > goalsAgainst) resultClass = "win";
+                        else if (goalsFor < goalsAgainst) resultClass = "loss";
+
+                        return (
+                          <div key={fixture.fixture.id} className="result-item">
+                            <strong>{matchDate}</strong>:{" "}
+                            <span
+                              className={resultClass}
+                              onClick={() =>
+                                navigate(`/match/${fixture.fixture.id}`)
+                              }
+                            >
+                              {fixture.teams.home.name} {fixture.goals.home} -{" "}
+                              {fixture.goals.away} {fixture.teams.away.name}
+                            </span>
+                          </div>
+                        );
+                      })}
                     </div>
-                    {pastFixtures.map((fixture) => {
-                      const matchDate = new Date(
-                        fixture.fixture.date
-                      ).toLocaleDateString("en-GB", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      });
+                  )}
 
-                      const isHome = fixture.teams.home.id == team.id;
-                      const goalsFor = isHome
-                        ? fixture.goals.home
-                        : fixture.goals.away;
-                      const goalsAgainst = isHome
-                        ? fixture.goals.away
-                        : fixture.goals.home;
+                  {activeView === "upcoming" && (
+                    <div className="results-list">
+                      {upcomingFixtures.map((fixture) => {
+                        const matchDate = new Date(
+                          fixture.fixture.date
+                        ).toLocaleDateString("en-GB", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        });
 
-                      let resultClass = "draw";
-                      if (goalsFor > goalsAgainst) resultClass = "win";
-                      else if (goalsFor < goalsAgainst) resultClass = "loss";
-
-                      return (
-                        <div key={fixture.fixture.id} className="result-item">
-                          <strong>{matchDate}</strong>:{" "}
-                          <span
-                            className={resultClass}
-                            onClick={() =>
-                              navigate(`/match/${fixture.fixture.id}`)
-                            }
-                          >
-                            {fixture.teams.home.name} {fixture.goals.home} -{" "}
-                            {fixture.goals.away} {fixture.teams.away.name}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  <div className="results-list">
-                    <h3>Upcoming</h3>
-                    {upcomingFixtures.map((fixture) => {
-                      const matchDate = new Date(
-                        fixture.fixture.date
-                      ).toLocaleDateString("en-GB", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      });
-                      return (
-                        <div key={fixture.fixture.id} className="result-item">
-                          <strong>{matchDate}</strong>:{" "}
-                          {fixture.teams.home.name} - {fixture.teams.away.name}
-                        </div>
-                      );
-                    })}
-                  </div>
+                        return (
+                          <div key={fixture.fixture.id} className="result-item">
+                            <strong>{matchDate}</strong>:{" "}
+                            {fixture.teams.home.name} -{" "}
+                            {fixture.teams.away.name}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               </div>
             </>
