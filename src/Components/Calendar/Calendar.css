@@ -8,6 +8,7 @@
   justify-content: space-between;
   border-radius: 10px;
   padding: 0px 4px 0px 10px;
+  width: 100%;
 }
 
 .calendar-nav {
@@ -22,7 +23,6 @@
 .calendar-arrow {
   background: none;
   border: none;
-  
 }
 
 .calendar-arrow:hover {
@@ -41,7 +41,7 @@
   transition: background-color 0.2s ease, border-color 0.2s ease;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 250px;
   white-space: nowrap;
   overflow: hidden;
@@ -58,11 +58,9 @@
 }
 
 @media (max-width: 768px) {
-
   .Calendar {
-   padding: 0px 6px 0px 6px;
-  margin: 0;
-  width: 100%;
+    padding: 0px 6px 0px 6px;
+    margin: 0;
   }
 
   .calendar-date {
@@ -76,15 +74,16 @@
   .calendar-arrow {
     margin: 0;
     padding: 0;
+    color: black;
   }
 
   .search-input {
-    width: 15%;
+    
     padding: 5px;
-    font-size: 8px;
+   
   }
 
   .calendar-icon {
-   display: none;
+    display: none;
   }
 }

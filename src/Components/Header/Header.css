@@ -9,6 +9,7 @@
   padding: 0px 4px 0px 10px;
   height: 40px;
   border-radius: 10px;
+  width: 100%;
 }
 
 .home-button {
@@ -26,10 +27,10 @@
 
 .search-input {
   padding: 0.5rem;
-  
+  background-color: white;
   border-radius: 10px;
   border: 1px solid transparent;
-  width: 250px;
+  width: 200px;
   outline: none;
 }
 

@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./Calendar.css";
 import { useSearch } from "../SearchContext/SearchContext";
 import { useNavigate } from "react-router-dom";
+import { TextField } from "@mui/material";
 
 const Calendar = ({ selectedDate, setSelectedDate }) => {
   const { searchQuery, setSearchQuery } = useSearch();
@@ -55,14 +56,28 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
           style={{ display: "none" }}
         />
       </div>
-      <input
-        type="text"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        onKeyDown={handleSearch}
-        placeholder="Search teams or leagues..."
-        className="search-input"
-      />
+   <TextField
+             placeholder="Search..."
+             value={searchQuery}
+             onChange={(e) => setSearchQuery(e.target.value)}
+             onKeyDown={handleSearch}
+             variant="outlined"
+            sx={{backgroundColor:"white"}}
+             size="small"
+             InputProps={{
+               sx: {
+                 fontFamily: "inherit",
+               
+                 "& input::placeholder": {
+                   fontSize: "0.85rem",
+                   fontFamily: "inherit",
+                 },
+                 "& fieldset": {
+        borderRadius: "inherit",  
+      },
+               },
+             }}
+           />
     </div>
   );
 };
