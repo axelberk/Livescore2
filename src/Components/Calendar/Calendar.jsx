@@ -66,20 +66,26 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
              size="small"
              InputProps={{
     sx: {
-      fontFamily: "inherit",
       backgroundColor:"transparent",
+      fontFamily: "inherit",
       "& input::placeholder": {
         fontSize: "0.8rem",
         fontFamily: "inherit",
       },
       "& fieldset": {
-        borderRadius: "12px",
+      
       },
       width: {
-        xs: "100px", 
+        xs: "100px",  
         sm: "140px",  
         md: "200px",  
       },
+      height: {
+        xs: "28px",  
+        sm: "32px",  
+        md: "40px"
+      },
+
       fontSize: {
       xs:"0.7rem",
       sm:"0.8rem",
