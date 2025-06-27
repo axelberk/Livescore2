@@ -357,4 +357,8 @@
 .formation-container {
    font-size: 10px;
 }
+
+.fallback-lineup-label {
+  font-size: 10px;
+}
 }

@@ -93,7 +93,7 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
       <div className="modal-overlay" onClick={handleClose} />
       <div className={`player-modal${closing ? " closing" : ""}`}>
         <div className="button-header">
-         <div className="hidden">Invisible</div>
+          <div className="hidden">Invisible</div>
           <button onClick={handleClose} className="close-button">
             <CloseIcon fontSize="small" />
           </button>
@@ -110,10 +110,10 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
           <div className="modal-club-info">
             {player?.statistics?.[0]?.team ? (
               <Link
-  to={`/team/${bestStats?.team?.id}`}
-  className="modal-club"
-  onClick={handleClose}
->
+                to={`/team/${bestStats?.team?.id}`}
+                className="modal-club"
+                onClick={handleClose}
+              >
                 <img
                   src={bestStats?.team?.logo}
                   alt={bestStats?.team?.name}
@@ -133,8 +133,8 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
             <p>Player data not available.</p>
           ) : (
             <>
-            <h2 className="modal-name">
-            {/* {player?.player
+              <h2 className="modal-name">
+                {/* {player?.player
               ? (() => {
                   const number =
                     player?.statistics?.[0]?.games?.number ??
@@ -146,12 +146,10 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
                   } ${player.player.lastname}`;
                 })()
               : "Loading..."} */}
-              {player.player.firstname} {player.player.lastname}
-          </h2>
+                {player.player.firstname} {player.player.lastname}
+              </h2>
               <div className="modal-facts-container">
-                
                 <div className="modal-facts">
-                   
                   <p>
                     Date of birth:{" "}
                     <span className="fact-span">
