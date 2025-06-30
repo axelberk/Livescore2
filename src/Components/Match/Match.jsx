@@ -267,7 +267,7 @@ const Match = () => {
       } catch (err) {
         console.error("Error fetching match data:", err);
       } finally {
-        setLoading(true);
+        setLoading(false);
       }
     };
 

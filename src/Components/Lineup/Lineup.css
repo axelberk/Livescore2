@@ -270,13 +270,14 @@
 .goal-icon-wrapper,
 .own-goal-icon-wrapper {
   position: absolute;
-  top: 0;
+  top: -5px;
   left: 30px;
   background: white;
   border-radius: 50%;
   align-items: center;
   justify-content: center;
   z-index: 10;
+  height: 23px;
 }
 
 .goal-count {
