@@ -28,8 +28,18 @@ const MatchSkeleton = () => {
         alignItems="center"
       >
         <Skeleton variant="text" width="40%" height={fontSize} />
-        <Skeleton variant="rectangular" height={200} width={mainWidth} sx={{ my: 1 }} />
-        <Skeleton variant="rectangular" height={200} width={mainWidth} sx={{ my: 1 }} />
+        <Skeleton
+          variant="rectangular"
+          height={200}
+          width={mainWidth}
+          sx={{ my: 1 }}
+        />
+        <Skeleton
+          variant="rectangular"
+          height={200}
+          width={mainWidth}
+          sx={{ my: 1 }}
+        />
         <Box className="subs-skeleton" display="flex" gap={2}>
           <Skeleton variant="rectangular" height={200} width={subsWidth} />
           <Skeleton variant="rectangular" height={200} width={subsWidth} />
@@ -619,15 +629,27 @@ const Match = () => {
             <h4>Used Substitutes</h4>
             <div className="used-subs">
               <div className="used-subs-home">
-                {homeTeam.substitutes
-                  .filter((sub) => subbedOnIds.has(sub.player.id))
-                  .map(renderSub)}
+                {homeTeam.substitutes.filter((sub) =>
+                  subbedOnIds.has(sub.player.id)
+                ).length > 0 ? (
+                  homeTeam.substitutes
+                    .filter((sub) => subbedOnIds.has(sub.player.id))
+                    .map(renderSub)
+                ) : (
+                  <div className="substitute-placeholder" />
+                )}
               </div>
 
               <div className="used-subs-away">
-                {awayTeam.substitutes
-                  .filter((sub) => subbedOnIds.has(sub.player.id))
-                  .map(renderSub)}
+                {awayTeam.substitutes.filter((sub) =>
+                  subbedOnIds.has(sub.player.id)
+                ).length > 0 ? (
+                  awayTeam.substitutes
+                    .filter((sub) => subbedOnIds.has(sub.player.id))
+                    .map(renderSub)
+                ) : (
+                  <div className="substitute-placeholder" />
+                )}
               </div>
             </div>
 
