@@ -371,7 +371,7 @@ const LeagueInfo = () => {
                           ),
                         }}
                       >
-                        <td>{team.rank}</td>
+                        <td className="individual-number">{team.rank}</td>
                         <td className="first-place">
                           <Link to={`/team/${id}`} className="table-team">
                             {name}
@@ -434,7 +434,7 @@ const LeagueInfo = () => {
                                 ),
                               }}
                             >
-                              <td>{team.rank}</td>
+                              <td className="individual-number">{team.rank}</td>
                               <td className="table-team-container">
                                 <Link to={`/team/${id}`} className="table-team">
                                   {name}
@@ -507,7 +507,7 @@ const LeagueInfo = () => {
                       >
                         <p className="bracket-aggregate">
                           {homeTeam.name} vs {awayTeam.name}{" "}
-                          <p>
+                          <p className="aggregate-score">
                             ({aggregate.home}–{aggregate.away} agg.)
                           </p>
                         </p>

@@ -60,10 +60,10 @@
 .league-table th,
 .league-table td {
   padding: 0.3rem;
-  border: 1px dotted #eee;
+  border: 0.1rem dotted #eee;
   overflow: hidden;
 
-  font-size: 0.8rem;
+  /* font-size: 0.8rem; */
 }
 
 .league-table th {
@@ -107,7 +107,7 @@
 
 .table-description {
   margin: 0;
-  font-size: 9.5px;
+  /* font-size: 9.5px; */
 }
 
 .goals-assists {
@@ -128,7 +128,7 @@
 .individual-table td {
   padding: 0.1rem 0.5rem;
   border: 1px solid #ddd;
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 
 .individual-number {
@@ -271,7 +271,11 @@
   font-weight: 600;
   margin-bottom: 0.5rem;
   font-size: 0.7rem;
-  text-align: left;
+  text-align: center;
+}
+
+.aggregate-score {
+  text-align: center;
 }
 
 .bracket-date {
@@ -380,6 +384,36 @@ font-size: 12px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
+  font-size: 0.6rem;
+}
+
+.bracket-view {
+  padding: 0;
+}
+
+.bracket-round-group {
+  align-items:normal;
+}
+
+.bracket-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 2fr));
+}
+
+.bracket-match {
+  width: 140px;
+}
+
+.bracket-match-card {
+  /* max-width: 50%; */
+}
+
+.bracket-aggregate {
+  font-size: 0.6rem;
+  margin: 0;
+}
+
+.bracket-team {
   font-size: 0.6rem;
 }
 
