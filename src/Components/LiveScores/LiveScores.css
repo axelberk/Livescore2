@@ -5,6 +5,7 @@
   flex-direction: column;
   width: 65%;
   gap: 10px;
+  font-size: 1rem;
 }
 
 h2 {
@@ -95,7 +96,7 @@ h2 {
 
 @media (max-width: 768px) {
   .Livescores {
-    width: 85%;
+    width: 100%;
    padding: 0;
   }
 
@@ -107,7 +108,7 @@ h2 {
   .match-teams,
   .match-result,
   .livescore-time {
-    font-size: 10px;
+    font-size: 0.8rem;
   }
 
   .match-teams {
@@ -116,8 +117,8 @@ h2 {
   }
 
   .liveteam-logo {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
    
   }
 
