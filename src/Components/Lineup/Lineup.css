@@ -95,14 +95,14 @@
   flex-direction: row;
   align-items: center;
   text-align: center;
-
   border-radius: 4px;
-  font-size: 1rem;
+  /* font-size: 1rem; */
 }
 
 .player-number {
   font-weight: 400;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
+  
 }
 
 .full-name {

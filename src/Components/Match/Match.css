@@ -13,7 +13,7 @@
   width: 100%;
   max-width: 600px;
 
-  gap: 16px;
+  gap: 0.8rem;
   text-align: center;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .match-scores {
-  font-size: 20px;
+  font-size: 1.3rem;
   display: flex;
   flex-direction: column;
 }
@@ -134,7 +134,7 @@
   flex-direction: column;
   align-items: center;
   padding: 4px 0;
-  font-size: 12px;
+  font-size: 0.8rem;  
   border-radius: 20px;
   cursor: pointer;
   transition: 0.3s ease;
@@ -347,12 +347,12 @@
 
 .goal-item {
   width: 300px;
-  font-size: 10px;
+  font-size: 0.6rem;
 }
 
 .match-stadium,
 .match-referee {
-  font-size: 10px;
+  font-size: 0.7rem;
 }
 
 .subs-wrapper {
@@ -360,12 +360,12 @@
 }
 
 .subs-wrapper h4 {
-  font-size: 12px;
+  font-size: 0.7rem;
   margin: 2px;
 }
 
 .substitute-player {
-  font-size: 8px;
+  font-size: 0.6rem;
 }
 
 }

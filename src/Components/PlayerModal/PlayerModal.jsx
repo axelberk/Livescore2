@@ -13,7 +13,10 @@ const ModalSkeleton = () => (
     alignItems="flex-start"
     padding={0}
   >
-    <Skeleton variant="rectangular" width={100} height={100} />
+    <Box display="flex" flexDirection="row" gap="8rem">
+      <Skeleton variant="rectangular" width={100} height={100} />
+      <Skeleton variant="rectangular" width={100} height={100} />
+    </Box>
     {[...Array(6)].map((_, i) => (
       <Skeleton key={i} variant="text" width="40%" height={15} />
     ))}
@@ -29,51 +32,49 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
   useEffect(() => {
     if (!playerId || !isOpen) return;
 
-const fetchPlayer = async () => {
-  const fetchClubStats = async (season) => {
-    try {
-      const res = await axios.get(
-        "https://v3.football.api-sports.io/players",
-        {
-          headers: {
-            "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-          },
-          params: {
-            id: playerId,
-            season,
-          },
+    const fetchPlayer = async () => {
+      const fetchClubStats = async (season) => {
+        try {
+          const res = await axios.get(
+            "https://v3.football.api-sports.io/players",
+            {
+              headers: {
+                "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+              },
+              params: {
+                id: playerId,
+                season,
+              },
+            }
+          );
+
+          const playerData = res.data.response[0];
+          if (!playerData) return null;
+
+          // Filter to only include club stats (not national teams)
+          const clubStats = playerData.statistics?.filter(
+            (s) => s.team?.national !== true
+          );
+
+          return clubStats && clubStats.length > 0
+            ? { ...playerData, statistics: clubStats }
+            : null;
+        } catch (err) {
+          console.error(`Error fetching player for season ${season}`, err);
+          return null;
         }
-      );
+      };
 
-      const playerData = res.data.response[0];
-      if (!playerData) return null;
+      setLoading(true);
 
-      // Filter to only include club stats (not national teams)
-      const clubStats = playerData.statistics?.filter(
-        (s) => s.team?.national !== true
-      );
+      let data = await fetchClubStats("2025");
+      if (!data) {
+        data = await fetchClubStats("2024");
+      }
 
-      return clubStats && clubStats.length > 0
-        ? { ...playerData, statistics: clubStats }
-        : null;
-    } catch (err) {
-      console.error(`Error fetching player for season ${season}`, err);
-      return null;
-    }
-  };
-
-  setLoading(true);
-
-  let data = await fetchClubStats("2025");
-  if (!data) {
-    data = await fetchClubStats("2024");
-  }
-
-  setPlayer(data);
-  setLoading(false);
-};
-
-
+      setPlayer(data);
+      setLoading(false);
+    };
 
     fetchPlayer();
   }, [playerId, isOpen]);
@@ -130,22 +131,24 @@ const fetchPlayer = async () => {
           )}
 
           <div className="modal-club-info">
-            {player?.statistics?.[0]?.team ? (
-              <Link
-                to={`/team/${bestStats?.team?.id}`}
-                className="modal-club"
-                onClick={handleClose}
-              >
-                <img
-                  src={bestStats?.team?.logo}
-                  alt={bestStats?.team?.name}
-                  className="modal-club-logo"
-                  title={bestStats?.team?.name}
-                />
-              </Link>
-            ) : (
-              <span className="fact-span">N/A</span>
-            )}
+            <div className="modal-club-info">
+              {!loading && player?.statistics?.[0]?.team ? (
+                <Link
+                  to={`/team/${bestStats?.team?.id}`}
+                  className="modal-club"
+                  onClick={handleClose}
+                >
+                  <img
+                    src={bestStats?.team?.logo}
+                    alt={bestStats?.team?.name}
+                    className="modal-club-logo"
+                    title={bestStats?.team?.name}
+                  />
+                </Link>
+              ) : !loading ? (
+                <span className="fact-span">N/A</span>
+              ) : null}
+            </div>
           </div>
         </div>
         <div className="modal-content">
