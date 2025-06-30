@@ -7,29 +7,37 @@ import LoopIcon from "@mui/icons-material/Loop";
 import Header from "../Header/Header";
 import PlayerModal from "../PlayerModal/PlayerModal";
 import { fetchWithCache } from "../../../utils/apiCache";
-import { Skeleton, Box } from "@mui/material";
+import { Skeleton, Box, useMediaQuery } from "@mui/material";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import SportsTwoToneIcon from "@mui/icons-material/SportsTwoTone";
 
-const MatchSkeleton = () => (
-  <div>
-    <Header />
-    <Box
-      padding={0}
-      display={"flex"}
-      flexDirection="column"
-      alignItems="center"
-    >
-      <Skeleton variant="text" width="40%" height={50} />
-      <Skeleton variant="rectangular" height={200} width={600} sx={{ my: 1 }} />
-      <Skeleton variant="rectangular" height={200} width={600} sx={{ my: 1 }} />
-      <div className="subs-skeleton">
-        <Skeleton variant="rectangular" height={200} width={250} />
-        <Skeleton variant="rectangular" height={200} width={250} />
-      </div>
-    </Box>
-  </div>
-);
+const MatchSkeleton = () => {
+  const isSmallScreen = useMediaQuery("(max-width: 768px)");
+
+  const mainWidth = isSmallScreen ? "90%" : 600;
+  const subsWidth = isSmallScreen ? "45%" : 250;
+  const fontSize = isSmallScreen ? 30 : 50;
+
+  return (
+    <div>
+      <Header />
+      <Box
+        padding={0}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+      >
+        <Skeleton variant="text" width="40%" height={fontSize} />
+        <Skeleton variant="rectangular" height={200} width={mainWidth} sx={{ my: 1 }} />
+        <Skeleton variant="rectangular" height={200} width={mainWidth} sx={{ my: 1 }} />
+        <Box className="subs-skeleton" display="flex" gap={2}>
+          <Skeleton variant="rectangular" height={200} width={subsWidth} />
+          <Skeleton variant="rectangular" height={200} width={subsWidth} />
+        </Box>
+      </Box>
+    </div>
+  );
+};
 
 const fetchPhotosForLineups = async (lineupsArray, setPlayerPhotos) => {
   const allPlayers = lineupsArray.flatMap((lineup) => [
@@ -259,7 +267,7 @@ const Match = () => {
       } catch (err) {
         console.error("Error fetching match data:", err);
       } finally {
-        setLoading(false);
+        setLoading(true);
       }
     };
 
@@ -369,26 +377,24 @@ const Match = () => {
         </div>
 
         <div className="sub-text">
-       <span className="player-numbered-name">
-  {sub.player.number}.{" "}
-  <span className="full-name">{sub.player.name}</span>
-  <span className="last-name-only">
-    {sub.player.name.split(" ").slice(-1).join(" ")}
-  </span>
-</span>
-          
+          <span className="player-numbered-name">
+            {sub.player.number}.{" "}
+            <span className="full-name">{sub.player.name}</span>
+            <span className="last-name-only">
+              {sub.player.name.split(" ").slice(-1).join(" ")}
+            </span>
+          </span>
         </div>
-       {subInfo?.player_out?.name && (
-  <small className="sub-out-player">
-    {subInfo?.time ? `${subInfo.time}' ` : ""}
-    (
-    <span className="full-name">{subInfo.player_out.name}</span>
-    <span className="last-name-only">
-      {subInfo.player_out.name.split(" ").slice(-1).join(" ")}
-    </span>
-    )
-  </small>
-)}
+        {subInfo?.player_out?.name && (
+          <small className="sub-out-player">
+            {subInfo?.time ? `${subInfo.time}' ` : ""}(
+            <span className="full-name">{subInfo.player_out.name}</span>
+            <span className="last-name-only">
+              {subInfo.player_out.name.split(" ").slice(-1).join(" ")}
+            </span>
+            )
+          </small>
+        )}
       </div>
     );
   };
@@ -558,14 +564,14 @@ const Match = () => {
         </div>
         <div className="stadium-referee">
           <div className="match-stadium" title="Location">
-            <PlaceOutlinedIcon/>
+            <PlaceOutlinedIcon />
             {fixture?.fixture?.venue?.name || "Stadium info unavailable"}
             {fixture?.fixture?.venue?.city
               ? `, ${fixture.fixture.venue.city}`
               : ""}
           </div>
           <div className="match-referee" title="Referee">
-            <SportsTwoToneIcon title="Referee"/>{" "}
+            <SportsTwoToneIcon title="Referee" />{" "}
             {fixture?.fixture?.referee || "Referee info unavailable"}
           </div>
         </div>
@@ -653,13 +659,13 @@ const Match = () => {
                         />
                       </div>
                       <div className="sub-text">
-                       <span className="player-numbered-name">
-  {sub.player.number}.{" "}
-  <span className="full-name">{sub.player.name}</span>
-  <span className="last-name-only">
-    {sub.player.name.split(" ").slice(-1).join(" ")}
-  </span>
-</span>
+                        <span className="player-numbered-name">
+                          {sub.player.number}.{" "}
+                          <span className="full-name">{sub.player.name}</span>
+                          <span className="last-name-only">
+                            {sub.player.name.split(" ").slice(-1).join(" ")}
+                          </span>
+                        </span>
                       </div>
                     </div>
                   ))}
@@ -691,13 +697,13 @@ const Match = () => {
                         />
                       </div>
                       <div className="sub-text">
-                       <span className="player-numbered-name">
-  {sub.player.number}.{" "}
-  <span className="full-name">{sub.player.name}</span>
-  <span className="last-name-only">
-    {sub.player.name.split(" ").slice(-1).join(" ")}
-  </span>
-</span>
+                        <span className="player-numbered-name">
+                          {sub.player.number}.{" "}
+                          <span className="full-name">{sub.player.name}</span>
+                          <span className="last-name-only">
+                            {sub.player.name.split(" ").slice(-1).join(" ")}
+                          </span>
+                        </span>
                       </div>
                     </div>
                   ))}

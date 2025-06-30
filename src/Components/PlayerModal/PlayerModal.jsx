@@ -29,29 +29,51 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
   useEffect(() => {
     if (!playerId || !isOpen) return;
 
-    const fetchPlayer = async () => {
-      try {
-        setLoading(true);
-        const res = await axios.get(
-          "https://v3.football.api-sports.io/players",
-          {
-            headers: {
-              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-            },
-            params: {
-              id: playerId,
-              season: "2024",
-            },
-          }
-        );
-        setPlayer(res.data.response[0] || null);
-      } catch (err) {
-        console.error("Failed to fetch player data", err);
-        setPlayer(null);
-      } finally {
-        setLoading(false);
-      }
-    };
+const fetchPlayer = async () => {
+  const fetchClubStats = async (season) => {
+    try {
+      const res = await axios.get(
+        "https://v3.football.api-sports.io/players",
+        {
+          headers: {
+            "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+          },
+          params: {
+            id: playerId,
+            season,
+          },
+        }
+      );
+
+      const playerData = res.data.response[0];
+      if (!playerData) return null;
+
+      // Filter to only include club stats (not national teams)
+      const clubStats = playerData.statistics?.filter(
+        (s) => s.team?.national !== true
+      );
+
+      return clubStats && clubStats.length > 0
+        ? { ...playerData, statistics: clubStats }
+        : null;
+    } catch (err) {
+      console.error(`Error fetching player for season ${season}`, err);
+      return null;
+    }
+  };
+
+  setLoading(true);
+
+  let data = await fetchClubStats("2025");
+  if (!data) {
+    data = await fetchClubStats("2024");
+  }
+
+  setPlayer(data);
+  setLoading(false);
+};
+
+
 
     fetchPlayer();
   }, [playerId, isOpen]);

@@ -232,6 +232,7 @@
   right: 30px;
 }
 
+
 .goal-icon.own-goal {
   color: red;
 }
@@ -367,9 +368,5 @@
   font-size: 8px;
 }
 
-.used-subs,
-.unused-subs {
-  align-items: center;
 }
 
-}
