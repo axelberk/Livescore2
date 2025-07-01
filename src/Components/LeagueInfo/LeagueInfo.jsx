@@ -388,7 +388,11 @@ const LeagueInfo = () => {
                         <td className="individual-number">{goalsAgainst}</td>
                         <td className="individual-number">{team.goalsDiff}</td>
                         <td className="team-points">{team.points}</td>
-                        <td><p className="table-description">{team.description}</p></td>
+                        <td>
+                          <p className="table-description">
+                            {team.description}
+                          </p>
+                        </td>
                       </tr>
                     );
                   })}
@@ -455,7 +459,11 @@ const LeagueInfo = () => {
                                 {team.goalsDiff}
                               </td>
                               <td className="team-points">{team.points}</td>
-                              <td className="table-description"><p className="table-description">{team.description}</p></td>
+                              <td className="table-description">
+                                <p className="table-description">
+                                  {team.description}
+                                </p>
+                              </td>
                             </tr>
                           );
                         })}
@@ -500,6 +508,8 @@ const LeagueInfo = () => {
                       { home: 0, away: 0 }
                     );
 
+                    const isTwoLeggedTie = fixtures.length === 2;
+
                     return (
                       <div
                         key={homeTeam.id + awayTeam.id + round}
@@ -507,9 +517,11 @@ const LeagueInfo = () => {
                       >
                         <p className="bracket-aggregate">
                           {homeTeam.name} vs {awayTeam.name}{" "}
-                          <p className="aggregate-score">
-                            ({aggregate.home}–{aggregate.away} agg.)
-                          </p>
+                          {isTwoLeggedTie && (
+                            <p className="aggregate-score">
+                              ({aggregate.home}–{aggregate.away} agg.)
+                            </p>
+                          )}
                         </p>
                         {fixtures.map((match) => {
                           const { fulltime } = match.score;
@@ -564,6 +576,65 @@ const LeagueInfo = () => {
       <div className="goals-assists">
         <div className="top-scorers">
           <h4>Top Scorers</h4>
+
+          {topScorers?.some(
+            (player) => (player.statistics[0].goals.total ?? 0) > 0
+          ) ? (
+            <table className="individual-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Player</th>
+                  <th>Team</th>
+                  <th>Goals</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(() => {
+                  let lastGoals = null;
+                  let displayRank = 0;
+                  let actualIndex = 0;
+
+                  return topScorers
+                    .sort(
+                      (a, b) =>
+                        (b.statistics[0].goals.total ?? 0) -
+                        (a.statistics[0].goals.total ?? 0)
+                    )
+                    .slice(0, 10)
+                    .map((player) => {
+                      actualIndex++;
+                      const goals = player.statistics[0].goals.total ?? 0;
+                      if (goals !== lastGoals) {
+                        displayRank = actualIndex;
+                        lastGoals = goals;
+                      }
+
+                      return (
+                        <tr key={player.player.id}>
+                          <td>{displayRank}</td>
+                          <td>
+                            <a
+                              className="player-link"
+                              onClick={() => handlePlayerClick(player.player)}
+                            >
+                              {player.player.name}
+                            </a>
+                          </td>
+                          <td>{player.statistics[0].team.name}</td>
+                          <td className="individual-number">{goals}</td>
+                        </tr>
+                      );
+                    });
+                })()}
+              </tbody>
+            </table>
+          ) : (
+            <p className="no-data-message">No top scorer data available.</p>
+          )}
+        </div>
+        {/* <div className="top-scorers">
+          <h4>Top Scorers</h4>
           <table className="individual-table">
             <thead>
               <tr>
@@ -613,113 +684,129 @@ const LeagueInfo = () => {
               })()}
             </tbody>
           </table>
-        </div>
+        </div> */}
         <hr className="solid"></hr>
         <div className="top-assists">
           <h4>Top Assists</h4>
-          <table className="individual-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Player</th>
-                <th>Team</th>
-                <th>Assists</th>
-              </tr>
-            </thead>
-            <tbody>
-              {(() => {
-                let lastAssists = null;
-                let displayRank = 0;
-                let actualIndex = 0;
 
-                return topAssists
-                  .sort(
-                    (a, b) =>
-                      (b.statistics[0].goals.assists ?? 0) -
-                      (a.statistics[0].goals.assists ?? 0)
-                  )
-                  .slice(0, 10)
-                  .map((player) => {
-                    actualIndex++;
-                    const assists = player.statistics[0].goals.assists ?? 0;
-                    if (assists !== lastAssists) {
-                      displayRank = actualIndex;
-                      lastAssists = assists;
-                    }
+          {topAssists?.some(
+            (player) => (player.statistics?.[0]?.goals?.assists ?? 0) > 0
+          ) ? (
+            <table className="individual-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Player</th>
+                  <th>Team</th>
+                  <th>Assists</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(() => {
+                  let lastAssists = null;
+                  let displayRank = 0;
+                  let actualIndex = 0;
 
-                    return (
-                      <tr key={player.player.id}>
-                        <td>{displayRank}</td>
-                        <td>
-                          <a
-                            className="player-link"
-                            onClick={() => handlePlayerClick(player.player)}
-                          >
-                            {player.player.name}
-                          </a>
-                        </td>
-                        <td>{player.statistics[0].team.name}</td>
-                        <td className="individual-number">{assists}</td>
-                      </tr>
-                    );
-                  });
-              })()}
-            </tbody>
-          </table>
+                  return topAssists
+                    .sort(
+                      (a, b) =>
+                        (b.statistics[0].goals.assists ?? 0) -
+                        (a.statistics[0].goals.assists ?? 0)
+                    )
+                    .slice(0, 10)
+                    .map((player) => {
+                      actualIndex++;
+                      const assists = player.statistics[0].goals.assists ?? 0;
+                      if (assists !== lastAssists) {
+                        displayRank = actualIndex;
+                        lastAssists = assists;
+                      }
+
+                      return (
+                        <tr key={player.player.id}>
+                          <td>{displayRank}</td>
+                          <td>
+                            <a
+                              className="player-link"
+                              onClick={() => handlePlayerClick(player.player)}
+                            >
+                              {player.player.name}
+                            </a>
+                          </td>
+                          <td>{player.statistics[0].team.name}</td>
+                          <td className="individual-number">{assists}</td>
+                        </tr>
+                      );
+                    });
+                })()}
+              </tbody>
+            </table>
+          ) : (
+            <p className="no-data-message">No assists data available.</p>
+          )}
         </div>
         <hr className="solid"></hr>
         <div className="top-red-cards">
           <h4>Red Cards</h4>
-          <table className="individual-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Player</th>
-                <th>Team</th>
-                <th>Reds</th>
-              </tr>
-            </thead>
-            <tbody>
-              {(() => {
-                let lastRed = null;
-                let displayRank = 0;
-                let actualIndex = 0;
 
-                return redCards
-                  .sort(
-                    (a, b) =>
-                      (b.statistics[0].cards.red ?? 0) -
-                      (a.statistics[0].cards.red ?? 0)
-                  )
-                  .filter((player) => (player.statistics[0].cards.red ?? 0) > 0)
-                  .slice(0, 10)
-                  .map((player) => {
-                    actualIndex++;
-                    const red = player.statistics[0].cards.red ?? 0;
-                    if (red !== lastRed) {
-                      displayRank = actualIndex;
-                      lastRed = red;
-                    }
+          {redCards?.some(
+            (player) => (player.statistics[0].cards.red ?? 0) > 0
+          ) ? (
+            <table className="individual-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Player</th>
+                  <th>Team</th>
+                  <th>Reds</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(() => {
+                  let lastRed = null;
+                  let displayRank = 0;
+                  let actualIndex = 0;
 
-                    return (
-                      <tr key={player.player.id}>
-                        <td>{displayRank}</td>
-                        <td>
-                          <a
-                            className="player-link"
-                            onClick={() => handlePlayerClick(player.player)}
-                          >
-                            {player.player.name}
-                          </a>
-                        </td>
-                        <td>{player.statistics[0].team.name}</td>
-                        <td className="individual-number">{red}</td>
-                      </tr>
-                    );
-                  });
-              })()}
-            </tbody>
-          </table>
+                  return redCards
+                    .sort(
+                      (a, b) =>
+                        (b.statistics[0].cards.red ?? 0) -
+                        (a.statistics[0].cards.red ?? 0)
+                    )
+                    .filter(
+                      (player) => (player.statistics[0].cards.red ?? 0) > 0
+                    )
+                    .slice(0, 10)
+                    .map((player) => {
+                      actualIndex++;
+                      const red = player.statistics[0].cards.red ?? 0;
+                      if (red !== lastRed) {
+                        displayRank = actualIndex;
+                        lastRed = red;
+                      }
+
+                      return (
+                        <tr key={player.player.id}>
+                          <td>{displayRank}</td>
+                          <td>
+                            <a
+                              className="player-link"
+                              onClick={() => handlePlayerClick(player.player)}
+                            >
+                              {player.player.name}
+                            </a>
+                          </td>
+                          <td>{player.statistics[0].team.name}</td>
+                          <td className="individual-number">{red}</td>
+                        </tr>
+                      );
+                    });
+                })()}
+              </tbody>
+            </table>
+          ) : (
+            <p className="no-data-message">No red card data available.</p>
+          )}
         </div>
       </div>
       <PlayerModal
