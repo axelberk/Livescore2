@@ -173,6 +173,11 @@
   gap: 1rem;
 }
 
+.bracket-match-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .bracket-match {
   background-color: #f9f9f9;
   border: 2px solid #ddd;

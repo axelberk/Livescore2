@@ -112,14 +112,12 @@ h2 {
   }
 
   .match-teams {
-    height: 15px;
-    gap: 6px;
+    gap: 2px;
   }
 
   .liveteam-logo {
     width: 18px;
     height: 18px;
-   
   }
 
   .match-card {

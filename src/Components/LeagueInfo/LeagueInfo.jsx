@@ -545,6 +545,7 @@ const LeagueInfo = () => {
                     const isTwoLeggedTie = fixtures.length === 2;
 
                     return (
+                     
                       <div
                         key={homeTeam.id + awayTeam.id + round}
                         className="bracket-match-card"
@@ -565,6 +566,7 @@ const LeagueInfo = () => {
                           const { home, away } = match.teams;
 
                           return (
+                             <Link to={`/match/${match.fixture.id}`} className="bracket-match-link">
                             <div
                               key={match.fixture.id}
                               className="bracket-match"
@@ -592,6 +594,7 @@ const LeagueInfo = () => {
                                 <p className="score-type">({displayScore.type})</p>
                               )} */}
                             </div>
+                            </Link>
                           );
                         })}
                       </div>

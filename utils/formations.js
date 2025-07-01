@@ -168,6 +168,19 @@ const formationsPositions = {
     { x: 60, y: 10 }, // Left mid
     { x: 40, y: 10 }, // CF
   ],
+  "4-3-2-1": [
+    { x: 50, y: 90 }, // Goalkeeper
+    { x: 18, y: 70 }, // Left back
+    { x: 40, y: 70 }, // Left center back
+    { x: 60, y: 70 }, // Right center back
+    { x: 82, y: 70 }, // Right back
+    { x: 25, y: 50 }, // Left midfielder
+    { x: 50, y: 50 }, // Left center midfielder
+    { x: 75, y: 50 }, // Right center midfielder
+    { x: 35, y: 28 }, // cam
+    { x: 65, y: 28 }, // Left forward
+    { x: 50, y: 10 }, // Right forward
+  ],
 };
 
 export default formationsPositions;
