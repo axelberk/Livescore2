@@ -21,6 +21,37 @@ const LeagueInfo = () => {
   const [bracketData, setBracketData] = useState([]);
   const [qualificationFixtures, setQualificationFixtures] = useState([]);
 
+  const getDisplayScore = (match) => {
+    const { fulltime, extratime, penalty } = match.score;
+
+    const ftHome = fulltime?.home ?? 0;
+    const ftAway = fulltime?.away ?? 0;
+
+    const etHome = extratime?.home ?? 0;
+    const etAway = extratime?.away ?? 0;
+
+    const penHome = penalty?.home;
+    const penAway = penalty?.away;
+
+    if (penHome !== null && penAway !== null) {
+      return { home: penHome, away: penAway, type: "PEN" };
+    }
+
+    if (extratime && (etHome > 0 || etAway > 0)) {
+      return {
+        home: ftHome + etHome,
+        away: ftAway + etAway,
+        type: "AET",
+      };
+    }
+
+    if (fulltime.home !== null && fulltime.away !== null) {
+      return { home: ftHome, away: ftAway, type: "FT" };
+    }
+
+    return { home: "-", away: "-", type: "FT" };
+  };
+
   const hasQualification =
     viewMode === "qualification" || qualificationFixtures.length > 0;
   const hasBracket = bracketData.length > 0;
@@ -258,7 +289,7 @@ const LeagueInfo = () => {
             <h4>{round}</h4>
             {matches.map((match) => {
               const { home, away } = match.teams;
-              const { fulltime } = match.score;
+              const displayScore = getDisplayScore(match);
               const date = new Date(match.fixture.date).toLocaleDateString();
 
               return (
@@ -275,7 +306,7 @@ const LeagueInfo = () => {
                       alt={home.name}
                     />
                     <span>{home.name}</span>
-                    <strong>{fulltime.home ?? "-"}</strong>
+                    <strong>{displayScore.home}</strong>
                   </div>
                   <div className="bracket-team">
                     <img
@@ -284,8 +315,11 @@ const LeagueInfo = () => {
                       alt={away.name}
                     />
                     <span>{away.name}</span>
-                    <strong>{fulltime.away ?? "-"}</strong>
+                    <strong>{displayScore.away}</strong>
                   </div>
+                  {/* {displayScore.type !== 'FT' && (
+                    <p className="score-type">({displayScore.type})</p>
+                  )} */}
                 </div>
               );
             })}
@@ -524,7 +558,7 @@ const LeagueInfo = () => {
                           )}
                         </p>
                         {fixtures.map((match) => {
-                          const { fulltime } = match.score;
+                          const displayScore = getDisplayScore(match);
                           const date = new Date(
                             match.fixture.date
                           ).toLocaleDateString();
@@ -543,7 +577,7 @@ const LeagueInfo = () => {
                                   alt={home.name}
                                 />
                                 <span>{home.name}</span>
-                                <strong>{fulltime.home ?? "-"}</strong>
+                                <strong>{displayScore.home}</strong>
                               </div>
                               <div className="bracket-team">
                                 <img
@@ -552,8 +586,11 @@ const LeagueInfo = () => {
                                   alt={away.name}
                                 />
                                 <span>{away.name}</span>
-                                <strong>{fulltime.away ?? "-"}</strong>
+                                <strong>{displayScore.away}</strong>
                               </div>
+                              {/* {displayScore.type !== 'FT' && (
+                                <p className="score-type">({displayScore.type})</p>
+                              )} */}
                             </div>
                           );
                         })}
@@ -633,58 +670,6 @@ const LeagueInfo = () => {
             <p className="no-data-message">No top scorer data available.</p>
           )}
         </div>
-        {/* <div className="top-scorers">
-          <h4>Top Scorers</h4>
-          <table className="individual-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Player</th>
-                <th>Team</th>
-                <th>Goals</th>
-              </tr>
-            </thead>
-            <tbody>
-              {(() => {
-                let lastGoals = null;
-                let displayRank = 0;
-                let actualIndex = 0;
-
-                return topScorers
-                  .sort(
-                    (a, b) =>
-                      (b.statistics[0].goals.total ?? 0) -
-                      (a.statistics[0].goals.total ?? 0)
-                  )
-                  .slice(0, 10)
-                  .map((player) => {
-                    actualIndex++;
-                    const goals = player.statistics[0].goals.total ?? 0;
-                    if (goals !== lastGoals) {
-                      displayRank = actualIndex;
-                      lastGoals = goals;
-                    }
-
-                    return (
-                      <tr key={player.player.id}>
-                        <td>{displayRank}</td>
-                        <td>
-                          <a
-                            className="player-link"
-                            onClick={() => handlePlayerClick(player.player)}
-                          >
-                            {player.player.name}
-                          </a>
-                        </td>
-                        <td>{player.statistics[0].team.name}</td>
-                        <td className="individual-number">{goals}</td>
-                      </tr>
-                    );
-                  });
-              })()}
-            </tbody>
-          </table>
-        </div> */}
         <hr className="solid"></hr>
         <div className="top-assists">
           <h4>Top Assists</h4>

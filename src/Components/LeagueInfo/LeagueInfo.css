@@ -9,7 +9,7 @@
 
 .group-standings-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(50%, 1fr));
+ 
   gap: 1rem;
 }
 
@@ -74,7 +74,7 @@
 .table-team-container {
   text-decoration: none;
   color: inherit;
-  width: 120px;
+  width: 150px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -107,7 +107,6 @@
 
 .table-description {
   margin: 0;
-  /* font-size: 9.5px; */
 }
 
 .goals-assists {
