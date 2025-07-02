@@ -639,7 +639,7 @@ const Match = () => {
                   <div className="substitute-placeholder" />
                 )}
               </div>
-
+              <hr />
               <div className="used-subs-away">
                 {awayTeam.substitutes.filter((sub) =>
                   subbedOnIds.has(sub.player.id)
@@ -692,7 +692,7 @@ const Match = () => {
                     </div>
                   ))}
               </div>
-
+              <hr />
               <div className="unused-subs-away">
                 {awayTeam.substitutes
                   .filter((sub) => !subbedOnIds.has(sub.player.id))

@@ -110,7 +110,7 @@ const LiveScores = ({ selectedDate, setSelectedMatch }) => {
     <ScoreSkeleton />
   </>
 ) : matches.length === 0 ? (
-  <p>No fixtures today.</p>
+  <p className="no-fixtures">No fixtures today.</p>
 ) : (
   Object.entries(
     matches.reduce((acc, match) => {

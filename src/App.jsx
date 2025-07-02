@@ -14,32 +14,33 @@ function App() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedMatch, setSelectedMatch] = useState(null);
 
-  return (
-    <div className="App">
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div className="homepage">
-              <Calendar
-                selectedDate={selectedDate}
-                setSelectedDate={setSelectedDate}
-              />
-              <div className="content-container">
-                <LiveScores
+   return (
+    <div className="layout-wrapper">
+      <div className="App">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div className="homepage">
+                <Calendar
                   selectedDate={selectedDate}
-                  setSelectedMatch={setSelectedMatch}
+                  setSelectedDate={setSelectedDate}
                 />
-                {/* <Match selectedMatch={selectedMatch} /> */}
+                <div className="content-container">
+                  <LiveScores
+                    selectedDate={selectedDate}
+                    setSelectedMatch={setSelectedMatch}
+                  />
+                </div>
               </div>
-            </div>
-          }
-        />
-        <Route path="/match/:matchId" element={<Match/>} />
-        <Route path="/league/:leagueId" element={<LeagueInfo />} />
-        <Route path="/team/:teamId" element={<TeamInfo />} />
-        <Route path="/search" element={<SearchPage />} />
-      </Routes>
+            }
+          />
+          <Route path="/match/:matchId" element={<Match />} />
+          <Route path="/league/:leagueId" element={<LeagueInfo />} />
+          <Route path="/team/:teamId" element={<TeamInfo />} />
+          <Route path="/search" element={<SearchPage />} />
+        </Routes>
+      </div>
       <Footer />
     </div>
   );

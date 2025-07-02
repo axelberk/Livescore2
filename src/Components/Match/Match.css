@@ -126,6 +126,9 @@
   gap: 80px;
   margin: 0 0 16px;
   text-align: center;
+  background-color: rgba(235, 231, 232, 0.459);
+  border-radius: 20px;
+  padding: 10px;
 }
 
 .used-subs {
@@ -170,7 +173,6 @@
 
 .sub-out-player {
   display: block;
-  color: #666;
 }
 
 .sub-on-icon {
@@ -272,6 +274,7 @@
   color: #333;
   text-decoration: none;
   font-weight: 500;
+  transition: 0.5s ease;
 }
 
 .match-league-link:hover {
@@ -285,6 +288,7 @@
   color: #333;
   font-weight: 500;
   gap: 10px;
+  transition: 0.5s ease;
 }
 
 .match-team-link:hover {
@@ -379,9 +383,9 @@
   font-size: 0.6rem;
 }
 
-.used-subs {
-  justify-content: space-around;
-
+.used-subs,
+.unused-subs {
+  gap: 10px;
 }
 }
 
