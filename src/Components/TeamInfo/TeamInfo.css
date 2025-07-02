@@ -1,6 +1,7 @@
 .teaminfo-header {
   display: flex;
   justify-content: center;
+  margin-bottom: 10px;
 }
 
 .teaminfo-container {
@@ -136,14 +137,36 @@ flex-direction: column;
   gap: 16px;
 }
 
+.results-list {
+ text-align: left;
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.results-table th,
+.results-table td {
+  border: 1px solid #ddd;
+  padding: 0.4rem;
+  text-align: left;
+}
+
+.results-table th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.results-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+
 .results h3 {
   margin: 0px 0px 6px 0px;
   text-decoration: none;
-}
-
-.results-list {
-  text-align: left;
-  max-width: 50%;
 }
 
 .result-item:hover {
@@ -173,7 +196,6 @@ flex-direction: column;
 
 .result-legend {
   display: flex;
-
   gap: 1rem;
   margin-bottom: 6px;
   font-size: 0.9rem;
@@ -184,7 +206,7 @@ flex-direction: column;
   padding: 0.1rem 0.6rem;
   border-radius: 4px;
   font-weight: bold;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .legend-item.win {
