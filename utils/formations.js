@@ -82,12 +82,12 @@ const formationsPositions = {
     { x: 25, y: 70 }, // Left CB
     { x: 50, y: 70 }, // Center CB
     { x: 75, y: 70 }, // Right CB 
-    { x: 85, y: 50 }, // left mid
+    { x: 15, y: 50 }, // left mid
     { x: 38, y: 50 }, // Left cm
     { x: 62, y: 50 }, // right cm
-    { x: 15, y: 50 }, // right mid
-    { x: 70, y: 30 }, // left cam
-    { x: 30, y: 30 }, // right cam
+    { x: 85, y: 50 }, // right mid
+    { x: 30, y: 30 }, // left cam
+    { x: 70, y: 30 }, // right cam
     { x: 50, y: 15 }, // forward
   ],
   "3-4-1-2": [

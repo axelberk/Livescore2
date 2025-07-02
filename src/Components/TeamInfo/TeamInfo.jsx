@@ -5,8 +5,6 @@ import axios from "axios";
 import Header from "../Header/Header";
 import PlayerModal from "../PlayerModal/PlayerModal";
 import { useNavigate } from "react-router-dom";
-import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
-import StadiumOutlinedIcon from "@mui/icons-material/StadiumOutlined";
 
 const TeamInfo = () => {
   const { teamId } = useParams();
