@@ -422,7 +422,7 @@ const Match = () => {
           <img
             src={fixture.league.logo}
             alt={fixture.league.name}
-            className="league-logo"
+            className="match-league-logo"
             loading="lazy"
           />
           <div className="match-league-info">

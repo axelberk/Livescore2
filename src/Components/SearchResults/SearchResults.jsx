@@ -58,7 +58,7 @@ const SearchResults = () => {
                 <img
                   src={l.league.logo}
                   alt={l.league.name}
-                  className="league-logo"
+                  className="search-league-logo"
                 />
                 <span>{l.league.name}</span>
               </Link>

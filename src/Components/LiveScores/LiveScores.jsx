@@ -132,7 +132,7 @@ const LiveScores = ({ selectedDate, setSelectedMatch }) => {
                 loading="lazy"
               />
               <p>{leagueMatches[0].league.name}</p>
-              <ArrowRightIcon />
+              <ArrowRightIcon fontSize="large"/>
             </Link>
 
             {leagueMatches.map((match) => (

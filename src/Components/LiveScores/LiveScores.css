@@ -36,6 +36,7 @@ h2 {
   align-items: center;
   transition: 1s ease;
   border-radius: 10px;
+  padding: 0px 5px 0px 5px;
 }
 
 .league-header:hover {
@@ -46,7 +47,6 @@ h2 {
 .league-logo {
   height: 50px;
   object-fit: contain;
-  
 }
 
 .league-name a {
@@ -101,11 +101,16 @@ h2 {
 @media (max-width: 768px) {
   .Livescores {
     width: 100%;
-   padding: 0;
+    padding: 0;
   }
 
   .league-header {
     padding: 0px 4px 0px 4px;
+    margin-bottom: 4px;
+  }
+  
+  .league-header p {
+    margin: 0;
   }
 
   .league-header,
@@ -122,6 +127,11 @@ h2 {
   .liveteam-logo {
     width: 18px;
     height: 18px;
+  }
+
+  .league-logo {
+    width: 30px;
+    height: 30px;
   }
 
   .match-card {
