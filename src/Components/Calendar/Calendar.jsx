@@ -76,7 +76,7 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
       
       },
       width: {
-        xs: "80px",  
+        xs: "75px",  
         sm: "140px",  
         md: "200px",  
       },

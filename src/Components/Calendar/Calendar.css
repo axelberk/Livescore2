@@ -69,19 +69,18 @@
     font-size: 0.8rem;
     display: flex;
     justify-content: flex-start;
-    width: 100%;
+  width: 175px;
     align-items: center;
+    padding: 8px 2px;
   }
 
   .calendar-arrow {
     color: black;
-    width: 25px;
+    padding: 0;
   }
 
   .search-input {
-    
     padding: 0;
-   
   }
 
   .calendar-icon {
