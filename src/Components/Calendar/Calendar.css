@@ -70,18 +70,17 @@
     display: flex;
     justify-content: flex-start;
     width: 100%;
-    padding: 5px 0px 5px 0px;
+    align-items: center;
   }
 
   .calendar-arrow {
-    margin: 0;
-    padding: 0;
     color: black;
+    width: 25px;
   }
 
   .search-input {
     
-    padding: 5px;
+    padding: 0;
    
   }
 

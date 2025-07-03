@@ -33,7 +33,7 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
     <div className="Calendar">
       <div className="calendar-nav">
         <button className="calendar-arrow" onClick={goToPreviousDay}>
-          <ArrowLeftIcon />
+          <ArrowLeftIcon fontSize="large"/>
         </button>
 
         <DatePicker
@@ -44,7 +44,7 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
         />
 
         <button className="calendar-arrow" onClick={goToNextDay}>
-          <ArrowRightIcon />
+          <ArrowRightIcon fontSize="large"/>
         </button>
 
         <input
@@ -76,7 +76,7 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
       
       },
       width: {
-        xs: "100px",  
+        xs: "80px",  
         sm: "140px",  
         md: "200px",  
       },
