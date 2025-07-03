@@ -174,7 +174,7 @@ const TeamInfo = () => {
                       <div className="coach-info">
                         <h4 className="squad-type-title">Manager</h4>
                         <div className="coachphoto-name">
-                          <img
+                          {/* <img
                             src={coach.photo}
                             alt={coach.name}
                             className="coach-photo"
@@ -183,8 +183,8 @@ const TeamInfo = () => {
                               borderRadius: "50%",
                               marginBottom: "0.5rem",
                             }}
-                          />
-                          <p>{coach.name}</p>
+                          /> */}
+                          <p title={`${coach.firstname} ${coach.lastname}`}>{coach.name}</p>
                         </div>
                       </div>
                     )}
@@ -231,6 +231,7 @@ const TeamInfo = () => {
                                   </li>
                                 ))}
                               </ul>
+                               <hr className="mid-divder"/>
                             </div>
                           ))}
                     </div>
@@ -272,11 +273,12 @@ const TeamInfo = () => {
                                   </li>
                                 ))}
                               </ul>
+                             <hr className="mid-divder"/>
                             </div>
                           ))}
                     </div>
                   </div>
-
+ 
                   <PlayerModal
                     playerId={selectedPlayer?.id}
                     squadNumber={selectedPlayer?.number}
@@ -285,7 +287,7 @@ const TeamInfo = () => {
                     team={teamPage.team}
                   />
                 </div>
-
+<hr className="mid-divider"/>
                 <div className="results">
                   <div className="results-toggle-buttons">
                     <button
@@ -298,7 +300,7 @@ const TeamInfo = () => {
                       onClick={() => setActiveView("upcoming")}
                       className={activeView === "upcoming" ? "active" : ""}
                     >
-                      Upcoming Fixtures
+                      Fixtures
                     </button>
                   </div>
 
