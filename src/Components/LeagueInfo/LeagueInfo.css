@@ -335,7 +335,6 @@
   padding: 0.2rem;
   border: 1px hidden #eee;
   overflow: hidden;
-
   font-size: 0.6rem;
 }
 
@@ -348,7 +347,6 @@
 .table-team {
   text-decoration: none;
   color: inherit;
-
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -435,6 +433,10 @@ font-size: 12px;
 
 .bracket-team {
   font-size: 0.6rem;
+}
+
+.bracket-match-card {
+  margin-bottom: 20px;
 }
 
 }

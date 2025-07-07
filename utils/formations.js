@@ -17,11 +17,11 @@ const formationsPositions = {
     { x: 25, y: 70 }, // Left CB
     { x: 50, y: 70 }, // Center CB
     { x: 75, y: 70 }, // Right CB
-    { x: 15, y: 40 }, // right mid
+    { x: 16, y: 40 }, // right mid
     { x: 32, y: 40 }, // Left center midfielder
     { x: 50, y: 40 }, // Center midfielder
     { x: 68, y: 40 }, // Right center midfielder
-    { x: 85, y: 40 }, // left mid
+    { x: 84, y: 40 }, // left mid
     { x: 35, y: 10 }, // Left forward
     { x: 65, y: 10 }, // Right forward
   ],

@@ -64,7 +64,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   z-index: 5;
-  padding: 4px;
+  padding: 2px;
   border-radius: 8px;
 }
 
@@ -299,8 +299,7 @@
 .red-card-icon-wrapper {
   position: absolute;
   top: -5px;
-  right: 25px;
-
+  right: 30px;
   border-radius: 50%;
   padding: 2px;
 }
@@ -318,6 +317,12 @@
   border-radius: 50%;
   border: 2px solid white;
   }
+
+  .positioned-player:hover {
+  background-color: inherit;
+  color: white;
+  /* transform: translate(-50%, -50%) scale(1.1); */
+}
 
   .player-number {
     font-size: 9.5px;

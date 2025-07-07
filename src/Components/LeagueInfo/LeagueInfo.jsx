@@ -283,49 +283,104 @@ const LeagueInfo = () => {
 
     return (
       <div className="qualification-bracket">
-        <svg className="bracket-lines"></svg>
-        {Object.entries(grouped).map(([round, matches]) => (
-          <div key={round} className="bracket-round">
-            <h4>{round}</h4>
-            {matches.map((match) => {
-              const { home, away } = match.teams;
-              const displayScore = getDisplayScore(match);
-              const date = new Date(match.fixture.date).toLocaleDateString();
+  <div className="bracket-rows">
+    {Object.entries(grouped).map(([round, matches]) => {
+      // Group two-legged ties manually by team ID combinations
+      const tiesMap = new Map();
+
+      matches.forEach((match) => {
+        const homeId = match.teams.home.id;
+        const awayId = match.teams.away.id;
+        const key = `${Math.min(homeId, awayId)}-${Math.max(homeId, awayId)}`;
+
+        if (!tiesMap.has(key)) {
+          tiesMap.set(key, {
+            fixtures: [],
+            homeTeam: match.teams.home,
+            awayTeam: match.teams.away,
+            round: match.league.round
+          });
+        }
+        tiesMap.get(key).fixtures.push(match);
+      });
+
+      const ties = Array.from(tiesMap.values());
+
+      return (
+        <div key={round} className="bracket-round-group">
+          <h3 className="bracket-round-title">{round}</h3>
+          <div className="bracket-row">
+            {ties.map(({ fixtures, homeTeam, awayTeam }) => {
+              const aggregate = fixtures.reduce(
+                (acc, match) => {
+                  acc.home += match.score.fulltime.home ?? 0;
+                  acc.away += match.score.fulltime.away ?? 0;
+                  return acc;
+                },
+                { home: 0, away: 0 }
+              );
+
+              const isTwoLeggedTie = fixtures.length === 2;
 
               return (
                 <div
-                  key={match.fixture.id}
-                  className="bracket-match"
-                  id={`match-${match.fixture.id}`}
+                  key={homeTeam.id + "-" + awayTeam.id + round}
+                  className="bracket-match-card"
                 >
-                  <p className="bracket-date">{date}</p>
-                  <div className="bracket-team">
-                    <img
-                      className="bracket-logo"
-                      src={home.logo}
-                      alt={home.name}
-                    />
-                    <span>{home.name}</span>
-                    <strong>{displayScore.home}</strong>
-                  </div>
-                  <div className="bracket-team">
-                    <img
-                      className="bracket-logo"
-                      src={away.logo}
-                      alt={away.name}
-                    />
-                    <span>{away.name}</span>
-                    <strong>{displayScore.away}</strong>
-                  </div>
-                  {/* {displayScore.type !== 'FT' && (
-                    <p className="score-type">({displayScore.type})</p>
-                  )} */}
+                  <p className="bracket-aggregate">
+                    {homeTeam.name} vs {awayTeam.name}
+                    {isTwoLeggedTie && (
+                      <span className="aggregate-score">
+                        {" "}
+                        ({aggregate.home}–{aggregate.away} agg.)
+                      </span>
+                    )}
+                  </p>
+
+                  {fixtures.map((match) => {
+                    const displayScore = getDisplayScore(match);
+                    const date = new Date(match.fixture.date).toLocaleDateString();
+                    const { home, away } = match.teams;
+
+                    return (
+                      <Link
+                        key={match.fixture.id}
+                        to={`/match/${match.fixture.id}`}
+                        className="bracket-match-link"
+                      >
+                        <div className="bracket-match">
+                          <p className="bracket-date">{date}</p>
+                          <div className="bracket-team">
+                            <img
+                              className="bracket-logo"
+                              src={home.logo}
+                              alt={home.name}
+                            />
+                            <span>{home.name}</span>
+                            <strong>{displayScore.home}</strong>
+                          </div>
+                          <div className="bracket-team">
+                            <img
+                              className="bracket-logo"
+                              src={away.logo}
+                              alt={away.name}
+                            />
+                            <span>{away.name}</span>
+                            <strong>{displayScore.away}</strong>
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
                 </div>
               );
             })}
           </div>
-        ))}
-      </div>
+        </div>
+      );
+    })}
+  </div>
+</div>
     );
   };
 
