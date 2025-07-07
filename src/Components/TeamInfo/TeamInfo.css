@@ -316,9 +316,9 @@
 .results-table th,
 .results-table td {
   border: 1px solid #ddd;
-  padding: 0.2rem;
+  padding: 0.1rem;
   text-align: left;
-  font-size: 0.2rem;
+  font-size: 0.3rem;
 }
 
 .results-table th {
