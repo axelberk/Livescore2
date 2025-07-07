@@ -145,6 +145,7 @@
   border-radius: 20px;
   cursor: pointer;
   transition: 0.3s ease;
+  margin-bottom: 6px;
 }
 
 .substitute-placeholder {
@@ -386,6 +387,10 @@
 .used-subs,
 .unused-subs {
   gap: 10px;
+}
+
+.substitute-player:hover {
+background-color: inherit;
 }
 }
 

@@ -128,6 +128,8 @@ const TeamInfo = () => {
     fetchTeamData();
   }, [teamId]);
 
+  const isSmallScreen = window.innerWidth <= 768;
+
   return (
     <div className="team-info-main">
       <Header />
@@ -184,7 +186,9 @@ const TeamInfo = () => {
                               marginBottom: "0.5rem",
                             }}
                           /> */}
-                          <p title={`${coach.firstname} ${coach.lastname}`}>{coach.name}</p>
+                          <p title={`${coach.firstname} ${coach.lastname}`}>
+                            {coach.name}
+                          </p>
                         </div>
                       </div>
                     )}
@@ -227,11 +231,12 @@ const TeamInfo = () => {
                                       className="player-photo"
                                       loading="lazy"
                                     />
-                                    {player.name} ({player.age} years)
+                                    {player.number}. {player.name}
+                                    {/*  ({player.age} years) */}
                                   </li>
                                 ))}
                               </ul>
-                               <hr className="mid-divder"/>
+                              <hr className="mid-divder" />
                             </div>
                           ))}
                     </div>
@@ -269,16 +274,17 @@ const TeamInfo = () => {
                                       className="player-photo"
                                       loading="lazy"
                                     />
-                                    {player.name} ({player.age} years)
+                                    {player.number}. {player.name}{" "}
+                                    {/* ({player.age} years) */}
                                   </li>
                                 ))}
                               </ul>
-                             <hr className="mid-divder"/>
+                              <hr className="mid-divder" />
                             </div>
                           ))}
                     </div>
                   </div>
- 
+
                   <PlayerModal
                     playerId={selectedPlayer?.id}
                     squadNumber={selectedPlayer?.number}
@@ -287,7 +293,7 @@ const TeamInfo = () => {
                     team={teamPage.team}
                   />
                 </div>
-<hr className="mid-divider"/>
+                <hr className="mid-divider" />
                 <div className="results">
                   <div className="results-toggle-buttons">
                     <button
@@ -325,7 +331,7 @@ const TeamInfo = () => {
                               fixture.fixture.date
                             ).toLocaleDateString("en-GB", {
                               year: "numeric",
-                              month: "long",
+                              month: isSmallScreen ? "numeric" : "long", 
                               day: "numeric",
                             });
 
@@ -385,7 +391,7 @@ const TeamInfo = () => {
                               fixture.fixture.date
                             ).toLocaleDateString("en-GB", {
                               year: "numeric",
-                              month: "long",
+                              month: isSmallScreen ? "numeric" : "long", 
                               day: "numeric",
                             });
 

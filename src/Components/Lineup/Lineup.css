@@ -69,8 +69,8 @@
 }
 
 .positioned-player:hover {
-  background-color: rgba(53, 121, 57, 0.8);
-  color: white;
+  /* background-color: rgba(53, 121, 57, 0.8); */
+  /* color: white; */
   /* transform: translate(-50%, -50%) scale(1.1); */
 }
 
@@ -252,8 +252,8 @@
 
 .goal-count {
   position: absolute;
-  top: -4px;
-  right: -4px;
+  top: -1px;
+  right: -1px;
   background: #000000;
   color: white;
   font-size: 0.6rem;
