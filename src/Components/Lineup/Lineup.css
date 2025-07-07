@@ -72,6 +72,7 @@
   /* background-color: rgba(53, 121, 57, 0.8); */
   /* color: white; */
   /* transform: translate(-50%, -50%) scale(1.1); */
+  text-decoration: underline;
 }
 
 .player-photo-positioned {
@@ -102,7 +103,6 @@
 .player-number {
   font-weight: 400;
   font-size: 0.8rem;
-  
 }
 
 .full-name {

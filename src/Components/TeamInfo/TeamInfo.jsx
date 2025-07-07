@@ -18,6 +18,7 @@ const TeamInfo = () => {
   const [coach, setCoach] = useState(null);
   const navigate = useNavigate();
   const [activeView, setActiveView] = useState("results");
+  const [mobileView, setMobileView] = useState("squad");
 
   useEffect(() => {
     const fetchTeamData = async () => {
@@ -195,8 +196,24 @@ const TeamInfo = () => {
                   </div>
                 </div>
               </div>
+
+              {/* <div className="mobile-view-switch">
+                <button
+                  className={mobileView === "squad" ? "active" : ""}
+                  onClick={() => setMobileView("squad")}
+                >
+                  Squad
+                </button>
+                <button
+                  className={mobileView === "fixtures" ? "active" : ""}
+                  onClick={() => setMobileView("fixtures")}
+                >
+                  Fixtures
+                </button>
+              </div> */}
+
               <div className="teaminfo-container">
-                <div className="squad">
+                <div className={`squad ${mobileView === "squad" ? "mobile-active" : ""}`}>
                   <div className="squad-columns">
                     <div className="squad-column">
                       {squad &&
@@ -304,7 +321,7 @@ const TeamInfo = () => {
                     </button>
                     <button
                       onClick={() => setActiveView("upcoming")}
-                      className={activeView === "upcoming" ? "active" : ""}
+                      className={activeView === "fixtures" ? "active" : ""}
                     >
                       Fixtures
                     </button>

@@ -285,7 +285,6 @@ const LeagueInfo = () => {
       <div className="qualification-bracket">
   <div className="bracket-rows">
     {Object.entries(grouped).map(([round, matches]) => {
-      // Group two-legged ties manually by team ID combinations
       const tiesMap = new Map();
 
       matches.forEach((match) => {
