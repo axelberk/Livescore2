@@ -45,9 +45,11 @@
   border: none;
   border-radius: 4px;
   font-weight: bold;
+  transition: 0.3s ease;
 }
 
-.view-switch button.active {
+.view-switch button.active,
+.view-switch button:hover {
   background: #45b65e;
   color: white;
 }
@@ -60,7 +62,7 @@
 .league-table th,
 .league-table td {
   padding: 0.3rem;
-  border: 0.1rem dotted #eee;
+  border: 1px dotted #eee;
   overflow: hidden;
 
   /* font-size: 0.8rem; */
