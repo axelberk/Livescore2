@@ -164,7 +164,8 @@ const TeamInfo = () => {
                   <div className="team-facts">
                     <h2>{team.name}</h2>
                     <p className="teamfacts-title">
-                      Founded: <span className="teamfacts-fact">{team.founded}</span>
+                      Founded:{" "}
+                      <span className="teamfacts-fact">{team.founded}</span>
                     </p>
                     <p className="teamfacts-title">
                       Location:{" "}
@@ -173,23 +174,26 @@ const TeamInfo = () => {
                       </span>
                     </p>
                     <p className="teamfacts-title">
-                      Stadium: <span className="teamfacts-fact">{venue.name}</span>
+                      Stadium:{" "}
+                      <span className="teamfacts-fact">{venue.name}</span>
                     </p>
                     <p className="teamfacts-title">
-                      Capacity: <span className="teamfacts-fact">{venue.capacity}</span>
+                      Capacity:{" "}
+                      <span className="teamfacts-fact">{venue.capacity}</span>
                     </p>
                     <p className="teamfacts-title">
-                      League position: <span className="teamfacts-fact">{leaguePosition}</span>
+                      League position:{" "}
+                      <span className="teamfacts-fact">{leaguePosition}</span>
                     </p>
                     {coach && (
                       <div className="coach-info">
-                        
                         <div className="coachphoto-name">
-                          <p className="teamfacts-title" title={`${coach.firstname} ${coach.lastname}`}>
-                            Manager: <span className="teamfacts-fact">
-                            {coach.name}
-                            </span>
-                            
+                          <p
+                            className="teamfacts-title"
+                            title={`${coach.firstname} ${coach.lastname}`}
+                          >
+                            Manager:{" "}
+                            <span className="teamfacts-fact">{coach.name}</span>
                           </p>
                         </div>
                       </div>
@@ -345,6 +349,11 @@ const TeamInfo = () => {
                           <span className="legend-item loss">Loss</span>
                         </div>
                         <table className="results-table">
+                          <colgroup>
+                            <col className="col-date" />
+                            <col className="col-teams" />
+                            <col className="col-leagues" />
+                          </colgroup>
                           <thead>
                             <tr>
                               <th>Date</th>
@@ -405,6 +414,11 @@ const TeamInfo = () => {
                     {activeView === "upcoming" && (
                       <div className="results-list">
                         <table className="results-table">
+                          <colgroup>
+                            <col className="col-date" />
+                            <col className="col-teams" />
+                            <col className="col-leagues" />
+                          </colgroup>
                           <thead>
                             <tr>
                               <th>Date</th>
@@ -440,7 +454,7 @@ const TeamInfo = () => {
                       </div>
                     )}
                   </div>
-                  
+
                   <div className="mobile-fixtures-view">
                     <div className="fixtures-section">
                       <h4>Recent Results</h4>
@@ -450,6 +464,10 @@ const TeamInfo = () => {
                         <span className="legend-item loss">L</span>
                       </div>
                       <table className="results-table mobile-table">
+                        <colgroup>
+                          <col className="col-date" />
+                          <col className="col-teams" />
+                        </colgroup>
                         <thead>
                           <tr>
                             <th>Date</th>
@@ -462,7 +480,8 @@ const TeamInfo = () => {
                               fixture.fixture.date
                             ).toLocaleDateString("en-GB", {
                               day: "numeric",
-                              month: "short",
+                              month: "numeric",
+                              year: "numeric",
                             });
 
                             const isHome = fixture.teams.home.id == team.id;
@@ -504,6 +523,10 @@ const TeamInfo = () => {
                     <div className="fixtures-section">
                       <h4>Upcoming Fixtures</h4>
                       <table className="results-table mobile-table">
+                        <colgroup>
+                          <col className="col-date" />
+                          <col className="col-teams" />
+                        </colgroup>
                         <thead>
                           <tr>
                             <th>Date</th>
@@ -516,7 +539,8 @@ const TeamInfo = () => {
                               fixture.fixture.date
                             ).toLocaleDateString("en-GB", {
                               day: "numeric",
-                              month: "short",
+                              month: "numeric",
+                              year: "numeric",
                             });
 
                             return (

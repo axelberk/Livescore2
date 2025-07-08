@@ -25,7 +25,6 @@ h2 {
   font-weight: 700;
   color: black;
   justify-content: center;
-  
 }
 
 .league-header {
@@ -40,8 +39,7 @@ h2 {
 }
 
 .league-header:hover {
- background: #f1f1f1;
- 
+  background: #f1f1f1;
 }
 
 .league-logo {
@@ -73,13 +71,11 @@ h2 {
   transition: 0.5s ease;
   margin-bottom: 4px;
   align-items: center;
-  
 }
 
 .liveteam-logo {
   height: 25px;
   margin: 0px 6px;
-  
 }
 
 .match-card:hover {
@@ -108,7 +104,7 @@ h2 {
     padding: 0px 4px 0px 4px;
     margin-bottom: 4px;
   }
-  
+
   .league-header p {
     margin: 0;
   }
@@ -137,6 +133,14 @@ h2 {
   .match-card {
     height: 20px;
     padding: 4px;
+  }
+
+  .match-card:hover {
+    background-color: inherit;
+  }
+
+  .match-card:active {
+    background-color: rgb(218, 213, 213);
   }
 
   .league-header {
