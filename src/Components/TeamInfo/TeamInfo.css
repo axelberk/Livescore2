@@ -1,4 +1,3 @@
-
 .teaminfo-header {
   display: flex;
   justify-content: center;
@@ -239,6 +238,7 @@
   font-weight: bold;
   transition: 0.3s ease;
   height: 36px;
+  font-family: inherit;
 }
 
 .results-toggle-buttons button.active,
@@ -272,6 +272,7 @@
   cursor: pointer;
   font-weight: 500;
   transition: all 0.2s ease;
+  font-family: inherit;
 }
 
 .mobile-view-switch button.active {
@@ -313,7 +314,7 @@
 }
 
 .col-date {
-  width: 150px; 
+  width: 150px;
 }
 
 .col-teams {
@@ -321,7 +322,7 @@
 }
 
 .col-leagues {
-  width:180px
+  width: 180px;
 }
 
 @media (max-width: 768px) {
@@ -344,7 +345,7 @@
   .team-facts p {
     margin: 0;
   }
-  
+
   .squad-type-title {
     font-size: 12px;
     margin-bottom: 4px;
@@ -403,7 +404,7 @@
     border: 1px solid #ddd;
     padding: 0.1rem;
     text-align: left;
-    font-size: 0.44rem;
+    font-size: 0.5rem;
   }
 
   .results-table th,
@@ -475,6 +476,7 @@
     font-size: 10px;
     color: black;
     height: 28px;
+    font-family: inherit;
   }
 
   .mid-divider {
@@ -484,27 +486,27 @@
   .mobile-view-switch {
     display: flex;
   }
-  
+
   .squad {
     display: none;
   }
-  
+
   .squad.mobile-active {
     display: block;
   }
-  
+
   .fixtures-container {
     display: none;
   }
-  
+
   .fixtures-container.mobile-active {
     display: block;
   }
-  
+
   .desktop-fixtures {
     display: none;
   }
-  
+
   .fixtures-container.mobile-active .mobile-fixtures-view {
     display: flex;
   }
@@ -512,61 +514,61 @@
   .results-table {
     font-size: 0.85rem;
   }
-  
+
   .results-table th,
   .results-table td {
     padding: 0.2rem 0.1rem;
   }
-  
+
   .squad-columns {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     justify-content: flex-start;
     flex-direction: row;
   }
-  
+
   .teaminfo-header .facts-container {
     flex-direction: row;
     text-align: center;
   }
 
   .results-table {
-  table-layout: fixed;
-  width: 100%;
-}
+    table-layout: fixed;
+    width: 100%;
+  }
 
-.col-date {
-  width: 50px; 
-}
+  .col-date {
+    width: 50px;
+  }
 
-.col-teams {
-  width: auto;
-}
+  .col-teams {
+    width: auto;
+  }
 
-.fixture-teams {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+  .fixture-teams {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 @media (min-width: 768px) {
   .mobile-view-switch {
     display: none;
   }
-  
+
   .squad {
     display: block;
   }
-  
+
   .fixtures-container {
     display: block;
   }
-  
+
   .desktop-fixtures {
     display: block;
   }
-  
+
   .mobile-fixtures-view {
     display: none;
   }
@@ -576,12 +578,12 @@
   .mobile-view-switch {
     padding: 0 0.5rem;
   }
-  
+
   .mobile-fixtures-view {
     padding: 0rem;
     gap: 0.4rem;
   }
-  
+
   .fixtures-section {
     min-width: 0;
   }

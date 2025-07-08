@@ -257,7 +257,7 @@ const TeamInfo = () => {
                                       className="player-photo"
                                       loading="lazy"
                                     />
-                                    {player.number}. {player.name}
+                                    {/* {player.number}. */} {player.name}
                                   </li>
                                 ))}
                               </ul>
@@ -299,7 +299,7 @@ const TeamInfo = () => {
                                       className="player-photo"
                                       loading="lazy"
                                     />
-                                    {player.number}. {player.name}
+                                    {/* {player.number}.  */}{player.name}
                                   </li>
                                 ))}
                               </ul>
