@@ -18,9 +18,8 @@
 .facts-container {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  gap: 100px;
-  width: 50%;
+  gap: 50px;
+  width: 40%;
   padding: 20px;
   border: 1px solid black;
   border-radius: 8px;
@@ -32,30 +31,33 @@
 }
 
 .team-info-logo {
-  max-width: 120px;
-  max-height: 120px;
+  max-width: 140px;
+  max-height: 140px;
 }
 
+.team-facts {
+  width: 250px;
+}
 
 .team-facts h2 {
   text-align: left;
   margin-top: 0;
 }
 
-.team-facts p {
-  margin: 6px 0;
+.teamfacts-title {
+  margin: 0px 0;
   text-align: left;
+  font-weight: bold;
+}
+
+.teamfacts-fact {
+  font-weight: 400;
 }
 
 .squad-type-title {
   margin: 0px 10px 0px 0px;
   text-align: left;
 }
-
-/* .squad-columns {
-  border: 1px solid black;
-  padding: 10px;
-} */
 
 .squad-list {
   margin: 0;
@@ -75,8 +77,7 @@
 }
 
 .squad-list li:hover {
-   background-color: rgb(218, 213, 213);
-   
+  background-color: rgb(218, 213, 213);
 }
 
 .squad-columns {
@@ -114,7 +115,6 @@
   display: flex;
   flex-direction: row;
   font-size: 13px;
- 
 }
 
 .coach-photo {
@@ -251,8 +251,8 @@
 
 @media (max-width: 768px) {
  .team-info-logo {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
  }
 
  .facts-container {
@@ -297,6 +297,7 @@
 
  .result-legend {
   justify-content: flex-start;
+  display: none;
  }
 
  .legend-item {
@@ -319,7 +320,7 @@
   border: 1px solid #ddd;
   padding: 0.1rem;
   text-align: left;
-  font-size: 0.3rem;
+  font-size: 0.44rem;
 }
 
 .results-table th {
@@ -334,11 +335,6 @@
  .result-item {
   font-size: 6px;
  }
-
- /* .coach-photo {
-  height: 50px;
-  width: 50px;
- } */
 
  .coachphoto-name {
   height: 20px;
@@ -497,20 +493,19 @@
   
   .results-table th,
   .results-table td {
-    padding: 0.5rem 0.25rem;
+    padding: 0.4rem 0.2rem;
   }
   
   .squad-columns {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: flex-start;
+    flex-direction: row;
   }
   
   .teaminfo-header .facts-container {
     flex-direction: row;
     text-align: center;
-  }
-  
-  .team-info-logo {
-    margin-bottom: 1rem;
   }
 }
 

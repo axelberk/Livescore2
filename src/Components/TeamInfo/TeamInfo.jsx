@@ -163,22 +163,33 @@ const TeamInfo = () => {
                   <img src={team.logo} alt="logo" className="team-info-logo" />
                   <div className="team-facts">
                     <h2>{team.name}</h2>
-                    <p>Established {team.founded}</p>
-                    <p>
-                      {venue.city}, {team.country}
+                    <p className="teamfacts-title">
+                      Founded: <span className="teamfacts-fact">{team.founded}</span>
                     </p>
-                    <p>
-                      {venue.name} - {venue.capacity}
+                    <p className="teamfacts-title">
+                      Location:{" "}
+                      <span className="teamfacts-fact">
+                        {venue.city}, {team.country}
+                      </span>
                     </p>
-                    <p>League position: {leaguePosition}</p>
-                  </div>
-                  <div className="team-facts">
+                    <p className="teamfacts-title">
+                      Stadium: <span className="teamfacts-fact">{venue.name}</span>
+                    </p>
+                    <p className="teamfacts-title">
+                      Capacity: <span className="teamfacts-fact">{venue.capacity}</span>
+                    </p>
+                    <p className="teamfacts-title">
+                      League position: <span className="teamfacts-fact">{leaguePosition}</span>
+                    </p>
                     {coach && (
                       <div className="coach-info">
-                        <h4 className="squad-type-title">Manager</h4>
+                        
                         <div className="coachphoto-name">
-                          <p title={`${coach.firstname} ${coach.lastname}`}>
+                          <p className="teamfacts-title" title={`${coach.firstname} ${coach.lastname}`}>
+                            Manager: <span className="teamfacts-fact">
                             {coach.name}
+                            </span>
+                            
                           </p>
                         </div>
                       </div>
@@ -187,7 +198,6 @@ const TeamInfo = () => {
                 </div>
               </div>
 
-              {/* Mobile view switch */}
               <div className="mobile-view-switch">
                 <button
                   className={mobileView === "squad" ? "active" : ""}
@@ -204,7 +214,11 @@ const TeamInfo = () => {
               </div>
 
               <div className="teaminfo-container">
-                <div className={`squad ${mobileView === "squad" ? "mobile-active" : ""}`}>
+                <div
+                  className={`squad ${
+                    mobileView === "squad" ? "mobile-active" : ""
+                  }`}
+                >
                   <div className="squad-columns">
                     <div className="squad-column">
                       {squad &&
@@ -302,9 +316,11 @@ const TeamInfo = () => {
 
                 <hr className="mid-divider" />
 
-                {/* Fixtures view - on mobile shows results and upcoming side by side */}
-                <div className={`fixtures-container ${mobileView === "fixtures" ? "mobile-active" : ""}`}>
-                  {/* Desktop view - with toggle buttons */}
+                <div
+                  className={`fixtures-container ${
+                    mobileView === "fixtures" ? "mobile-active" : ""
+                  }`}
+                >
                   <div className="desktop-fixtures">
                     <div className="results-toggle-buttons">
                       <button
@@ -342,7 +358,7 @@ const TeamInfo = () => {
                                 fixture.fixture.date
                               ).toLocaleDateString("en-GB", {
                                 year: "numeric",
-                                month: isSmallScreen ? "numeric" : "long", 
+                                month: isSmallScreen ? "numeric" : "long",
                                 day: "numeric",
                               });
 
@@ -371,8 +387,8 @@ const TeamInfo = () => {
                                       navigate(`/match/${fixture.fixture.id}`)
                                     }
                                   >
-                                    {fixture.teams.home.name} {fixture.goals.home}{" "}
-                                    - {fixture.goals.away}{" "}
+                                    {fixture.teams.home.name}{" "}
+                                    {fixture.goals.home} - {fixture.goals.away}{" "}
                                     {fixture.teams.away.name}
                                   </td>
                                   <td className="fixture-league">
@@ -402,7 +418,7 @@ const TeamInfo = () => {
                                 fixture.fixture.date
                               ).toLocaleDateString("en-GB", {
                                 year: "numeric",
-                                month: isSmallScreen ? "numeric" : "long", 
+                                month: isSmallScreen ? "numeric" : "long",
                                 day: "numeric",
                               });
 
@@ -424,8 +440,7 @@ const TeamInfo = () => {
                       </div>
                     )}
                   </div>
-
-                  {/* Mobile fixtures view - side by side */}
+                  
                   <div className="mobile-fixtures-view">
                     <div className="fixtures-section">
                       <h4>Recent Results</h4>
@@ -434,7 +449,7 @@ const TeamInfo = () => {
                         <span className="legend-item draw">D</span>
                         <span className="legend-item loss">L</span>
                       </div>
-                       <table className="results-table mobile-table">
+                      <table className="results-table mobile-table">
                         <thead>
                           <tr>
                             <th>Date</th>
@@ -460,16 +475,24 @@ const TeamInfo = () => {
 
                             let resultClass = "draw";
                             if (goalsFor > goalsAgainst) resultClass = "win";
-                            else if (goalsFor < goalsAgainst) resultClass = "loss";
+                            else if (goalsFor < goalsAgainst)
+                              resultClass = "loss";
 
                             return (
-                              <tr key={fixture.fixture.id} className="result-item">
+                              <tr
+                                key={fixture.fixture.id}
+                                className="result-item"
+                              >
                                 <td className="fixture-date">{matchDate}</td>
                                 <td
                                   className={resultClass}
-                                  onClick={() => navigate(`/match/${fixture.fixture.id}`)}
+                                  onClick={() =>
+                                    navigate(`/match/${fixture.fixture.id}`)
+                                  }
                                 >
-                                  {fixture.teams.home.name} {fixture.goals.home} - {fixture.goals.away} {fixture.teams.away.name}
+                                  {fixture.teams.home.name} {fixture.goals.home}{" "}
+                                  - {fixture.goals.away}{" "}
+                                  {fixture.teams.away.name}
                                 </td>
                               </tr>
                             );
@@ -500,7 +523,8 @@ const TeamInfo = () => {
                               <tr key={fixture.fixture.id}>
                                 <td className="fixture-date">{matchDate}</td>
                                 <td className="fixture-teams">
-                                  {fixture.teams.home.name} - {fixture.teams.away.name}
+                                  {fixture.teams.home.name} -{" "}
+                                  {fixture.teams.away.name}
                                 </td>
                               </tr>
                             );
