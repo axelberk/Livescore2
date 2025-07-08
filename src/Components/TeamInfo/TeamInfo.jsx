@@ -177,16 +177,6 @@ const TeamInfo = () => {
                       <div className="coach-info">
                         <h4 className="squad-type-title">Manager</h4>
                         <div className="coachphoto-name">
-                          {/* <img
-                            src={coach.photo}
-                            alt={coach.name}
-                            className="coach-photo"
-                            style={{
-                              width: "60px",
-                              borderRadius: "50%",
-                              marginBottom: "0.5rem",
-                            }}
-                          /> */}
                           <p title={`${coach.firstname} ${coach.lastname}`}>
                             {coach.name}
                           </p>
@@ -197,7 +187,8 @@ const TeamInfo = () => {
                 </div>
               </div>
 
-              {/* <div className="mobile-view-switch">
+              {/* Mobile view switch */}
+              <div className="mobile-view-switch">
                 <button
                   className={mobileView === "squad" ? "active" : ""}
                   onClick={() => setMobileView("squad")}
@@ -210,7 +201,7 @@ const TeamInfo = () => {
                 >
                   Fixtures
                 </button>
-              </div> */}
+              </div>
 
               <div className="teaminfo-container">
                 <div className={`squad ${mobileView === "squad" ? "mobile-active" : ""}`}>
@@ -249,7 +240,6 @@ const TeamInfo = () => {
                                       loading="lazy"
                                     />
                                     {player.number}. {player.name}
-                                    {/*  ({player.age} years) */}
                                   </li>
                                 ))}
                               </ul>
@@ -291,8 +281,7 @@ const TeamInfo = () => {
                                       className="player-photo"
                                       loading="lazy"
                                     />
-                                    {player.number}. {player.name}{" "}
-                                    {/* ({player.age} years) */}
+                                    {player.number}. {player.name}
                                   </li>
                                 ))}
                               </ul>
@@ -310,46 +299,155 @@ const TeamInfo = () => {
                     team={teamPage.team}
                   />
                 </div>
+
                 <hr className="mid-divider" />
-                <div className="results">
-                  <div className="results-toggle-buttons">
-                    <button
-                      onClick={() => setActiveView("results")}
-                      className={activeView === "results" ? "active" : ""}
-                    >
-                      Results
-                    </button>
-                    <button
-                      onClick={() => setActiveView("upcoming")}
-                      className={activeView === "fixtures" ? "active" : ""}
-                    >
-                      Fixtures
-                    </button>
+
+                {/* Fixtures view - on mobile shows results and upcoming side by side */}
+                <div className={`fixtures-container ${mobileView === "fixtures" ? "mobile-active" : ""}`}>
+                  {/* Desktop view - with toggle buttons */}
+                  <div className="desktop-fixtures">
+                    <div className="results-toggle-buttons">
+                      <button
+                        onClick={() => setActiveView("results")}
+                        className={activeView === "results" ? "active" : ""}
+                      >
+                        Results
+                      </button>
+                      <button
+                        onClick={() => setActiveView("upcoming")}
+                        className={activeView === "upcoming" ? "active" : ""}
+                      >
+                        Fixtures
+                      </button>
+                    </div>
+
+                    {activeView === "results" && (
+                      <div className="results-list">
+                        <div className="result-legend">
+                          <span className="legend-item win">Win</span>
+                          <span className="legend-item draw">Draw</span>
+                          <span className="legend-item loss">Loss</span>
+                        </div>
+                        <table className="results-table">
+                          <thead>
+                            <tr>
+                              <th>Date</th>
+                              <th>Fixture</th>
+                              <th>Competition</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {pastFixtures.map((fixture) => {
+                              const matchDate = new Date(
+                                fixture.fixture.date
+                              ).toLocaleDateString("en-GB", {
+                                year: "numeric",
+                                month: isSmallScreen ? "numeric" : "long", 
+                                day: "numeric",
+                              });
+
+                              const isHome = fixture.teams.home.id == team.id;
+                              const goalsFor = isHome
+                                ? fixture.goals.home
+                                : fixture.goals.away;
+                              const goalsAgainst = isHome
+                                ? fixture.goals.away
+                                : fixture.goals.home;
+
+                              let resultClass = "draw";
+                              if (goalsFor > goalsAgainst) resultClass = "win";
+                              else if (goalsFor < goalsAgainst)
+                                resultClass = "loss";
+
+                              return (
+                                <tr
+                                  key={fixture.fixture.id}
+                                  className="result-item"
+                                >
+                                  <td className="fixture-date">{matchDate}</td>
+                                  <td
+                                    className={resultClass}
+                                    onClick={() =>
+                                      navigate(`/match/${fixture.fixture.id}`)
+                                    }
+                                  >
+                                    {fixture.teams.home.name} {fixture.goals.home}{" "}
+                                    - {fixture.goals.away}{" "}
+                                    {fixture.teams.away.name}
+                                  </td>
+                                  <td className="fixture-league">
+                                    {fixture.league?.name || "N/A"}
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+
+                    {activeView === "upcoming" && (
+                      <div className="results-list">
+                        <table className="results-table">
+                          <thead>
+                            <tr>
+                              <th>Date</th>
+                              <th>Fixture</th>
+                              <th>Competition</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {upcomingFixtures.map((fixture) => {
+                              const matchDate = new Date(
+                                fixture.fixture.date
+                              ).toLocaleDateString("en-GB", {
+                                year: "numeric",
+                                month: isSmallScreen ? "numeric" : "long", 
+                                day: "numeric",
+                              });
+
+                              return (
+                                <tr key={fixture.fixture.id}>
+                                  <td className="fixture-date">{matchDate}</td>
+                                  <td className="fixture-teams">
+                                    {fixture.teams.home.name} -{" "}
+                                    {fixture.teams.away.name}
+                                  </td>
+                                  <td className="fixture-league">
+                                    {fixture.league?.name || "N/A"}
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </div>
 
-                  {activeView === "results" && (
-                    <div className="results-list">
+                  {/* Mobile fixtures view - side by side */}
+                  <div className="mobile-fixtures-view">
+                    <div className="fixtures-section">
+                      <h4>Recent Results</h4>
                       <div className="result-legend">
-                        <span className="legend-item win">Win</span>
-                        <span className="legend-item draw">Draw</span>
-                        <span className="legend-item loss">Loss</span>
+                        <span className="legend-item win">W</span>
+                        <span className="legend-item draw">D</span>
+                        <span className="legend-item loss">L</span>
                       </div>
-                      <table className="results-table">
+                       <table className="results-table mobile-table">
                         <thead>
                           <tr>
                             <th>Date</th>
                             <th>Fixture</th>
-                            <th>Competition</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {pastFixtures.map((fixture) => {
+                          {pastFixtures.slice(0, 5).map((fixture) => {
                             const matchDate = new Date(
                               fixture.fixture.date
                             ).toLocaleDateString("en-GB", {
-                              year: "numeric",
-                              month: isSmallScreen ? "numeric" : "long", 
                               day: "numeric",
+                              month: "short",
                             });
 
                             const isHome = fixture.teams.home.id == team.id;
@@ -362,27 +460,16 @@ const TeamInfo = () => {
 
                             let resultClass = "draw";
                             if (goalsFor > goalsAgainst) resultClass = "win";
-                            else if (goalsFor < goalsAgainst)
-                              resultClass = "loss";
+                            else if (goalsFor < goalsAgainst) resultClass = "loss";
 
                             return (
-                              <tr
-                                key={fixture.fixture.id}
-                                className="result-item"
-                              >
+                              <tr key={fixture.fixture.id} className="result-item">
                                 <td className="fixture-date">{matchDate}</td>
                                 <td
                                   className={resultClass}
-                                  onClick={() =>
-                                    navigate(`/match/${fixture.fixture.id}`)
-                                  }
+                                  onClick={() => navigate(`/match/${fixture.fixture.id}`)}
                                 >
-                                  {fixture.teams.home.name} {fixture.goals.home}{" "}
-                                  - {fixture.goals.away}{" "}
-                                  {fixture.teams.away.name}
-                                </td>
-                                <td className="fixture-league">
-                                  {fixture.league?.name || "N/A"}
+                                  {fixture.teams.home.name} {fixture.goals.home} - {fixture.goals.away} {fixture.teams.away.name}
                                 </td>
                               </tr>
                             );
@@ -390,37 +477,30 @@ const TeamInfo = () => {
                         </tbody>
                       </table>
                     </div>
-                  )}
 
-                  {activeView === "upcoming" && (
-                    <div className="results-list">
-                      <table className="results-table">
+                    <div className="fixtures-section">
+                      <h4>Upcoming Fixtures</h4>
+                      <table className="results-table mobile-table">
                         <thead>
                           <tr>
                             <th>Date</th>
                             <th>Fixture</th>
-                            <th>Competition</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {upcomingFixtures.map((fixture) => {
+                          {upcomingFixtures.slice(0, 5).map((fixture) => {
                             const matchDate = new Date(
                               fixture.fixture.date
                             ).toLocaleDateString("en-GB", {
-                              year: "numeric",
-                              month: isSmallScreen ? "numeric" : "long", 
                               day: "numeric",
+                              month: "short",
                             });
 
                             return (
                               <tr key={fixture.fixture.id}>
                                 <td className="fixture-date">{matchDate}</td>
                                 <td className="fixture-teams">
-                                  {fixture.teams.home.name} -{" "}
-                                  {fixture.teams.away.name}
-                                </td>
-                                <td className="fixture-league">
-                                  {fixture.league?.name || "N/A"}
+                                  {fixture.teams.home.name} - {fixture.teams.away.name}
                                 </td>
                               </tr>
                             );
@@ -428,7 +508,7 @@ const TeamInfo = () => {
                         </tbody>
                       </table>
                     </div>
-                  )}
+                  </div>
                 </div>
               </div>
             </>

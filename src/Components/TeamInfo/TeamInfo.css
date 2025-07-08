@@ -222,7 +222,8 @@
   margin: 1rem 0;
 }
 
-.results-toggle-buttons button {
+.results-toggle-buttons button,
+.mobile-view-switch button {
   padding: 0.5rem 1rem;
   cursor: pointer;
   background: #eee;
@@ -250,14 +251,14 @@
 
 @media (max-width: 768px) {
  .team-info-logo {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
  }
 
  .facts-container {
   width: 100%;
   padding: 4px;
-  justify-content: space-evenly;
+  justify-content: space-between;
   gap: 0;
  }
 
@@ -389,7 +390,8 @@
   justify-content: space-between;
 }
 
-.results-toggle-buttons button {
+.results-toggle-buttons button,
+.mobile-view-switch button {
   padding: 0.3rem 1rem;
   cursor: pointer;
   background: #eee;
@@ -403,4 +405,143 @@
 .mid-divider {
   display: none;
 }
+}
+
+.mobile-view-switch {
+  display: none;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0 1rem;
+}
+
+.mobile-view-switch button {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.mobile-view-switch button.active {
+  background: #45b65e;
+  color: white;
+}
+
+.mobile-view-switch button:hover {
+  background: #45b65e;
+}
+
+.mobile-fixtures-view {
+  display: none;
+  flex-direction: row;
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+.fixtures-section h4 {
+  margin-bottom: 1rem;
+  margin-top: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #eee;
+  color: #333;
+}
+
+.fixture-date {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.legend-item {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.6rem;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .mobile-view-switch {
+    display: flex;
+  }
+  
+  .squad {
+    display: none;
+  }
+  
+  .squad.mobile-active {
+    display: block;
+  }
+  
+  .fixtures-container {
+    display: none;
+  }
+  
+  .fixtures-container.mobile-active {
+    display: block;
+  }
+  
+  .desktop-fixtures {
+    display: none;
+  }
+  
+  .fixtures-container.mobile-active .mobile-fixtures-view {
+    display: flex;
+  }
+  
+  .results-table {
+    font-size: 0.85rem;
+  }
+  
+  .results-table th,
+  .results-table td {
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .squad-columns {
+    flex-direction: column;
+  }
+  
+  .teaminfo-header .facts-container {
+    flex-direction: row;
+    text-align: center;
+  }
+  
+  .team-info-logo {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-view-switch {
+    display: none;
+  }
+  
+  .squad {
+    display: block;
+  }
+  
+  .fixtures-container {
+    display: block;
+  }
+  
+  .desktop-fixtures {
+    display: block;
+  }
+  
+  .mobile-fixtures-view {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobile-view-switch {
+    padding: 0 0.5rem;
+  }
+  
+  .mobile-fixtures-view {
+    padding: 0 0.5rem;
+  }
 }
