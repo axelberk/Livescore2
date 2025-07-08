@@ -156,8 +156,8 @@
 }
 
 .substitute-player:hover {
-  background: #4ca752;
-  color: white;
+  background: inherit;
+  text-decoration: underline;
 }
 
 .player-photo-sub {

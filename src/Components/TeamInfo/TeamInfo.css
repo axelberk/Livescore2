@@ -272,11 +272,11 @@
  
  .squad-type-title {
   font-size: 12px;
-  margin: 0;
+  margin-bottom: 4px;
  }
 
  .squad-group li {
-  font-size: 10px;
+  font-size: 12px;
   text-align: left;
  }
 
@@ -437,9 +437,9 @@
 }
 
 .fixtures-section h4 {
-  margin-bottom: 1rem;
+  margin-bottom: 0.6rem;
   margin-top: 0;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.4rem;
   border-bottom: 2px solid #eee;
   color: #333;
 }
@@ -537,6 +537,6 @@
   }
   
   .mobile-fixtures-view {
-    padding: 0 0.5rem;
+    padding: 0rem;
   }
 }
