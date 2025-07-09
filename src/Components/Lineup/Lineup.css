@@ -65,8 +65,8 @@
   transition: all 0.3s ease;
   z-index: 5;
   padding: 2px;
-  border-radius: 8px;
-  width: 180px;
+  /* border-radius: 8px;
+  width: 180px; */
 }
 
 .positioned-player:hover {
@@ -98,18 +98,19 @@
   align-items: center;
   text-align: center;
   border-radius: 4px;
-  /* font-size: 1rem; */
 }
 
 .player-number {
-  font-weight: 400;
+  font-weight: 600;
   font-size: 0.8rem;
 }
 
 .full-name {
+  font-weight: 400;
   display: inline;
 }
 .last-name-only {
+  font-weight: 400;
   display: none;
 }
 
@@ -123,7 +124,6 @@
 
 .player-icons {
   display: flex;
-
   margin-top: 2px;
 }
 
@@ -157,10 +157,10 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 80px;
-  height: 80px;
-  margin-left: -40px;
-  margin-top: -40px;
+  width: 140px;
+  height: 140px;
+  margin-left: -70px;
+  margin-top: -70px;
   border: 2px solid white;
   border-radius: 50%;
 }
@@ -201,7 +201,7 @@
   margin-bottom: 5px;
 }
 
-.player {
+/* .player {
   padding: 0.6rem 1.1rem;
   border-radius: 20px;
   text-align: center;
@@ -222,12 +222,7 @@
   width: 50px;
   border-radius: 50%;
   vertical-align: middle;
-}
-
-.player:hover {
-  background-color: rgb(53, 121, 57);
-  color: white;
-}
+} */
 
 @keyframes popup {
   from {
@@ -321,7 +316,7 @@
 
   .positioned-player:hover {
   background-color: inherit;
-  color: white;
+ 
   /* transform: translate(-50%, -50%) scale(1.1); */
 }
 
