@@ -51,7 +51,6 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
           const playerData = res.data.response[0];
           if (!playerData) return null;
 
-          // Filter to only include club stats (not national teams)
           const clubStats = playerData.statistics?.filter(
             (s) => s.team?.national !== true
           );
@@ -67,12 +66,17 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
 
       setLoading(true);
 
-      let data = await fetchClubStats("2025");
-      if (!data) {
-        data = await fetchClubStats("2024");
-      }
+     const data = await fetchClubStats("2024");
 
-      setPlayer(data);
+if (data) {
+  setPlayer({
+    ...data,
+    statistics: data.statistics?.filter((s) => s.team?.national !== true),
+  });
+} else {
+  setPlayer(null);
+}
+
       setLoading(false);
     };
 
@@ -158,7 +162,10 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
             <p>Player data not available.</p>
           ) : (
             <>
-              <h2 className="modal-name">
+              
+              <div className="modal-facts-container">
+                <div className="modal-facts">
+                  <h2 className="modal-name">
                 {/* {player?.player
               ? (() => {
                   const number =
@@ -173,8 +180,6 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
               : "Loading..."} */}
                 {player.player.firstname} {player.player.lastname}
               </h2>
-              <div className="modal-facts-container">
-                <div className="modal-facts">
                   <p>
                     Date of birth:{" "}
                     <span className="fact-span">
@@ -209,6 +214,7 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
                 </div>
 
                 <div className="modal-facts">
+                  <h2 className="modal-name">2024-25</h2>
                   <p>
                     Appearances:{" "}
                     <span className="fact-span">
