@@ -230,7 +230,6 @@ const Match = () => {
         const subs = allEvents
           .filter((e) => e.type === "subst")
           .map((e) => {
-            // If assist player is in substitutes, treat as player_in (sub on)
             const assistIsSubstitute = lineupsData.some((team) =>
               team.substitutes.some((sub) => sub.player.id === e.assist?.id)
             );
@@ -243,7 +242,6 @@ const Match = () => {
                 time: e.time.elapsed,
               };
             } else {
-              // fallback: switch
               return {
                 player_in: e.player,
                 player_out: e.assist,

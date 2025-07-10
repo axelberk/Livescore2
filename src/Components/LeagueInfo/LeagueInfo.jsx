@@ -14,6 +14,7 @@ const LeagueInfo = () => {
   const [standings, setStandings] = useState([]);
   const [topScorers, setTopScorers] = useState([]);
   const [seasonYear, setSeasonYear] = useState(null);
+  const [currentSeason, setCurrentSeason] = useState(null);
   const [topAssists, setTopAssists] = useState([]);
   const [redCards, setRedCards] = useState([]);
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
@@ -87,10 +88,11 @@ const LeagueInfo = () => {
         const leagueData = res.data.response[0];
         setLeague(leagueData);
 
-        const currentSeason = leagueData.seasons.find(
+        const currentSeasonObj = leagueData.seasons.find(
           (season) => season.current
-        )?.year;
-        setSeasonYear(currentSeason);
+        );
+        setCurrentSeason(currentSeasonObj);
+        setSeasonYear(currentSeasonObj?.year);
       } catch (err) {
         console.error("Failed to fetch league info:", err);
       }
@@ -250,8 +252,8 @@ const LeagueInfo = () => {
     return `${startYear}-${endYY}`;
   };
 
-  const currentSeasonObj = league?.seasons?.find((s) => s.current);
-  const seasonLabel = formatSeasonLabel(currentSeasonObj);
+ const seasonLabel = formatSeasonLabel(currentSeason);
+ 
   if (!league)
     return (
       <div>

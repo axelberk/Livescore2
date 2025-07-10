@@ -8,31 +8,29 @@ import { Skeleton, Box } from "@mui/material";
 import Match from "../Match/Match";
 import { useNavigate } from "react-router-dom";
 
-const getMatchStatus = () => {
-    const { status, timestamp } = fixture.fixture;
-    switch (status.short) {
-      case "NS":
-        const kickoff = new Date(timestamp * 1000);
-        return `Kickoff: ${kickoff.toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        })}`;
-      case "1H":
-      case "2H":
-      case "ET":
-        return `${fixture.fixture.status.elapsed}'`;
-      case "HT":
-        return "Half Time";
-      case "FT":
-        return "Full Time";
-      case "PST":
-        return "Postponed";
-      default:
-        return status.long || "Status Unavailable";
-    }
-  };
-
-
+const getMatchStatus = (fixture) => {
+  const { status, timestamp } = fixture.fixture;
+  switch (status.short) {
+    case "NS":
+      const kickoff = new Date(timestamp * 1000);
+      return kickoff.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    case "1H":
+    case "2H":
+    case "ET":
+      return `${fixture.fixture.status.elapsed}'`;
+    case "HT":
+      return "HT";
+    case "FT":
+      return "FT";
+    case "PST":
+      return "Postponed";
+    default:
+      return status.long || "Status Unavailable";
+  }
+};
 
 const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135, 88, 40, 114, 5, 10, 15, 38];
 
@@ -142,10 +140,7 @@ const LiveScores = ({ selectedDate, setSelectedMatch }) => {
     onClick={() => navigate(`/match/${match.fixture.id}`)}
   >
                 <div className="livescore-time">
-                  {new Date(match.fixture.date).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}{" "}
+                  {getMatchStatus(match)}
                 </div>
 
                
