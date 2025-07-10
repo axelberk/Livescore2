@@ -185,7 +185,7 @@
   border: 2px solid #ddd;
   border-radius: 12px;
   padding: 0.5rem;
-  width: 170px;
+  width: 180px;
   text-align: center;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 0.5rem;
@@ -243,14 +243,16 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   flex-direction: row;
-  gap: 5rem;
+  gap: 6rem;
   flex-wrap: wrap;
+  margin-bottom: 10px;
+  margin-left: 40px;
 }
 
 .bracket-round-title {
   font-weight: bold;
   text-align: center;
-  font-size: 1rem;
+  font-size: 1.4rem;
 }
 
 .bracket-round-column {
@@ -277,7 +279,7 @@
   display: flex;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   text-align: center;
   flex-direction: column;
 }
@@ -297,13 +299,6 @@
   height: 20px;
   object-fit: contain;
 }
-
-/* for smaller screens
-.bracket-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-} */
 
 .round-separator {
   border: none;
@@ -399,6 +394,7 @@ font-size: 12px;
 
 .bracket-view {
   padding: 0;
+   margin-top: 10px;
 }
 
 .bracket-round-title {
@@ -409,14 +405,20 @@ font-size: 12px;
   align-items: normal;
 }
 
+.qualification-bracket {
+  padding: 0;
+  justify-content: space-around;
+}
+
 .bracket-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  gap: 0.5rem;
+  margin-left: 0;
 }
 
 .bracket-match {
-  width: 140px;
+  width: 155px;
 }
 
 .bracket-date {
@@ -437,6 +439,8 @@ font-size: 12px;
 
 .bracket-team {
   font-size: 0.6rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .bracket-match-card {

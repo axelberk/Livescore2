@@ -307,6 +307,7 @@ const LeagueInfo = () => {
 
       return (
         <div key={round} className="bracket-round-group">
+          <hr />
           <h3 className="bracket-round-title">{round}</h3>
           <div className="bracket-row">
             {ties.map(({ fixtures, homeTeam, awayTeam }) => {
@@ -584,6 +585,7 @@ const LeagueInfo = () => {
               }, {})
             ).map(([round, ties], index, arr) => (
               <div key={round} className="bracket-round-group">
+                  <hr />
                 <h3 className="bracket-round-title">{round}</h3>
                 <div className="bracket-row">
                   {ties.map(({ fixtures, homeTeam, awayTeam }) => {
