@@ -328,7 +328,7 @@ const LeagueInfo = () => {
                   className="bracket-match-card"
                 >
                   <p className="bracket-aggregate">
-                    {homeTeam.name} vs {awayTeam.name}
+                    {homeTeam.name}{/*  <br /> - <br /> */} - {awayTeam.name}
                     {isTwoLeggedTie && (
                       <span className="aggregate-score">
                         {" "}

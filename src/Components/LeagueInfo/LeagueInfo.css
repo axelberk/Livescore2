@@ -253,6 +253,8 @@
   font-weight: bold;
   text-align: center;
   font-size: 1.4rem;
+  text-decoration: underline;
+  margin-top: 0;
 }
 
 .bracket-round-column {
@@ -353,13 +355,17 @@
 
 .goals-assists h4 {
   margin: 2px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
-.top-scorers a,
-.top-assists a,
-.top-red-cards a {
-font-size: 12px;
+.individual-table {
+  width: 340px;
+}
+
+.top-scorers td,
+.top-assists td,
+.top-red-cards td {
+font-size: 14px;
 }
 
 .table-description {
@@ -375,6 +381,10 @@ font-size: 12px;
 .view-switch button {
   margin: 0;
   font-size: 10px;
+}
+
+.view-switch {
+  margin-bottom: 10px;
 }
 
 .group-standings-card h3 {
@@ -394,11 +404,11 @@ font-size: 12px;
 
 .bracket-view {
   padding: 0;
-   margin-top: 10px;
+  margin-top: 10px;
 }
 
 .bracket-round-title {
-  margin: 10px 0px 10px 0px;
+  margin: 0px 0px 10px 0px;
 }
 
 .bracket-round-group {
@@ -413,12 +423,13 @@ font-size: 12px;
 .bracket-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
+  gap: 0.3rem;
   margin-left: 0;
+  margin-bottom: 0;
 }
 
 .bracket-match {
-  width: 155px;
+  width: 158px;
 }
 
 .bracket-date {
@@ -427,14 +438,14 @@ font-size: 12px;
 
 
 .bracket-aggregate {
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   margin-bottom: 6px;
   margin-top: 0;
   
 }
 
 .aggregate-score {
-  font-size: 0.4rem;
+  font-size: 0.6rem;
 }
 
 .bracket-team {
