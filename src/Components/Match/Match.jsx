@@ -617,6 +617,7 @@ const Match = () => {
           <div className="match-score-status">
             <div className="match-scores">
               {fixture.goals.home} - {fixture.goals.away}
+              <div className="match-status">{getMatchStatus()}</div>
             </div>
           </div>
 
@@ -625,18 +626,16 @@ const Match = () => {
               className="match-team-link"
               to={`/team/${fixture.teams.away.id}`}
             >
-              <span>{fixture.teams.away.name}</span>
-
               <img
                 src={fixture.teams.away.logo}
                 alt={fixture.teams.away.name}
                 className="match-team-logo"
                 loading="lazy"
               />
+              <span>{fixture.teams.away.name}</span>
             </Link>
           </div>
         </div>
-        <div className="match-status">{getMatchStatus()}</div>
 
         <div className="match-goalscorers">
           <div className="goal-timeline">
@@ -665,7 +664,10 @@ const Match = () => {
                             });
                           }}
                         >
-                          {event.player.name}
+                          <span className="full-name">{event.player.name}</span>
+                          <span className="last-name-only">
+                            {event.player.name.split(" ").slice(-1).join(" ")}
+                          </span>
                           {isOwnGoal ? " (OG)" : ""}
                         </span>
                       </div>
@@ -713,7 +715,10 @@ const Match = () => {
                             });
                           }}
                         >
-                          {event.player.name}
+                          <span className="full-name">{event.player.name}</span>
+                          <span className="last-name-only">
+                            {event.player.name.split(" ").slice(-1).join(" ")}
+                          </span>
                           {isOwnGoal ? " (OG)" : ""}
                         </span>
                         <span className="goal-minute">

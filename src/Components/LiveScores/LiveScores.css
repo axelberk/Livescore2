@@ -4,8 +4,9 @@
   text-align: left;
   flex-direction: column;
   width: 65%;
-  gap: 10px;
+  gap: 30px;
   font-size: 1rem;
+  /* color: #FFFFFF; test color */
 }
 
 .no-fixtures {
@@ -23,7 +24,7 @@ h2 {
 
 .league-display p {
   font-weight: 700;
-  color: black;
+  /* color: black; test color */
   justify-content: center;
 }
 
@@ -36,10 +37,12 @@ h2 {
   transition: 1s ease;
   border-radius: 10px;
   padding: 0px 5px 0px 5px;
+  /* background: #f1f1f1; */
 }
 
 .league-header:hover {
   background: #f1f1f1;
+  /* color: black; */
 }
 
 .league-logo {
@@ -71,6 +74,8 @@ h2 {
   transition: 0.5s ease;
   margin-bottom: 4px;
   align-items: center;
+  /* background-color: #1E1E1E; */
+ 
 }
 
 .liveteam-logo {
@@ -79,20 +84,15 @@ h2 {
 }
 
 .match-card:hover {
-  background-color: rgb(218, 213, 213);
+  /* background-color: rgb(218, 213, 213); */
   border-radius: 10px;
+  background-color: #2A2A2A; /* test color */
 }
 
 .match-teams {
   display: flex;
   text-align: left;
 }
-
-/* .match-result:hover {
-  background-color: gray;
-  border-radius: 8px;
-  transition: 0.5s ease;
-} */
 
 @media (max-width: 768px) {
   .Livescores {
