@@ -273,7 +273,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  text-align: center;
+  text-align: left;
   font-size: 0.8rem;
   font-weight: 500;
   color: #444;
@@ -354,6 +354,7 @@
   width: 100%;
   justify-content: center;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 .match-header {

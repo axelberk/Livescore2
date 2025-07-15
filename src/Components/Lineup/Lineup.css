@@ -309,8 +309,8 @@
 @media (max-width: 768px) {
 
   .player-photo-positioned {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   border: 2px solid white;
   }
@@ -322,7 +322,7 @@
 }
 
   .player-number {
-    font-size: 0.64rem;
+    font-size: 0.7rem;
   }
 
   .full-name {
@@ -346,6 +346,10 @@
   .sub-icon-wrapper {
     top: 20px;
     left: 24px;
+  }
+
+  .red-card-icon-wrapper {
+    right: 28px;
   }
 
   .pitch-half {
