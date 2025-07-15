@@ -31,12 +31,12 @@ const formationsPositions = {
     { x: 40, y: 70 },
     { x: 60, y: 70 },
     { x: 82, y: 70 },
-    { x: 25, y: 40 },
+    { x: 20, y: 40 },
     { x: 50, y: 40 },
-    { x: 75, y: 40 },
-    { x: 25, y: 14 },
+    { x: 80, y: 40 },
+    { x: 20, y: 14 },
     { x: 50, y: 14 },
-    { x: 75, y: 14 },
+    { x: 80, y: 14 },
   ],
   "4-2-3-1": [
     { x: 50, y: 90 },
@@ -186,10 +186,10 @@ const formationsPositions = {
     { x: 25, y: 70 }, // Left CB
     { x: 50, y: 70 }, // Center CB
     { x: 75, y: 70 }, // Right CB 
-    { x: 15, y: 45 }, // rightmid
-    { x: 62, y: 45 }, // Left cm
-    { x: 38, y: 45 }, // right cm
-    { x: 85, y: 45 }, // right mid
+    { x: 20, y: 45 }, // right mid
+    { x: 40, y: 45 }, // Left cm
+    { x: 60, y: 45 }, // left cm
+    { x: 80, y: 45 }, // left mid
     { x: 25, y: 15 }, // right forward
     { x: 50, y: 15 }, // cf
     { x: 75, y: 15 }, // left forward

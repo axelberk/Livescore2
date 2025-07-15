@@ -114,7 +114,12 @@ const Match = () => {
       }
     };
 
-    return `${weekday} ${getOrdinalSuffix(day)} ${month} ${year}`;
+    const time = date.toLocaleTimeString("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    return `${weekday} ${getOrdinalSuffix(day)} ${month} ${year} - ${time}`;
   };
 
   useEffect(() => {
@@ -282,6 +287,145 @@ const Match = () => {
     fetchFixtureAndDetails();
   }, [matchId]);
 
+  //   useEffect(() => {
+  //   let intervalId;
+
+  //   const fetchFixtureAndDetails = async () => {
+  //     try {
+  //       const fixtureRes = await fetchWithCache(
+  //         "https://v3.football.api-sports.io/fixtures",
+  //         {
+  //           headers: {
+  //             "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+  //           },
+  //           params: { id: matchId },
+  //         }
+  //       );
+  //       if (!fixtureRes?.response?.[0]) throw new Error("No fixture data found");
+
+  //       const match = fixtureRes.response[0];
+  //       setFixture(match);
+
+  //       const [lineupsRes, eventsRes] = await Promise.all([
+  //         fetchWithCache(
+  //           `https://v3.football.api-sports.io/fixtures/lineups?fixture=${matchId}`,
+  //           { headers: { "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY } }
+  //         ),
+  //         fetchWithCache(
+  //           `https://v3.football.api-sports.io/fixtures/events?fixture=${matchId}`,
+  //           { headers: { "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY } }
+  //         )
+  //       ]);
+
+  //       let lineupsData = [];
+
+  //       if (!lineupsRes.response || lineupsRes.response.length === 0) {
+  //         setUsingFallback(true);
+
+  //         const getLastLineup = async (teamId) => {
+  //           try {
+  //             const teamFixturesRes = await fetchWithCache(
+  //               `https://v3.football.api-sports.io/fixtures`,
+  //               {
+  //                 headers: {
+  //                   "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+  //                 },
+  //                 params: { team: teamId, season: "2025", status: "FT", last: 10 },
+  //               }
+  //             );
+
+  //             for (const fixture of teamFixturesRes.response) {
+  //               const lineupRes = await fetchWithCache(
+  //                 `https://v3.football.api-sports.io/fixtures/lineups?fixture=${fixture.fixture.id}`,
+  //                 { headers: { "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY } }
+  //               );
+  //               const teamLineup = lineupRes.response?.find(
+  //                 (entry) => entry.team.id === teamId
+  //               );
+  //               if (teamLineup) return teamLineup;
+  //             }
+  //           } catch (err) {
+  //             console.warn("Error getting last lineup for team", teamId, err);
+  //           }
+  //           return null;
+  //         };
+
+  //         const [fallbackHome, fallbackAway] = await Promise.all([
+  //           getLastLineup(match.teams.home.id),
+  //           getLastLineup(match.teams.away.id)
+  //         ]);
+
+  //         if (fallbackHome) lineupsData.push(fallbackHome);
+  //         if (fallbackAway) lineupsData.push(fallbackAway);
+  //       } else {
+  //         setUsingFallback(false);
+  //         lineupsData = lineupsRes.response;
+  //       }
+
+  //       setLineups(lineupsData);
+  //       await fetchPhotosForLineups(lineupsData, setPlayerPhotos);
+
+  //       const allEvents = eventsRes.response;
+
+  //       const goalEvents = allEvents
+  //         .filter((e) => e.type === "Goal")
+  //         .sort((a, b) => a.time.elapsed - b.time.elapsed);
+
+  //       const redCardEvents = allEvents
+  //         .filter((e) => e.detail === "Red Card")
+  //         .sort((a, b) => a.time.elapsed - b.time.elapsed);
+
+  //       setGoalEvents(goalEvents);
+  //       setRedCards(redCardEvents);
+
+  //       const subs = allEvents
+  //         .filter((e) => e.type === "subst")
+  //         .map((e) => {
+  //           const assistIsSub = lineupsData.some((team) =>
+  //             team.substitutes.some((sub) => sub.player.id === e.assist?.id)
+  //           );
+  //           return {
+  //             player_in: assistIsSub ? e.assist : e.player,
+  //             player_out: assistIsSub ? e.player : e.assist,
+  //             team: e.team,
+  //             time: e.time.elapsed,
+  //           };
+  //         });
+
+  //       setSubstitutions(subs);
+
+  //       const goalMap = new Map();
+  //       allEvents.forEach((e) => {
+  //         if (e.type === "Goal" && e.player?.id) {
+  //           const id = e.player.id;
+  //           const isOwnGoal = e.detail === "Own Goal";
+  //           if (!goalMap.has(id)) {
+  //             goalMap.set(id, { goals: 0, ownGoals: 0 });
+  //           }
+  //           const entry = goalMap.get(id);
+  //           if (isOwnGoal) {
+  //             entry.ownGoals += 1;
+  //           } else {
+  //             entry.goals += 1;
+  //           }
+  //         }
+  //       });
+  //       setGoalScorerIds(goalMap);
+  //     } catch (err) {
+  //       console.error("Error fetching match data:", err);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchFixtureAndDetails(); // run immediately
+
+  //   // ✅ Start polling every 30s
+  //   intervalId = setInterval(fetchFixtureAndDetails, 30000);
+
+  //   return () => clearInterval(intervalId); // cleanup
+  // }, [matchId]);
+
   if (loading) return <MatchSkeleton />;
   if (!fixture)
     return (
@@ -411,6 +555,19 @@ const Match = () => {
     (a, b) => a.time.elapsed - b.time.elapsed
   );
 
+  const formatRound = (roundString) => {
+    if (!roundString) return "";
+
+    // Try to match a number at the end of the string
+    const match = roundString.match(/^(.*?)(\s*-\s*)(\d+)$/);
+    if (match) {
+      const [, prefix, separator, number] = match;
+      return `${prefix}${separator}Matchday ${number}`;
+    }
+
+    return roundString;
+  };
+
   return (
     <div className="Match">
       <Header />
@@ -431,7 +588,7 @@ const Match = () => {
               >
                 {fixture.league.name}
               </Link>{" "}
-              - {fixture.league.round}
+              - {formatRound(fixture.league.round)}
             </span>
             <div className="match-date-time">
               <br />

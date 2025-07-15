@@ -270,7 +270,7 @@
   justify-content: space-between;
   gap: 8px;
   text-align: center;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   font-weight: 500;
   color: #444;
   align-self: flex-start;
@@ -322,7 +322,7 @@
 
   gap: 8px;
 
-  font-size: 0.7rem;
+ 
   font-weight: 500;
   color: #444;
 }
@@ -344,7 +344,7 @@
   }
 
 .match-league {
-  /* font-size: 10px; */
+  font-size: 0.7rem;
   width: 100%;
   justify-content: center;
   margin-bottom: 10px;
