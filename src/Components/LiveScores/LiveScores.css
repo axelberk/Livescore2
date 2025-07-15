@@ -24,7 +24,7 @@ h2 {
 
 .league-display p {
   font-weight: 700;
-  /* color: black; test color */
+  color: black;
   justify-content: center;
 }
 
@@ -84,9 +84,9 @@ h2 {
 }
 
 .match-card:hover {
-  /* background-color: rgb(218, 213, 213); */
+  background-color: rgb(218, 213, 213);
   border-radius: 10px;
-  background-color: #2A2A2A; /* test color */
+  /* background-color: #2A2A2A; test color */
 }
 
 .match-teams {

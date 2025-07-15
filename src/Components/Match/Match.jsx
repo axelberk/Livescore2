@@ -669,6 +669,7 @@ const Match = () => {
                             {event.player.name.split(" ").slice(-1).join(" ")}
                           </span>
                           {isOwnGoal ? " (OG)" : ""}
+                          {event.detail === "Penalty" && " (pen.)"}
                         </span>
                       </div>
                       {isGoal && (
@@ -720,6 +721,7 @@ const Match = () => {
                             {event.player.name.split(" ").slice(-1).join(" ")}
                           </span>
                           {isOwnGoal ? " (OG)" : ""}
+                          {event.detail === "Penalty" && " (pen.)"}
                         </span>
                         <span className="goal-minute">
                           {event.time.elapsed}'
