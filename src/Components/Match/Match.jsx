@@ -498,6 +498,44 @@ const Match = () => {
   }
 };
 
+const renderScore = (fixture) => {
+  const status = fixture?.fixture?.status?.short;
+  const goals = fixture?.goals;
+  const score = fixture?.score || fixture?.fixture?.score;
+
+  if (!goals || !status) return "-";
+
+  const regularScore = `${goals.home} - ${goals.away}`;
+
+  if (
+    status === "PEN" &&
+    score?.penalty?.home != null &&
+    score?.penalty?.away != null
+  ) {
+    const penScore = `${score.penalty.home} - ${score.penalty.away}`;
+    return (
+      <>
+        {regularScore}
+        <br />
+        ({penScore})
+      </>
+    );
+  }
+
+  if (status === "AET") {
+    return (
+      <>
+        {regularScore}
+        <br />
+      </>
+    );
+  }
+
+  return regularScore;
+};
+
+
+
   const getSubInfo = (playerId) =>
     substitutions.find((s) => s.player_in?.id === playerId);
 
@@ -629,8 +667,9 @@ const Match = () => {
 
           <div className="match-score-status">
             <div className="match-scores">
-              {fixture.goals.home} - {fixture.goals.away}
+               {renderScore(fixture)}
               <div className="match-status">{getMatchStatus()}</div>
+              
             </div>
           </div>
 
