@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const getMatchStatus = (fixture) => {
   const { status, timestamp } = fixture.fixture;
+
   switch (status.short) {
     case "NS":
       const kickoff = new Date(timestamp * 1000);
@@ -17,22 +18,34 @@ const getMatchStatus = (fixture) => {
         hour: "2-digit",
         minute: "2-digit",
       });
+
     case "1H":
     case "2H":
     case "ET":
-      return `${fixture.fixture.status.elapsed}'`;
+      return `${status.elapsed}'`;
+
     case "HT":
       return "HT";
+
     case "FT":
       return "FT";
+
+    case "AET":
+      return "AET";
+
+    case "PEN":
+      return "PEN";
+
     case "PST":
       return "Postponed";
+
     default:
       return status.long || "Status Unavailable";
   }
 };
 
-const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135, 88, 40, 114, 5, 10, 15, 38];
+
+const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135, 88, 40, 114, 5, 10, 15, 38, 743	];
 
 const ScoreSkeleton = () => (
   <Box padding={2} className="league-display">

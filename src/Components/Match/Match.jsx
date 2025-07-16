@@ -222,8 +222,9 @@ const Match = () => {
         const allEvents = eventsRes.response;
 
         const goalEvents = allEvents
-          .filter((e) => e.type === "Goal")
+          .filter((e) => e.type === "Goal" && e.comments !== "Penalty Shootout")
           .sort((a, b) => a.time.elapsed - b.time.elapsed);
+
 
         const redCardEvents = allEvents
           .filter((e) => e.detail === "Red Card")
@@ -259,8 +260,9 @@ const Match = () => {
         setSubstitutions(subs);
 
         const goalMap = new Map();
+        // Only count goals that happened during the match (not penalty shootout)
         allEvents.forEach((e) => {
-          if (e.type === "Goal" && e.player?.id) {
+          if (e.type === "Goal" && e.player?.id && e.comments !== "Penalty Shootout") {
             const id = e.player.id;
             const isOwnGoal = e.detail === "Own Goal";
 
@@ -461,28 +463,40 @@ const Match = () => {
   );
 
   const getMatchStatus = () => {
-    const { status, timestamp } = fixture.fixture;
-    switch (status.short) {
-      case "NS":
-        const kickoff = new Date(timestamp * 1000);
-        return `Kickoff: ${kickoff.toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        })}`;
-      case "1H":
-      case "2H":
-      case "ET":
-        return `${fixture.fixture.status.elapsed}'`;
-      case "HT":
-        return "Half Time";
-      case "FT":
-        return "Full Time";
-      case "PST":
-        return "Postponed";
-      default:
-        return status.long || "Status Unavailable";
-    }
-  };
+  const { status, timestamp } = fixture.fixture;
+
+  switch (status.short) {
+    case "NS":
+      const kickoff = new Date(timestamp * 1000);
+      return `Kickoff: ${kickoff.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      })}`;
+
+    case "1H":
+    case "2H":
+    case "ET":
+      return `${status.elapsed}'`;
+
+    case "HT":
+      return "Half Time";
+
+    case "FT":
+      return "Full Time";
+
+    case "AET":
+      return "AET";
+
+    case "PEN":
+      return "PEN";
+
+    case "PST":
+      return "Postponed";
+
+    default:
+      return status.long || "Status Unavailable";
+  }
+};
 
   const getSubInfo = (playerId) =>
     substitutions.find((s) => s.player_in?.id === playerId);
@@ -558,7 +572,6 @@ const Match = () => {
   const formatRound = (roundString) => {
     if (!roundString) return "";
 
-    // Try to match a number at the end of the string
     const match = roundString.match(/^(.*?)(\s*-\s*)(\d+)$/);
     if (match) {
       const [, prefix, separator, number] = match;
