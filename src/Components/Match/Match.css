@@ -279,6 +279,7 @@
   color: #444;
   /* color: #CCCCCC; test color */
   align-self: flex-start;
+  padding: 0px 8px;
 }
 
 .match-league-link {
