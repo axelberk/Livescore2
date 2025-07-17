@@ -62,6 +62,8 @@
   margin: 0;
   list-style: none;
   padding: 0;
+  /* background-color: rgba(235, 231, 232, 0.459);
+  border-radius: 8px; */
 }
 
 .squad-list li {
@@ -149,7 +151,7 @@
 .results-table th,
 .results-table td {
   border: 1px solid #ddd;
-  padding: 0.3rem;
+  padding: 0.2rem;
   text-align: left;
 }
 

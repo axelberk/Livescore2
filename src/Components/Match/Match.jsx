@@ -503,9 +503,17 @@ const renderScore = (fixture) => {
   const goals = fixture?.goals;
   const score = fixture?.score || fixture?.fixture?.score;
 
-  if (!goals || !status) return "-";
+  if (!status) return "-";
 
-  const regularScore = `${goals.home} - ${goals.away}`;
+  const homeGoals = goals?.home;
+  const awayGoals = goals?.away;
+
+  const isScoreAvailable =
+    homeGoals != null && awayGoals != null;
+
+  const regularScore = isScoreAvailable
+    ? `${homeGoals} - ${awayGoals}`
+    : "-";
 
   if (
     status === "PEN" &&
@@ -533,6 +541,7 @@ const renderScore = (fixture) => {
 
   return regularScore;
 };
+
 
 
 
