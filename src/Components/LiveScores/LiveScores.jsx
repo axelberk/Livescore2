@@ -7,6 +7,7 @@ import LeagueInfo from "../LeagueInfo/LeagueInfo";
 import { Skeleton, Box } from "@mui/material";
 import Match from "../Match/Match";
 import { useNavigate } from "react-router-dom";
+import { motion } from "motion/react"
 
 const getMatchStatus = (fixture) => {
   const { status, timestamp } = fixture.fixture;
@@ -131,7 +132,9 @@ const LiveScores = ({ selectedDate, setSelectedMatch }) => {
       return acc;
     }, {})
   ).map(([leagueName, leagueMatches]) => (
-          <div key={leagueName} className="league-display">
+          <motion.div initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 0.6 }} key={leagueName} className="league-display">
             <Link
               to={`/league/${leagueMatches[0].league.id}`}
               className="league-header"
@@ -177,7 +180,7 @@ const LiveScores = ({ selectedDate, setSelectedMatch }) => {
                 </div>
               </div>
             ))}
-          </div>
+          </motion.div>
         ))
       )}
     </div>
