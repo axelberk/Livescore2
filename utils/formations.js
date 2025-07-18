@@ -162,11 +162,11 @@ const formationsPositions = {
     { x: 50, y: 70 }, // center back
     { x: 32, y: 70 }, // Right center back
     { x: 85, y: 70 }, // left back
-    { x: 30, y: 40 }, // right mid
+    { x: 25, y: 40 }, // right mid
     { x: 50, y: 40 }, // Right center midfielder
-    { x: 70, y: 40 }, // lcm
-    { x: 60, y: 10 }, // Left mid
-    { x: 40, y: 10 }, // CF
+    { x: 75, y: 40 }, // lcm
+    { x: 65, y: 10 }, // Left mid
+    { x: 35, y: 10 }, // CF
   ],
   "4-3-2-1": [
     { x: 50, y: 90 }, // Goalkeeper
