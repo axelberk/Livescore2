@@ -4,7 +4,7 @@ import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import LoopIcon from "@mui/icons-material/Loop";
 import PlayerModal from "../PlayerModal/PlayerModal";
 import formationsPositions from "../../../utils/formations";
-import { motion } from "motion/react"
+import { motion } from "motion/react";
 
 const Lineup = ({
   team,
@@ -108,9 +108,12 @@ const Lineup = ({
   };
 
   return (
-    <motion.div initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ duration: 1 }} className="pitch-container">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+      className="pitch-container"
+    >
       <div className="pitch-markings">
         <div className="penalty-area home-penalty"></div>
         <div className="penalty-area away-penalty"></div>

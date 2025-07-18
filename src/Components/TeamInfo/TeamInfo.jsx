@@ -5,6 +5,7 @@ import axios from "axios";
 import Header from "../Header/Header";
 import PlayerModal from "../PlayerModal/PlayerModal";
 import { useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
 
 const TeamInfo = () => {
   const { teamId } = useParams();
@@ -223,7 +224,12 @@ const TeamInfo = () => {
                     mobileView === "squad" ? "mobile-active" : ""
                   }`}
                 >
-                  <div className="squad-columns">
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1 }}
+                    className="squad-columns"
+                  >
                     <div className="squad-column">
                       {squad &&
                         Object.entries(
@@ -299,7 +305,8 @@ const TeamInfo = () => {
                                       className="player-photo"
                                       loading="lazy"
                                     />
-                                    {/* {player.number}.  */}{player.name}
+                                    {/* {player.number}.  */}
+                                    {player.name}
                                   </li>
                                 ))}
                               </ul>
@@ -307,7 +314,7 @@ const TeamInfo = () => {
                             </div>
                           ))}
                     </div>
-                  </div>
+                  </motion.div>
 
                   <PlayerModal
                     playerId={selectedPlayer?.id}
@@ -342,7 +349,12 @@ const TeamInfo = () => {
                     </div>
 
                     {activeView === "results" && (
-                      <div className="results-list">
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1 }}
+                        className="results-list"
+                      >
                         <div className="result-legend">
                           <span className="legend-item win">Win</span>
                           <span className="legend-item draw">Draw</span>
@@ -408,11 +420,16 @@ const TeamInfo = () => {
                             })}
                           </tbody>
                         </table>
-                      </div>
+                      </motion.div>
                     )}
 
                     {activeView === "upcoming" && (
-                      <div className="results-list">
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1 }}
+                        className="results-list"
+                      >
                         <table className="results-table">
                           <colgroup>
                             <col className="col-date" />
@@ -451,7 +468,7 @@ const TeamInfo = () => {
                             })}
                           </tbody>
                         </table>
-                      </div>
+                      </motion.div>
                     )}
                   </div>
 

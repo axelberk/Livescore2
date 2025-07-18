@@ -10,7 +10,7 @@ import { fetchWithCache } from "../../../utils/apiCache";
 import { Skeleton, Box, useMediaQuery } from "@mui/material";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import SportsTwoToneIcon from "@mui/icons-material/SportsTwoTone";
-import { motion } from "motion/react"
+import { motion } from "motion/react";
 
 const MatchSkeleton = () => {
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
@@ -226,7 +226,6 @@ const Match = () => {
           .filter((e) => e.type === "Goal" && e.comments !== "Penalty Shootout")
           .sort((a, b) => a.time.elapsed - b.time.elapsed);
 
-
         const redCardEvents = allEvents
           .filter((e) => e.detail === "Red Card")
           .sort((a, b) => a.time.elapsed - b.time.elapsed);
@@ -261,9 +260,13 @@ const Match = () => {
         setSubstitutions(subs);
 
         const goalMap = new Map();
-      
+
         allEvents.forEach((e) => {
-          if (e.type === "Goal" && e.player?.id && e.comments !== "Penalty Shootout") {
+          if (
+            e.type === "Goal" &&
+            e.player?.id &&
+            e.comments !== "Penalty Shootout"
+          ) {
             const id = e.player.id;
             const isOwnGoal = e.detail === "Own Goal";
 
@@ -325,87 +328,80 @@ const Match = () => {
   );
 
   const getMatchStatus = () => {
-  const { status, timestamp } = fixture.fixture;
+    const { status, timestamp } = fixture.fixture;
 
-  switch (status.short) {
-    case "NS":
-      const kickoff = new Date(timestamp * 1000);
-      return `Kickoff: ${kickoff.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      })}`;
+    switch (status.short) {
+      case "NS":
+        const kickoff = new Date(timestamp * 1000);
+        return `Kickoff: ${kickoff.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        })}`;
 
-    case "1H":
-    case "2H":
-    case "ET":
-      return `${status.elapsed}'`;
+      case "1H":
+      case "2H":
+      case "ET":
+        return `${status.elapsed}'`;
 
-    case "HT":
-      return "Half Time";
+      case "HT":
+        return "Half Time";
 
-    case "FT":
-      return "Full Time";
+      case "FT":
+        return "Full Time";
 
-    case "AET":
-      return "AET";
+      case "AET":
+        return "AET";
 
-    case "PEN":
-      return "PEN";
+      case "PEN":
+        return "PEN";
 
-    case "PST":
-      return "Postponed";
+      case "PST":
+        return "Postponed";
 
-    default:
-      return status.long || "Status Unavailable";
-  }
-};
+      default:
+        return status.long || "Status Unavailable";
+    }
+  };
 
-const renderScore = (fixture) => {
-  const status = fixture?.fixture?.status?.short;
-  const goals = fixture?.goals;
-  const score = fixture?.score || fixture?.fixture?.score;
+  const renderScore = (fixture) => {
+    const status = fixture?.fixture?.status?.short;
+    const goals = fixture?.goals;
+    const score = fixture?.score || fixture?.fixture?.score;
 
-  if (!status) return "-";
+    if (!status) return "-";
 
-  const homeGoals = goals?.home;
-  const awayGoals = goals?.away;
+    const homeGoals = goals?.home;
+    const awayGoals = goals?.away;
 
-  const isScoreAvailable =
-    homeGoals != null && awayGoals != null;
+    const isScoreAvailable = homeGoals != null && awayGoals != null;
 
-  const regularScore = isScoreAvailable
-    ? `${homeGoals} - ${awayGoals}`
-    : "-";
+    const regularScore = isScoreAvailable ? `${homeGoals} - ${awayGoals}` : "-";
 
-  if (
-    status === "PEN" &&
-    score?.penalty?.home != null &&
-    score?.penalty?.away != null
-  ) {
-    const penScore = `${score.penalty.home} - ${score.penalty.away}`;
-    return (
-      <>
-        {regularScore}
-        <br />
-        ({penScore})
-      </>
-    );
-  }
+    if (
+      status === "PEN" &&
+      score?.penalty?.home != null &&
+      score?.penalty?.away != null
+    ) {
+      const penScore = `${score.penalty.home} - ${score.penalty.away}`;
+      return (
+        <>
+          {regularScore}
+          <br />({penScore})
+        </>
+      );
+    }
 
-  if (status === "AET") {
-    return (
-      <>
-        {regularScore}
-        <br />
-      </>
-    );
-  }
+    if (status === "AET") {
+      return (
+        <>
+          {regularScore}
+          <br />
+        </>
+      );
+    }
 
-  return regularScore;
-};
-
-
-
+    return regularScore;
+  };
 
   const getSubInfo = (playerId) =>
     substitutions.find((s) => s.player_in?.id === playerId);
@@ -494,9 +490,12 @@ const renderScore = (fixture) => {
     <div className="Match">
       <Header />
 
-      <motion.div initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ duration: 1 }} className="match-container">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+        className="match-container"
+      >
         <div className="match-league">
           <img
             src={fixture.league.logo}
@@ -540,9 +539,8 @@ const renderScore = (fixture) => {
 
           <div className="match-score-status">
             <div className="match-scores">
-               {renderScore(fixture)}
+              {renderScore(fixture)}
               <div className="match-status">{getMatchStatus()}</div>
-              
             </div>
           </div>
 
