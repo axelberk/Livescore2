@@ -7,6 +7,7 @@ import TeamInfo from "../TeamInfo/TeamInfo";
 import { Link } from "react-router-dom";
 import PlayerModal from "../PlayerModal/PlayerModal";
 import groupTwoLeggedTies from "../../../utils/twoLegs";
+import { motion } from "motion/react";
 
 const LeagueInfo = () => {
   const { leagueId } = useParams();
@@ -284,7 +285,12 @@ const LeagueInfo = () => {
     );
 
     return (
-      <div className="qualification-bracket">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+        className="qualification-bracket"
+      >
         <div className="bracket-rows">
           {Object.entries(grouped).map(([round, matches]) => {
             const tiesMap = new Map();
@@ -397,7 +403,7 @@ const LeagueInfo = () => {
             );
           })}
         </div>
-      </div>
+      </motion.div>
     );
   };
 
@@ -444,7 +450,12 @@ const LeagueInfo = () => {
       </div>
 
       {viewMode === "standings" && (
-        <div className="league-container">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="league-container"
+        >
           {standings.length === 1 ? (
             <>
               <table className="league-table">
@@ -580,11 +591,16 @@ const LeagueInfo = () => {
               })}
             </div>
           )}
-        </div>
+        </motion.div>
       )}
 
       {viewMode === "bracket" && (
-        <div className="bracket-view">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="bracket-view"
+        >
           {bracketData.length === 0 ? (
             <p>No bracket data available.</p>
           ) : (
@@ -689,11 +705,18 @@ const LeagueInfo = () => {
               </div>
             ))
           )}
-        </div>
+        </motion.div>
       )}
 
       {viewMode === "qualification" && (
-        <div className="qualification-view">{renderQualificationBracket()}</div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="qualification-view"
+        >
+          {renderQualificationBracket()}
+        </motion.div>
       )}
 
       <hr className="solid"></hr>
