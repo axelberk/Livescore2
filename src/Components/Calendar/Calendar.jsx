@@ -73,7 +73,10 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
         fontFamily: "inherit",
       },
       "& fieldset": {
-      
+        border: "none",
+      },
+      "&:hover fieldset": {
+        border: "none",
       },
       width: {
         xs: "75px",  
@@ -81,9 +84,9 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
         md: "200px",  
       },
       height: {
-        xs: "28px",  
+        xs: "26px",  
         sm: "32px",  
-        md: "40px"
+        md: "36px"
       },
 
       fontSize: {
