@@ -43,7 +43,7 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
               },
               params: {
                 id: playerId,
-                season: "2025",
+                season: season,
               },
             }
           );
@@ -51,13 +51,13 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
           const playerData = res.data.response[0];
           if (!playerData) return null;
 
-          const clubStats = playerData.statistics?.filter(
-            (s) => s.team?.national !== true
-          );
+         const clubStats = player?.statistics?.filter((s) => !s.team?.national);
 
-          return clubStats && clubStats.length > 0
-            ? { ...playerData, statistics: clubStats }
-            : null;
+          // Always return player data, even if no club stats available
+          return {
+            ...playerData,
+            statistics: clubStats && clubStats.length > 0 ? clubStats : []
+          };
         } catch (err) {
           console.error(`Error fetching player for season ${season}`, err);
           return null;
@@ -66,16 +66,16 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
 
       setLoading(true);
 
-     const data = await fetchClubStats("2024");
+      const data = await fetchClubStats("2025");
 
-if (data) {
-  setPlayer({
-    ...data,
-    statistics: data.statistics?.filter((s) => s.team?.national !== true),
-  });
-} else {
-  setPlayer(null);
-}
+      if (data) {
+       setPlayer({
+  ...data,
+  statistics: data.statistics.filter((s) => s.team?.national !== true)
+});
+      } else {
+        setPlayer(null);
+      }
 
       setLoading(false);
     };
@@ -83,7 +83,9 @@ if (data) {
     fetchPlayer();
   }, [playerId, isOpen]);
 
-  const bestStats = player?.statistics?.reduce((best, current) => {
+ const bestStats = player?.statistics
+  ?.filter((s) => s.team?.national !== true)
+  .reduce((best, current) => {
     const bestApps = best?.games?.appearences ?? 0;
     const currentApps = current?.games?.appearences ?? 0;
     return currentApps > bestApps ? current : best;
@@ -134,26 +136,24 @@ if (data) {
             />
           )}
 
-          <div className="modal-club-info">
-            <div className="modal-club-info">
-              {!loading && player?.statistics?.[0]?.team ? (
-                <Link
-                  to={`/team/${bestStats?.team?.id}`}
-                  className="modal-club"
-                  onClick={handleClose}
-                >
-                  <img
-                    src={bestStats?.team?.logo}
-                    alt={bestStats?.team?.name}
-                    className="modal-club-logo"
-                    title={bestStats?.team?.name}
-                  />
-                </Link>
-              ) : !loading ? (
-                <span className="fact-span">N/A</span>
-              ) : null}
-            </div>
-          </div>
+         <div className="modal-club-info">
+  {bestStats?.team ? (
+    <Link
+      to={`/team/${bestStats.team.id}`}
+      className="modal-club"
+      onClick={handleClose}
+    >
+      <img
+        src={bestStats.team.logo}
+        alt={bestStats.team.name}
+        className="modal-club-logo"
+        title={bestStats.team.name}
+      />
+    </Link>
+  ) : (
+    <span className="fact-span">N/A</span>
+  )}
+</div>
         </div>
         <div className="modal-content">
           {loading ? (
@@ -166,18 +166,6 @@ if (data) {
               <div className="modal-facts-container">
                 <div className="modal-facts-left">
                   <h2 className="modal-name">
-                {/* {player?.player
-              ? (() => {
-                  const number =
-                    player?.statistics?.[0]?.games?.number ??
-                    player?.player?.number ??
-                    numberFromLineup;
-
-                  return `${number ? number + ". " : ""}${
-                    player.player.firstname
-                  } ${player.player.lastname}`;
-                })()
-              : "Loading..."} */}
                 {player.player.firstname} {player.player.lastname}
               </h2>
                   <p>
@@ -189,7 +177,7 @@ if (data) {
                   <p>
                     Position:{" "}
                     <span className="fact-span">
-                      {bestStats?.games?.position || "Unknown"}
+                      {bestStats?.games?.position || "N/A"}
                     </span>
                   </p>
                   <p>
