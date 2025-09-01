@@ -78,11 +78,23 @@
   gap: 10px;
 }
 
-.modal-facts p {
-  margin: 0;
+.modal-facts-right,
+.modal-facts-left {
+  flex-direction: column; 
   text-align: left;
-  white-space: normal;
-  font-size: 16px;
+}
+
+.modal-facts-right .stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+
+.modal-facts-right p,
+.modal-facts-left p {
+  margin: 0;
+  white-space: nowrap; 
+  font-size: 15px;
 }
 
 .fact-span {
@@ -136,7 +148,7 @@
 }
 
 .modal-facts-container {
-  gap: 0;
+  gap: 4px;
 }
 
 }

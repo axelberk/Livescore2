@@ -43,7 +43,7 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
               },
               params: {
                 id: playerId,
-                season,
+                season: "2025",
               },
             }
           );
@@ -164,7 +164,7 @@ if (data) {
             <>
               
               <div className="modal-facts-container">
-                <div className="modal-facts">
+                <div className="modal-facts-left">
                   <h2 className="modal-name">
                 {/* {player?.player
               ? (() => {
@@ -213,8 +213,8 @@ if (data) {
                   </p>
                 </div>
 
-                <div className="modal-facts">
-                  <h2 className="modal-name">2024-25</h2>
+                <div className="modal-facts-right">
+                  <h2 className="modal-name">2025-26</h2>
                   <p>
                     Appearances:{" "}
                     <span className="fact-span">
