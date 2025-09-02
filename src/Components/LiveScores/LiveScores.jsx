@@ -148,7 +148,7 @@ Object.entries(
     return acc;
   }, {})
 )
-// sort the leagues here
+
 .sort(([aName, aMatches], [bName, bMatches]) => {
   const pa = leaguePriority[aMatches[0].league.id] || 99;
   const pb = leaguePriority[bMatches[0].league.id] || 99;
@@ -187,33 +187,43 @@ Object.entries(
   </div>
 
    <div className="score">
-      <span className="home-score">{match.goals.home}</span> <span className="away-score">{match.goals.away}</span>
-    </div>
+  <span
+    className={`home-score ${
+      match.goals.home > match.goals.away ? "winner" : ""
+    }`}
+  >
+    {match.goals.home}
+  </span>{" "}
+  <span
+    className={`away-score ${
+      match.goals.away > match.goals.home ? "winner" : ""
+    }`}
+  >
+    {match.goals.away}
+  </span>
+</div>
 
-  <div className="match-teams">
-    <div className="team home">
-      <img
-        src={match.teams.home.logo}
-        alt={`${match.teams.home.name} logo`}
-        className="liveteam-logo"
-        loading="lazy"
-      />
-      <span className="team-name">{match.teams.home.name}</span>
-    </div>
-
-   
-
-    <div className="team away">
-      <img
-        src={match.teams.away.logo}
-        alt={`${match.teams.away.name} logo`}
-        className="liveteam-logo"
-        loading="lazy"
-      />
-      <span className="team-name">{match.teams.away.name}</span>
-      
-    </div>
+<div className="match-teams">
+  <div className={`team home ${match.goals.home > match.goals.away ? "winner" : ""}`}>
+    <img
+      src={match.teams.home.logo}
+      alt={`${match.teams.home.name} logo`}
+      className="liveteam-logo"
+      loading="lazy"
+    />
+    <span className="team-name">{match.teams.home.name}</span>
   </div>
+
+  <div className={`team away ${match.goals.away > match.goals.home ? "winner" : ""}`}>
+    <img
+      src={match.teams.away.logo}
+      alt={`${match.teams.away.name} logo`}
+      className="liveteam-logo"
+      loading="lazy"
+    />
+    <span className="team-name">{match.teams.away.name}</span>
+  </div>
+</div>
 </div>
 
     ))}

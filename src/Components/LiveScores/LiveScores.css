@@ -140,6 +140,10 @@ h2 {
   flex-direction: column;
 }
 
+.winner {
+  font-weight: 600; 
+}
+
 @media (max-width: 768px) {
   .Livescores {
     width: 100%;
