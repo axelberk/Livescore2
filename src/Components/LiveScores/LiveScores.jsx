@@ -48,6 +48,22 @@ const getMatchStatus = (fixture) => {
 
 const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135, 88, 40, 114, 5, 10, 15, 38, 743	];
 
+const leaguePriority  = {
+  39: 1,
+  113: 2,
+  78: 3,
+  140: 4,
+  2: 5,
+  848: 6,
+  3: 7,
+  78: 8,
+  61: 9,
+  135: 10,
+  88: 11,
+  40: 12,
+  114: 13,
+     }
+
 const ScoreSkeleton = () => (
   <Box padding={2} className="league-display">
     <div className="league-header">
@@ -124,64 +140,73 @@ const LiveScores = ({ selectedDate, setSelectedMatch }) => {
 ) : matches.length === 0 ? (
   <p className="no-fixtures">No fixtures today.</p>
 ) : (
-  Object.entries(
-    matches.reduce((acc, match) => {
-      const leagueName = match.league.name;
-      if (!acc[leagueName]) acc[leagueName] = [];
-      acc[leagueName].push(match);
-      return acc;
-    }, {})
-  ).map(([leagueName, leagueMatches]) => (
-          <motion.div initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ duration: 0.6 }} key={leagueName} className="league-display">
-            <Link
-              to={`/league/${leagueMatches[0].league.id}`}
-              className="league-header"
-            >
-              <img
-                src={leagueMatches[0].league.logo}
-                alt={`${leagueMatches[0].league.name} logo`}
-                className="league-logo"
-                loading="lazy"
-              />
-              <p>{leagueMatches[0].league.name}</p>
-              <ArrowRightIcon fontSize="large"/>
-            </Link>
-
-            {leagueMatches.map((match) => (
-               <div
-    key={match.fixture.id}
-    className="match-card"
-    onClick={() => navigate(`/match/${match.fixture.id}`)}
+Object.entries(
+  matches.reduce((acc, match) => {
+    const leagueName = match.league.name;
+    if (!acc[leagueName]) acc[leagueName] = [];
+    acc[leagueName].push(match);
+    return acc;
+  }, {})
+)
+// sort the leagues here
+.sort(([aName, aMatches], [bName, bMatches]) => {
+  const pa = leaguePriority[aMatches[0].league.id] || 99;
+  const pb = leaguePriority[bMatches[0].league.id] || 99;
+  return pa - pb || aName.localeCompare(bName);
+})
+.map(([leagueName, leagueMatches]) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 0.6 }}
+    key={leagueName}
+    className="league-display"
   >
-                <div className="livescore-time">
-                  {getMatchStatus(match)}
-                </div>
+    <Link
+      to={`/league/${leagueMatches[0].league.id}`}
+      className="league-header"
+    >
+      <img
+        src={leagueMatches[0].league.logo}
+        alt={`${leagueMatches[0].league.name} logo`}
+        className="league-logo"
+        loading="lazy"
+      />
+      <p>{leagueMatches[0].league.name}</p>
+      <ArrowRightIcon fontSize="large" />
+    </Link>
 
-               
-                <div className="match-teams">
-                  <img
-                    src={match.teams.home.logo}
-                    alt={`${match.teams.home.name} logo`}
-                    className="liveteam-logo"
-                    loading="lazy"
-                  />
-                  {match.teams.home.name} - {match.teams.away.name}
-                  <img
-                    src={match.teams.away.logo}
-                    alt={`${match.teams.away.name} logo`}
-                    className="liveteam-logo"
-                    loading="lazy"
-                  />
-                </div>{" "}
-                <div className="match-result">
-                  {match.goals.home}-{match.goals.away}
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        ))
+    {leagueMatches.map((match) => (
+      <div
+        key={match.fixture.id}
+        className="match-card"
+        onClick={() => navigate(`/match/${match.fixture.id}`)}
+      >
+        <div className="livescore-time">
+          {getMatchStatus(match)}
+        </div>
+        <div className="match-teams">
+          <img
+            src={match.teams.home.logo}
+            alt={`${match.teams.home.name} logo`}
+            className="liveteam-logo"
+            loading="lazy"
+          />
+          {match.teams.home.name} - {match.teams.away.name}
+          <img
+            src={match.teams.away.logo}
+            alt={`${match.teams.away.name} logo`}
+            className="liveteam-logo"
+            loading="lazy"
+          />
+        </div>
+        <div className="match-result">
+          {match.goals.home}-{match.goals.away}
+        </div>
+      </div>
+    ))}
+  </motion.div>
+))
       )}
     </div>
   );
