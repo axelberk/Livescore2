@@ -3,7 +3,7 @@
   padding: 0px 10px;
   text-align: left;
   flex-direction: column;
-  width: 65%;
+  width: 50%;
   gap: 30px;
   font-size: 1rem;
   /* color: #FFFFFF; test color */
@@ -81,9 +81,17 @@ h2 {
  
 }
 
+.livescore-time {
+  color: black;
+  text-align: left;
+  width: 30px;
+}
+
 .liveteam-logo {
+   width: 25px;
   height: 25px;
-  margin: 0px 6px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .match-card:hover {
@@ -94,7 +102,42 @@ h2 {
 
 .match-teams {
   display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  gap: 10px;
+}
+
+.team {
+   display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 120px; 
+}
+
+.team.home {
+  justify-content: flex-start;
   text-align: left;
+}
+
+.team.away {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.team-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
+}
+
+.score {
+  width: 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 @media (max-width: 768px) {

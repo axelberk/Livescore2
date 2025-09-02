@@ -178,32 +178,44 @@ Object.entries(
 
     {leagueMatches.map((match) => (
       <div
-        key={match.fixture.id}
-        className="match-card"
-        onClick={() => navigate(`/match/${match.fixture.id}`)}
-      >
-        <div className="livescore-time">
-          {getMatchStatus(match)}
-        </div>
-        <div className="match-teams">
-          <img
-            src={match.teams.home.logo}
-            alt={`${match.teams.home.name} logo`}
-            className="liveteam-logo"
-            loading="lazy"
-          />
-          {match.teams.home.name} - {match.teams.away.name}
-          <img
-            src={match.teams.away.logo}
-            alt={`${match.teams.away.name} logo`}
-            className="liveteam-logo"
-            loading="lazy"
-          />
-        </div>
-        <div className="match-result">
-          {match.goals.home}-{match.goals.away}
-        </div>
-      </div>
+  key={match.fixture.id}
+  className="match-card"
+  onClick={() => navigate(`/match/${match.fixture.id}`)}
+>
+  <div className="livescore-time">
+    {getMatchStatus(match)}
+  </div>
+
+   <div className="score">
+      <span className="home-score">{match.goals.home}</span> <span className="away-score">{match.goals.away}</span>
+    </div>
+
+  <div className="match-teams">
+    <div className="team home">
+      <img
+        src={match.teams.home.logo}
+        alt={`${match.teams.home.name} logo`}
+        className="liveteam-logo"
+        loading="lazy"
+      />
+      <span className="team-name">{match.teams.home.name}</span>
+    </div>
+
+   
+
+    <div className="team away">
+      <img
+        src={match.teams.away.logo}
+        alt={`${match.teams.away.name} logo`}
+        className="liveteam-logo"
+        loading="lazy"
+      />
+      <span className="team-name">{match.teams.away.name}</span>
+      
+    </div>
+  </div>
+</div>
+
     ))}
   </motion.div>
 ))
