@@ -33,49 +33,61 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
     if (!playerId || !isOpen) return;
 
     const fetchPlayer = async () => {
-      const fetchClubStats = async (season) => {
-        try {
-          const res = await axios.get(
-            "https://v3.football.api-sports.io/players",
-            {
-              headers: {
-                "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-              },
-              params: {
-                id: playerId,
-                season: season,
-              },
-            }
-          );
+     const fetchClubStats = async (season) => {
+  try {
+    const res = await axios.get("https://v3.football.api-sports.io/players", {
+      headers: {
+        "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+      },
+      params: {
+        id: playerId,
+        season: season,
+      },
+    });
 
-          const playerData = res.data.response[0];
-          if (!playerData) return null;
+    const playerData = res.data.response[0];
+    if (!playerData) return null;
 
-         const clubStats = player?.statistics?.filter((s) => !s.team?.national);
+    const clubStat = playerData.statistics?.find(
+      (s) => !s.team?.national
+    );
 
-          // Always return player data, even if no club stats available
-          return {
-            ...playerData,
-            statistics: clubStats && clubStats.length > 0 ? clubStats : []
-          };
-        } catch (err) {
-          console.error(`Error fetching player for season ${season}`, err);
-          return null;
-        }
+    if (clubStat) {
+      return {
+        ...playerData,
+        statistics: [clubStat],
       };
+    }
+
+    const clubTeam = playerData.statistics?.find((s) => !s.team?.national)?.team;
+
+    return {
+      ...playerData,
+      statistics: [
+        {
+          team: clubTeam,
+          games: { appearances: 0, position: playerData.player?.position ?? "N/A" },
+          goals: { total: 0, assists: 0 },
+          cards: { yellow: 0, red: 0 },
+        },
+      ],
+    };
+  } catch (err) {
+    console.error(`Error fetching player for season ${season}`, err);
+    return null;
+  }
+};
+
 
       setLoading(true);
 
       const data = await fetchClubStats("2025");
 
-      if (data) {
-       setPlayer({
-  ...data,
-  statistics: data.statistics.filter((s) => s.team?.national !== true)
-});
-      } else {
-        setPlayer(null);
-      }
+if (data) {
+  setPlayer(data);
+} else {
+  setPlayer(null);
+}
 
       setLoading(false);
     };
@@ -83,13 +95,7 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
     fetchPlayer();
   }, [playerId, isOpen]);
 
- const bestStats = player?.statistics
-  ?.filter((s) => s.team?.national !== true)
-  .reduce((best, current) => {
-    const bestApps = best?.games?.appearences ?? 0;
-    const currentApps = current?.games?.appearences ?? 0;
-    return currentApps > bestApps ? current : best;
-  }, null);
+ const bestStats = player?.statistics?.find((s) => !s.team?.national) ?? null;
 
   const handleClose = () => {
     setClosing(true);
