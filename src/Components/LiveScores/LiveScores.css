@@ -58,15 +58,6 @@ h2 {
   color: inherit;
 }
 
-.match {
-  padding: 12px;
-  background: #f1f1f1;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  width: 100%px;
-  text-align: center;
-}
-
 .match-card {
   cursor: pointer;
   padding: 5px 12px;
@@ -88,8 +79,8 @@ h2 {
 }
 
 .liveteam-logo {
-   width: 25px;
-  height: 25px;
+  width: 18px;
+  height: 18px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -102,7 +93,6 @@ h2 {
 
 .match-teams {
   display: flex;
-  align-items: center;
   flex-direction: column;
   justify-content: space-between;
   flex: 1;
@@ -110,7 +100,7 @@ h2 {
 }
 
 .team {
-   display: flex;
+  display: flex;
   align-items: center;
   gap: 6px;
   min-width: 120px; 
@@ -131,6 +121,7 @@ h2 {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 130px;
+  font-size: 16px;
 }
 
 .score {
@@ -138,6 +129,7 @@ h2 {
   text-align: center;
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
 .winner {
