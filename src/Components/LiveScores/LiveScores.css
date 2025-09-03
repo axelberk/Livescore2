@@ -159,12 +159,12 @@ h2 {
     margin: 0;
   }
 
-  .league-header,
+  /* .league-header,
   .match-teams,
   .match-result,
   .livescore-time {
     font-size: 0.8rem;
-  }
+  } */
 
   .match-teams {
     gap: 2px;
@@ -180,10 +180,10 @@ h2 {
     height: 30px;
   }
 
-  .match-card {
+  /* .match-card {
     height: 20px;
     padding: 4px;
-  }
+  } */
 
   .match-card:hover {
     background-color: inherit;
@@ -196,5 +196,11 @@ h2 {
   .league-header {
     text-decoration: none;
     color: black;
+  }
+}
+
+@media (min-width: 769px) {
+  .Livescores {
+    width: 50%;
   }
 }
