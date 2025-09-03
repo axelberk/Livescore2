@@ -8,6 +8,7 @@ import "./Calendar.css";
 import { useSearch } from "../SearchContext/SearchContext";
 import { useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
+import { format } from "date-fns";
 
 const Calendar = ({ selectedDate, setSelectedDate }) => {
   const { searchQuery, setSearchQuery } = useSearch();
@@ -37,11 +38,10 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
         </button>
 
         <DatePicker
-          selected={selectedDate}
-          onChange={(date) => setSelectedDate(date)}
-          dateFormat="EEEE, d MMMM yyyy"
-          customInput={<CustomInput />}
-        />
+  selected={selectedDate}
+  onChange={(date) => setSelectedDate(date)}
+  customInput={<CustomInput selectedDate={selectedDate} />}
+/>
 
         <button className="calendar-arrow" onClick={goToNextDay}>
           <ArrowRightIcon fontSize="large"/>
@@ -102,11 +102,19 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
   );
 };
 
-const CustomInput = forwardRef(({ value, onClick }, ref) => (
-  <div className="calendar-date" onClick={onClick} ref={ref}>
-    <CalendarMonthIcon className="calendar-icon"/>
-    {value}
-  </div>
-));
+const CustomInput = forwardRef(({ selectedDate, onClick }, ref) => {
+  const isSmallScreen = window.innerWidth < 768;
+
+  const displayValue = isSmallScreen
+    ? format(selectedDate, "d/MM/yyyy")
+    : format(selectedDate, "EEEE, d MMMM yyyy");
+
+  return (
+    <div className="calendar-date" onClick={onClick} ref={ref}>
+      <CalendarMonthIcon className="calendar-icon" />
+      {displayValue}
+    </div>
+  );
+});
 
 export default Calendar;

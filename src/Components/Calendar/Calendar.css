@@ -67,10 +67,10 @@
   }
 
   .calendar-date {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     display: flex;
     justify-content: flex-start;
-    width: 175px;
+    width: 100px;
     align-items: center;
     padding: 8px 2px;
   }
