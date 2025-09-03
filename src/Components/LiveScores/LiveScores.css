@@ -86,7 +86,8 @@ h2 {
 }
 
 .match-card:hover {
-  background-color: rgb(218, 213, 213);
+  /* background-color: rgb(218, 213, 213); */
+  background: #f1f1f1;
   border-radius: 10px;
   /* background-color: #2A2A2A; test color */
 }
@@ -133,6 +134,11 @@ h2 {
   background-color: #f1f1f1;
   border-radius: inherit;
 }
+
+.invisible {
+  visibility: hidden; /* keeps space but hides content */
+}
+
 
 .winner {
   font-weight: 600; 

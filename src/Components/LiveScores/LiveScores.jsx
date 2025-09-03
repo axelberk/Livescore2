@@ -46,7 +46,7 @@ const getMatchStatus = (fixture) => {
 };
 
 
-const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135, 88, 40, 114, 5, 10, 15, 38, 743	];
+const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135, 88, 40, 114, 5, 10, 15, 38, 743, 32	];
 
 const leaguePriority  = {
   39: 1,
@@ -62,6 +62,7 @@ const leaguePriority  = {
   88: 11,
   40: 12,
   114: 13,
+  32: 14,
      }
 
 const ScoreSkeleton = () => (
@@ -186,7 +187,11 @@ Object.entries(
     {getMatchStatus(match)}
   </div>
 
-   <div className="score">
+  <div
+  className={`score ${
+    match.goals.home === null || match.goals.away === null ? "invisible" : ""
+  }`}
+>
   <span
     className={`home-score ${
       match.goals.home > match.goals.away ? "winner" : ""
