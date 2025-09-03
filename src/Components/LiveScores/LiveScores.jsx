@@ -77,10 +77,10 @@ const ScoreSkeleton = () => (
           <Skeleton variant="text" width="24px" height={20} />
         </div>
         <div className="match-teams">
-          <Skeleton variant="circular" width={24} height={16} />
+          {/* <Skeleton variant="circular" width={24} height={16} /> */}
           <Skeleton variant="text" width="20%" height={20} sx={{ mx: 1 }} />
           <Skeleton variant="text" width="20%" height={20} sx={{ mx: 1 }} />
-          <Skeleton variant="circular" width={24} height={16} />
+          {/* <Skeleton variant="circular" width={24} height={16} /> */}
         </div>
         <div className="match-result">
           <Skeleton variant="text" width="20px" height={20} />
@@ -224,6 +224,7 @@ Object.entries(
     <span className="team-name">{match.teams.away.name}</span>
   </div>
 </div>
+<ArrowRightIcon fontSize="medium" />
 </div>
 
     ))}
