@@ -330,8 +330,8 @@
 
 @media (max-width: 768px) {
   .team-info-logo {
-    width: 100px;
-    height: 100px;
+    width: 160px;
+    height: 160px;
   }
 
   .facts-container {
@@ -359,9 +359,13 @@
     text-align: left;
   }
 
+  .squad-list li:hover {
+    background-color: none;
+}
+
   .player-photo {
-    width: 26px;
-    height: 26px;
+    width: 28px;
+    height: 28px;
     /* display: none; */
   }
 

@@ -191,7 +191,7 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
                   <p>
                     Date of birth:{" "}
                     <span className="fact-span">
-                      {player.player.birth.date} ({player.player.age} years)
+                      {player.player.birth.date} {/* ({player.player.age} years) */}
                     </span>
                   </p>
                   <p>
