@@ -15,8 +15,8 @@ const ModalSkeleton = () => (
     padding={0}
   >
     <Box display="flex" flexDirection="row" justifyContent="space-between" width="100%">
-      <Skeleton variant="rectangular" width={100} height={100} />
-      <Skeleton variant="rectangular" width={100} height={100} />
+      <Skeleton variant="rectangular" width={100} height={80} />
+      <Skeleton variant="rectangular" width={100} height={80} />
     </Box>
     {[...Array(6)].map((_, i) => (
       <Skeleton key={i} variant="text" width="40%" height={15} />

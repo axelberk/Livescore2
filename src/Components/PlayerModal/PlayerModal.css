@@ -103,7 +103,7 @@
 
 .modal-club-logo {
   max-width: 120px;
-  height: 80px;
+  max-height: 80px;
 }
 
 .player-photo-lg {
@@ -133,10 +133,15 @@
   padding: 0;
 }
 
-.player-photo-lg,
+/* .player-photo-lg,
 .modal-club-logo  {
   width: 60px;
   height: 60px;
+} */
+
+.modal-club-logo {
+  max-width: 40px;
+ max-width: 120px;
 }
 
 .modal-name {

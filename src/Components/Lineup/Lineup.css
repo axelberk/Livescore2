@@ -315,6 +315,12 @@
   border: 2px solid white;
   }
 
+  .positioned-player {
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .positioned-player:hover {
   background-color: inherit;
  
@@ -323,6 +329,7 @@
 
   .player-number {
     font-size: 0.7rem;
+    
   }
 
   .full-name {

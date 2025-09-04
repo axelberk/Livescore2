@@ -329,10 +329,9 @@
 }
 
 @media (max-width: 768px) {
-  .team-info-logo {
-    width: 160px;
-    height: 160px;
-  }
+  /* .team-info-logo {
+    
+  } */
 
   .facts-container {
     width: 100%;
