@@ -14,7 +14,7 @@ const ModalSkeleton = () => (
     alignItems="flex-start"
     padding={0}
   >
-    <Box display="flex" flexDirection="row" gap="13rem">
+    <Box display="flex" flexDirection="row" justifyContent="space-between" width="100%">
       <Skeleton variant="rectangular" width={100} height={100} />
       <Skeleton variant="rectangular" width={100} height={100} />
     </Box>
