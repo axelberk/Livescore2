@@ -123,7 +123,8 @@
 
 .used-subs,
 .unused-subs {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr; 
   flex-direction: row;
   justify-content: center;
   gap: 80px;

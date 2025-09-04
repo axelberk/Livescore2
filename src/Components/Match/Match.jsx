@@ -711,109 +711,46 @@ const Match = () => {
 
         {!usingFallback && homeTeam?.substitutes && awayTeam?.substitutes && (
           <div className="subs-wrapper">
-            <h4>Used Substitutes</h4>
-            <div className="used-subs">
-              <div className="used-subs-home">
-                {homeTeam.substitutes.filter((sub) =>
-                  subbedOnIds.has(sub.player.id)
-                ).length > 0 ? (
-                  homeTeam.substitutes
-                    .filter((sub) => subbedOnIds.has(sub.player.id))
-                    .map(renderSub)
-                ) : (
-                  <div className="substitute-placeholder" />
-                )}
-              </div>
-              <hr />
-              <div className="used-subs-away">
-                {awayTeam.substitutes.filter((sub) =>
-                  subbedOnIds.has(sub.player.id)
-                ).length > 0 ? (
-                  awayTeam.substitutes
-                    .filter((sub) => subbedOnIds.has(sub.player.id))
-                    .map(renderSub)
-                ) : (
-                  <div className="substitute-placeholder" />
-                )}
-              </div>
-            </div>
+            {(homeTeam.substitutes.some((sub) =>
+              subbedOnIds.has(sub.player.id)
+            ) ||
+              awayTeam.substitutes.some((sub) =>
+                subbedOnIds.has(sub.player.id)
+              )) && (
+              <>
+                <h4>Used Substitutes</h4>
+                <div className="used-subs">
+                  <div className="used-subs-home">
+                    {homeTeam.substitutes
+                      .filter((sub) => subbedOnIds.has(sub.player.id))
+                      .map(renderSub)}
+                  </div>
+
+                  <hr />
+
+                  <div className="used-subs-away">
+                    {awayTeam.substitutes
+                      .filter((sub) => subbedOnIds.has(sub.player.id))
+                      .map(renderSub)}
+                  </div>
+                </div>
+              </>
+            )}
 
             <h4>Unused Substitutes</h4>
             <div className="unused-subs">
               <div className="unused-subs-home">
                 {homeTeam.substitutes
                   .filter((sub) => !subbedOnIds.has(sub.player.id))
-                  .map((sub) => (
-                    <div
-                      key={sub.player.id}
-                      className="substitute-player"
-                      onClick={() =>
-                        setSelectedPlayerId({
-                          id: sub.player.id,
-                          number: sub.player.number,
-                        })
-                      }
-                    >
-                      <div className="player-photo-wrapper">
-                        <img
-                          src={
-                            playerPhotos[sub.player.id] ||
-                            "/placeholder-player.png"
-                          }
-                          alt={sub.player.name}
-                          className="player-photo-positioned"
-                          loading="lazy"
-                        />
-                      </div>
-                      <div className="sub-text">
-                        <span className="player-numbered-name">
-                          {sub.player.number}.{" "}
-                          <span className="full-name">{sub.player.name}</span>
-                          <span className="last-name-only">
-                            {sub.player.name.split(" ").slice(-1).join(" ")}
-                          </span>
-                        </span>
-                      </div>
-                    </div>
-                  ))}
+                  .map(renderSub)}
               </div>
+
               <hr />
+
               <div className="unused-subs-away">
                 {awayTeam.substitutes
                   .filter((sub) => !subbedOnIds.has(sub.player.id))
-                  .map((sub) => (
-                    <div
-                      key={sub.player.id}
-                      className="substitute-player"
-                      onClick={() =>
-                        setSelectedPlayerId({
-                          id: sub.player.id,
-                          number: sub.player.number,
-                        })
-                      }
-                    >
-                      <div className="player-photo-wrapper">
-                        <img
-                          src={
-                            playerPhotos[sub.player.id] ||
-                            "/placeholder-player.png"
-                          }
-                          alt={sub.player.name}
-                          className="player-photo-positioned"
-                          loading="lazy"
-                        />
-                      </div>
-                      <div className="sub-text">
-                        <span className="player-numbered-name">
-                          {sub.player.number}.{" "}
-                          <span className="full-name">{sub.player.name}</span>
-                          <span className="last-name-only">
-                            {sub.player.name.split(" ").slice(-1).join(" ")}
-                          </span>
-                        </span>
-                      </div>
-                    </div>
-                  ))}
+                  .map(renderSub)}
               </div>
             </div>
           </div>
