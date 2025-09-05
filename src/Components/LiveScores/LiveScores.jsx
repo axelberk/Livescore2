@@ -46,7 +46,7 @@ const getMatchStatus = (fixture) => {
 };
 
 
-const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135, 88, 40, 114, 5, 10, 15, 38, 743, 32	];
+const allowedLeagues = [39, 113, 140, 2, 848, 3, 78, 61, 135, 88, 40, 114, 5, 10, 15, 38, 743, 32, 34	];
 
 const leaguePriority  = {
   39: 1,
@@ -63,6 +63,7 @@ const leaguePriority  = {
   40: 12,
   114: 13,
   32: 14,
+  34: 15,
      }
 
 const ScoreSkeleton = () => (
