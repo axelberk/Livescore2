@@ -1,5 +1,5 @@
 import "./Lineup.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import LoopIcon from "@mui/icons-material/Loop";
 import PlayerModal from "../PlayerModal/PlayerModal";
@@ -18,6 +18,32 @@ const Lineup = ({
 }) => {
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
   const redCardIds = new Set(redCards.map((card) => card.player?.id));
+  const [allImagesLoaded, setAllImagesLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!team?.startXI) return;
+
+    const imagePromises = team.startXI.map((playerObj) => {
+      const photoUrl = playerPhotos[playerObj.player.id];
+      if (!photoUrl) return Promise.resolve(); // no photo → skip
+
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.src = photoUrl;
+
+        img.onload = () => resolve();
+        img.onerror = () => resolve(); // fallback counts as loaded
+      });
+    });
+
+    Promise.all(imagePromises).then(() => {
+      setAllImagesLoaded(true);
+    });
+  }, [team, playerPhotos]);
+
+  if (!allImagesLoaded) {
+    return <div className="loading-lineup">Loading lineup...</div>;
+  }
 
   if (!team) {
     return <div>No team data available</div>;

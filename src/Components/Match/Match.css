@@ -65,6 +65,12 @@
   margin: 10px 0 16px;
 }
 
+.no-lineup {
+  z-index: 3;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
 .pitch-wrapper {
   display: flex;
   justify-content: center;

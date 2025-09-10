@@ -346,14 +346,14 @@
 
   .goal-icon-wrapper,
   .own-goal-icon-wrapper {
-    bottom: 17px;
-    left: 24px;
+    top: 0px;
+    /* left: 24px; */
   }
 
-  .sub-icon-wrapper {
+  /* .sub-icon-wrapper {
     top: 20px;
     left: 24px;
-  }
+  } */
 
   .red-card-icon-wrapper {
     right: 28px;

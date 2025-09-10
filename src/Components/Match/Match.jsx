@@ -684,7 +684,7 @@ const Match = () => {
               />
             </div>
           ) : (
-            <div>Home team lineup not available</div>
+            <div className="no-lineup">Home team lineup not available</div>
           )}
 
           <div className="pitch-divider horizontal">
@@ -705,7 +705,7 @@ const Match = () => {
               />
             </div>
           ) : (
-            <div>Away team lineup not available</div>
+            <div className="no-lineup">Away team lineup not available</div>
           )}
         </div>
 

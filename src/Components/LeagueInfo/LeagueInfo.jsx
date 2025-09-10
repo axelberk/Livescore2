@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import PlayerModal from "../PlayerModal/PlayerModal";
 import groupTwoLeggedTies from "../../../utils/twoLegs";
 import { motion } from "motion/react";
+import { useLeagueData } from "../../../utils/useLeagueData";
 
 const LeagueInfo = () => {
   const { leagueId } = useParams();
@@ -586,6 +587,7 @@ const LeagueInfo = () => {
                         })}
                       </tbody>
                     </table>
+                    <hr />
                   </div>
                 );
               })}
