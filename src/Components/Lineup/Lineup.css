@@ -66,8 +66,7 @@
   transition: all 0.3s ease;
   z-index: 5;
   padding: 2px;
-  /* border-radius: 8px;
-  width: 180px; */
+  width: 180px;
 }
 
 .positioned-player:hover {

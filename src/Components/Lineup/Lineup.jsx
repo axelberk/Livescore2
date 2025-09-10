@@ -25,14 +25,14 @@ const Lineup = ({
 
     const imagePromises = team.startXI.map((playerObj) => {
       const photoUrl = playerPhotos[playerObj.player.id];
-      if (!photoUrl) return Promise.resolve(); // no photo → skip
+      if (!photoUrl) return Promise.resolve(); 
 
       return new Promise((resolve) => {
         const img = new Image();
         img.src = photoUrl;
 
         img.onload = () => resolve();
-        img.onerror = () => resolve(); // fallback counts as loaded
+        img.onerror = () => resolve(); 
       });
     });
 
@@ -97,7 +97,9 @@ const Lineup = ({
 
           {goals > 0 && (
             <div className="goal-icon-wrapper">
+              {/* <img src="/foot-ball.png" alt="" /> */}
               <SportsSoccerIcon fontSize="small" className="goal-icon" />
+              {/* ⚽ */}
               {goals > 1 && <div className="goal-count">{goals}</div>}
             </div>
           )}
