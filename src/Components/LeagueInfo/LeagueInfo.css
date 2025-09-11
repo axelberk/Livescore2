@@ -62,7 +62,7 @@
 .league-table th,
 .league-table td {
   padding: 0.3rem;
-  border: 1px dotted #eee;
+  border: 1px solid #eee;
   overflow: hidden;
 
   /* font-size: 0.8rem; */
@@ -125,6 +125,11 @@
   min-width: 300px;
 }
 
+.individual-table {
+  width: 100%;
+  margin-top: 1rem;
+}
+
 .individual-table th,
 .individual-table td {
   padding: 0.1rem 0.5rem;
@@ -145,6 +150,18 @@
 }
 
 .player-link:hover {
+  text-decoration: underline;
+}
+
+.individual-table-team {
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.individual-table-team:hover {
   text-decoration: underline;
 }
 

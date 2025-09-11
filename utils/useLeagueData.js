@@ -15,7 +15,7 @@ export const useLeagueData = (leagueId) => {
 
   const API_KEY = import.meta.env.VITE_API_FOOTBALL_KEY;
 
-  // --- Fetch league info & current season ---
+  // Fetch league info & current season 
   useEffect(() => {
     const fetchLeague = async () => {
       try {
@@ -47,7 +47,7 @@ export const useLeagueData = (leagueId) => {
     fetchLeague();
   }, [leagueId]);
 
-  // --- Fetch standings, top scorers, assists, red cards ---
+  // standings, top scorers, assists, red cards 
   useEffect(() => {
     if (!seasonYear) return;
 
@@ -85,7 +85,7 @@ export const useLeagueData = (leagueId) => {
     fetchDetails();
   }, [seasonYear, leagueId]);
 
-  // --- Fetch fixtures for bracket & qualification ---
+  //  fixtures for bracket & qualification
   useEffect(() => {
     if (!seasonYear) return;
 

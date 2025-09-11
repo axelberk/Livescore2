@@ -34,9 +34,9 @@ const formationsPositions = {
     { x: 20, y: 40 },
     { x: 50, y: 40 },
     { x: 80, y: 40 },
-    { x: 20, y: 14 },
-    { x: 50, y: 14 },
-    { x: 80, y: 14 },
+    { x: 20, y: 10 },
+    { x: 50, y: 10 },
+    { x: 80, y: 10 },
   ],
   "4-2-3-1": [
     { x: 50, y: 90 },
@@ -88,7 +88,7 @@ const formationsPositions = {
     { x: 85, y: 50 }, // right mid
     { x: 30, y: 30 }, // left cam
     { x: 70, y: 30 }, // right cam
-    { x: 50, y: 15 }, // forward
+    { x: 50, y: 10 }, // forward
   ],
   "3-4-1-2": [
     { x: 50, y: 90 }, // Goalkeeper

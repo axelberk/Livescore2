@@ -770,7 +770,14 @@ const LeagueInfo = () => {
                               {player.player.name}
                             </a>
                           </td>
-                          <td>{player.statistics[0].team.name}</td>
+                          <td>
+                            <Link
+                              to={`/team/${player.statistics[0].team.id}`}
+                              className="individual-table-team"
+                            >
+                              {player.statistics[0].team.name}
+                            </Link>
+                          </td>
                           <td className="individual-number">{goals}</td>
                         </tr>
                       );
@@ -830,7 +837,14 @@ const LeagueInfo = () => {
                               {player.player.name}
                             </a>
                           </td>
-                          <td>{player.statistics[0].team.name}</td>
+                          <td>
+                            <Link
+                              to={`/team/${player.statistics[0].team.id}`}
+                              className="individual-table-team"
+                            >
+                              {player.statistics[0].team.name}
+                            </Link>
+                          </td>
                           <td className="individual-number">{assists}</td>
                         </tr>
                       );
@@ -893,7 +907,14 @@ const LeagueInfo = () => {
                               {player.player.name}
                             </a>
                           </td>
-                          <td>{player.statistics[0].team.name}</td>
+                          <td>
+                            <Link
+                              to={`/team/${player.statistics[0].team.id}`}
+                              className="individual-table-team"
+                            >
+                              {player.statistics[0].team.name}
+                            </Link>
+                          </td>
                           <td className="individual-number">{red}</td>
                         </tr>
                       );
