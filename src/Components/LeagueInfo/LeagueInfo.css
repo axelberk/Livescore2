@@ -134,7 +134,7 @@
 .individual-table td {
   padding: 0.1rem 0.5rem;
   border: 1px solid #ddd;
-  font-size: 1rem;
+  font-size: 1rem; 
 }
 
 .individual-number {
@@ -376,7 +376,7 @@
 }
 
 .individual-table {
-  width: 340px;
+  width: 100%;
 }
 
 .top-scorers td,
