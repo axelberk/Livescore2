@@ -203,13 +203,13 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
                   <p>
                     Height:{" "}
                     <span className="fact-span">
-                      {player.player.height || "N/A"}
+                      {player.player.height || "N/A"} cm
                     </span>
                   </p>
                   <p>
                     Weight:{" "}
                     <span className="fact-span">
-                      {player.player.weight || "N/A"}
+                      {player.player.weight || "N/A"} kg
                     </span>
                   </p>
 

@@ -1,27 +1,27 @@
 const formationsPositions = {
   "4-4-2": [
     { x: 50, y: 90 }, // Goalkeeper
-    { x: 18, y: 70 }, // Left back
-    { x: 40, y: 70 }, // Left center back
-    { x: 60, y: 70 }, // Right center back
-    { x: 82, y: 70 }, // Right back
-    { x: 18, y: 40 }, // Left midfielder
-    { x: 40, y: 40 }, // Left center midfielder
-    { x: 60, y: 40 }, // Right center midfielder
-    { x: 82, y: 40 }, // Right midfielder
-    { x: 35, y: 15 }, // Left forward
-    { x: 65, y: 15 }, // Right forward
+    { x: 15, y: 70 }, // Left back
+    { x: 38, y: 70 }, // Left center back
+    { x: 62, y: 70 }, // Right center back
+    { x: 85, y: 70 }, // Right back
+    { x: 15, y: 40 }, // Left midfielder
+    { x: 38, y: 40 }, // Left center midfielder
+    { x: 62, y: 40 }, // Right center midfielder
+    { x: 85, y: 40 }, // Right midfielder
+    { x: 38, y: 15 }, // Left forward
+    { x: 62, y: 15 }, // Right forward
   ],
   "3-5-2": [
     { x: 50, y: 90 }, // Goalkeeper
-    { x: 25, y: 70 }, // Left CB
+    { x: 20, y: 70 }, // Left CB
     { x: 50, y: 70 }, // Center CB
-    { x: 75, y: 70 }, // Right CB
-    { x: 85, y: 40 }, // right mid
-    { x: 33, y: 40 }, // Left center midfielder
+    { x: 80, y: 70 }, // Right CB
+    { x: 90, y: 40 }, // right mid
+    { x: 30, y: 40 }, // Left center midfielder
     { x: 50, y: 40 }, // Center midfielder
-    { x: 67, y: 40 }, // Right center midfielder
-    { x: 15, y: 40 }, // left mid
+    { x: 70, y: 40 }, // Right center midfielder
+    { x: 10, y: 40 }, // left mid
     { x: 35, y: 10 }, // Left forward
     { x: 65, y: 10 }, // Right forward
   ],
@@ -79,9 +79,9 @@ const formationsPositions = {
   ],
   "3-4-2-1": [
     { x: 50, y: 90 }, // Goalkeeper
-    { x: 25, y: 70 }, // Left CB
+    { x: 20, y: 70 }, // Left CB
     { x: 50, y: 70 }, // Center CB
-    { x: 75, y: 70 }, // Right CB 
+    { x: 80, y: 70 }, // Right CB 
     { x: 15, y: 50 }, // left mid
     { x: 38, y: 50 }, // Left cm
     { x: 62, y: 50 }, // right cm
@@ -92,9 +92,9 @@ const formationsPositions = {
   ],
   "3-4-1-2": [
     { x: 50, y: 90 }, // Goalkeeper
-    { x: 25, y: 70 }, // Left CB
+    { x: 20, y: 70 }, // Left CB
     { x: 50, y: 70 }, // Center CB
-    { x: 75, y: 70 }, // Right CB 
+    { x: 80, y: 70 }, // Right CB 
     { x: 15, y: 50 }, // left mid
     { x: 38, y: 50 }, // Left cm
     { x: 62, y: 50 }, // right cm
@@ -183,9 +183,9 @@ const formationsPositions = {
   ],
   "3-4-3": [
     { x: 50, y: 90 }, // Goalkeeper
-    { x: 25, y: 70 }, // Left CB
+    { x: 20, y: 70 }, // Left CB
     { x: 50, y: 70 }, // Center CB
-    { x: 75, y: 70 }, // Right CB 
+    { x: 80, y: 70 }, // Right CB 
     { x: 15, y: 45 }, // right mid
     { x: 38, y: 45 }, // Left cm
     { x: 62, y: 45 }, // left cm
@@ -196,14 +196,14 @@ const formationsPositions = {
   ],
   "3-1-4-2": [
     { x: 50, y: 90 }, // Goalkeeper
-    { x: 25, y: 70 }, // Left CB
+    { x: 20, y: 70 }, // Left CB
     { x: 50, y: 70 }, // Center CB
-    { x: 75, y: 70 }, // Right CB 
+    { x: 80, y: 70 }, // Right CB 
     { x: 50, y: 50 }, // cdm
-    { x: 20, y: 32 }, // right mid
-    { x: 40, y: 32 }, // right cm
-    { x: 60, y: 32 }, // left cm
-    { x: 80, y: 32 }, // left mid
+    { x: 15, y: 32 }, // right mid
+    { x: 38, y: 32 }, // right cm
+    { x: 62, y: 32 }, // left cm
+    { x: 85, y: 32 }, // left mid
     { x: 35, y: 10 }, // right forward
     { x: 65, y: 10 }, // left forward
   ],
