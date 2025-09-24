@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 import { Skeleton, Box } from "@mui/material";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 const ModalSkeleton = () => (
   <Box
@@ -14,9 +14,9 @@ const ModalSkeleton = () => (
     alignItems="flex-start"
     padding={0}
   >
-    <Box display="flex" flexDirection="row" justifyContent="space-between" width="100%">
-      <Skeleton variant="rectangular" width={100} height={80} />
-      <Skeleton variant="rectangular" width={100} height={80} />
+    <Box display="flex" flexDirection="row" gap="8rem">
+      <Skeleton variant="rectangular" width={100} height={100} />
+      <Skeleton variant="rectangular" width={100} height={100} />
     </Box>
     {[...Array(6)].map((_, i) => (
       <Skeleton key={i} variant="text" width="40%" height={15} />
@@ -34,66 +34,116 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
     if (!playerId || !isOpen) return;
 
     const fetchPlayer = async () => {
-      const fetchClubStats = async (season) => {
-        try {
-          const res = await axios.get(
-            "https://v3.football.api-sports.io/players",
-            {
-              headers: {
-                "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
-              },
-              params: {
-                id: playerId,
-                season: season,
-              },
-            }
-          );
-
-          const playerData = res.data.response[0];
-          if (!playerData) return null;
-
-          const clubStat = playerData.statistics?.find(
-            (s) => !s.team?.national
-          );
-
-          if (clubStat) {
-            return {
-              ...playerData,
-              statistics: [clubStat],
-            };
-          }
-
-          const clubTeam = playerData.statistics?.find(
-            (s) => !s.team?.national
-          )?.team;
-
-          return {
-            ...playerData,
-            statistics: [
-              {
-                team: clubTeam,
-                games: {
-                  appearances: 0,
-                  position: playerData.player?.position ?? "N/A",
-                },
-                goals: { total: 0, assists: 0 },
-                cards: { yellow: 0, red: 0 },
-              },
-            ],
-          };
-        } catch (err) {
-          console.error(`Error fetching player for season ${season}`, err);
-          return null;
-        }
-      };
-
       setLoading(true);
 
-      const data = await fetchClubStats("2025");
+      try {
+        // Fetch current season data
+        const currentRes = await axios.get(
+          "https://v3.football.api-sports.io/players",
+          {
+            headers: {
+              "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+            },
+            params: {
+              id: playerId,
+              season: "2025",
+            },
+          }
+        );
 
-      if (data) {
-        setPlayer(data);
-      } else {
+        const currentPlayerData = currentRes.data.response[0];
+        if (!currentPlayerData) {
+          setPlayer(null);
+          setLoading(false);
+          return;
+        }
+
+        // Filter only club statistics (exclude national team)
+        const currentClubStats = currentPlayerData.statistics?.filter(
+          (s) => s.team?.national !== true
+        ) || [];
+
+        // Major domestic league IDs (Premier League, La Liga, Serie A, Bundesliga, Ligue 1, etc.)
+        const domesticLeagueIds = [
+          39,  // Premier League
+          140, // La Liga
+          135, // Serie A
+          78,  // Bundesliga
+          61,  // Ligue 1
+          94,  // Primeira Liga
+          88,  // Eredivisie
+          203, // Super Lig
+          144, // Belgian Pro League
+          179, // Scottish Premiership
+          218, // Russian Premier League
+          253, // A-League
+          262, // MLS
+          // Add more domestic league IDs as needed
+        ];
+
+        // Prioritize domestic league stats
+        const domesticLeagueStats = currentClubStats.filter(stat => 
+          domesticLeagueIds.includes(stat.league?.id)
+        );
+
+        // If no major domestic league stats, look for any league competition (not cups)
+        const leagueStats = currentClubStats.filter(stat => 
+          stat.league?.type === 'League' || 
+          (stat.league?.name && !stat.league.name.toLowerCase().includes('cup') && 
+           !stat.league.name.toLowerCase().includes('champions') &&
+           !stat.league.name.toLowerCase().includes('europa') &&
+           !stat.league.name.toLowerCase().includes('conference'))
+        );
+
+        // Use domestic league stats if available, otherwise league stats, otherwise all club stats
+        const prioritizedStats = domesticLeagueStats.length > 0 
+          ? domesticLeagueStats 
+          : leagueStats.length > 0 
+            ? leagueStats 
+            : currentClubStats;
+
+        // If no current season club stats, fetch all-time data to get current club
+        let currentClubTeam = null;
+        if (prioritizedStats.length === 0) {
+          try {
+            const allTimeRes = await axios.get(
+              "https://v3.football.api-sports.io/players",
+              {
+                headers: {
+                  "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
+                },
+                params: {
+                  id: playerId,
+                },
+              }
+            );
+
+            const allTimeData = allTimeRes.data.response[0];
+            const allClubStats = allTimeData?.statistics?.filter(
+              (s) => s.team?.national !== true
+            ) || [];
+
+            // Get the most recent club team
+            if (allClubStats.length > 0) {
+              currentClubTeam = allClubStats.reduce((latest, current) => {
+                const latestSeason = parseInt(latest?.league?.season || 0);
+                const currentSeason = parseInt(current?.league?.season || 0);
+                return currentSeason > latestSeason ? current : latest;
+              }).team;
+            }
+          } catch (err) {
+            console.error("Error fetching all-time player data", err);
+          }
+        }
+
+        setPlayer({
+          ...currentPlayerData,
+          statistics: prioritizedStats,
+          currentClubTeam: currentClubTeam
+        });
+
+      } catch (err) {
+        console.error("Error fetching player data", err);
         setPlayer(null);
       }
 
@@ -103,7 +153,21 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
     fetchPlayer();
   }, [playerId, isOpen]);
 
-  const bestStats = player?.statistics?.find((s) => !s.team?.national) ?? null;
+  // Get the best club stats (most appearances) or create empty stats with current club team
+  const bestStats = player?.statistics?.length > 0 
+    ? player.statistics.reduce((best, current) => {
+        const bestApps = best?.games?.appearences ?? 0;
+        const currentApps = current?.games?.appearences ?? 0;
+        return currentApps > bestApps ? current : best;
+      }, null)
+    : player?.currentClubTeam 
+      ? { 
+          team: player.currentClubTeam, 
+          games: { appearences: 0, position: "N/A" }, 
+          goals: { total: 0, assists: 0, conceded: 0 }, 
+          cards: { yellow: 0, red: 0 } 
+        }
+      : null;
 
   const handleClose = () => {
     setClosing(true);
