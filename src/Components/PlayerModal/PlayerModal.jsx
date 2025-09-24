@@ -37,7 +37,6 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
       setLoading(true);
 
       try {
-        // Fetch current season data
         const currentRes = await axios.get(
           "https://v3.football.api-sports.io/players",
           {
@@ -58,12 +57,10 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
           return;
         }
 
-        // Filter only club statistics (exclude national team)
         const currentClubStats = currentPlayerData.statistics?.filter(
           (s) => s.team?.national !== true
         ) || [];
 
-        // Major domestic league IDs (Premier League, La Liga, Serie A, Bundesliga, Ligue 1, etc.)
         const domesticLeagueIds = [
           39,  // Premier League
           140, // La Liga
@@ -77,16 +74,17 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
           179, // Scottish Premiership
           218, // Russian Premier League
           253, // A-League
-          262, // MLS
-          // Add more domestic league IDs as needed
+          262, // MLS 
+          71,  // Championship
+          72,  // League One
+          73,  // League Two
         ];
 
-        // Prioritize domestic league stats
+       
         const domesticLeagueStats = currentClubStats.filter(stat => 
           domesticLeagueIds.includes(stat.league?.id)
         );
 
-        // If no major domestic league stats, look for any league competition (not cups)
         const leagueStats = currentClubStats.filter(stat => 
           stat.league?.type === 'League' || 
           (stat.league?.name && !stat.league.name.toLowerCase().includes('cup') && 
@@ -95,16 +93,14 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
            !stat.league.name.toLowerCase().includes('conference'))
         );
 
-        // Use domestic league stats if available, otherwise league stats, otherwise all club stats
         const prioritizedStats = domesticLeagueStats.length > 0 
           ? domesticLeagueStats 
           : leagueStats.length > 0 
             ? leagueStats 
             : currentClubStats;
 
-        // If no current season club stats, fetch all-time data to get current club
         let currentClubTeam = null;
-        if (prioritizedStats.length === 0) {
+      if (prioritizedStats.length === 0 || !prioritizedStats.some(stat => stat.team)) {
           try {
             const allTimeRes = await axios.get(
               "https://v3.football.api-sports.io/players",
@@ -123,7 +119,6 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
               (s) => s.team?.national !== true
             ) || [];
 
-            // Get the most recent club team
             if (allClubStats.length > 0) {
               currentClubTeam = allClubStats.reduce((latest, current) => {
                 const latestSeason = parseInt(latest?.league?.season || 0);
@@ -153,7 +148,6 @@ const PlayerModal = ({ playerId, isOpen, onClose, team, squadNumber }) => {
     fetchPlayer();
   }, [playerId, isOpen]);
 
-  // Get the best club stats (most appearances) or create empty stats with current club team
   const bestStats = player?.statistics?.length > 0 
     ? player.statistics.reduce((best, current) => {
         const bestApps = best?.games?.appearences ?? 0;
